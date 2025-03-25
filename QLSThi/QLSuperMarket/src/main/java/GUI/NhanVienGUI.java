@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class KhachHangGUI extends JPanel {
+public class NhanVienGUI extends JPanel {
     JButton btnThem = new JButton("Thêm");
     JButton btnSua = new JButton("Sửa");
     JButton btnXoa = new JButton("Xóa");
@@ -19,7 +19,7 @@ public class KhachHangGUI extends JPanel {
     JLabel[] labelComponents = new JLabel[labels.length];
     JTextField[] textFields = new JTextField[labels.length];
 
-    public KhachHangGUI() {
+    public NhanVienGUI() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -228,7 +228,7 @@ public class KhachHangGUI extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
-        frame.add(new KhachHangGUI());
+        frame.add(new NhanVienGUI());
         frame.setVisible(true);
     }
 }
