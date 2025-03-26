@@ -57,6 +57,7 @@ DROP TABLE IF EXISTS detail_entry_form;
 CREATE Table if NOT exists detail_entry_form(
     `maphieunhap` VARCHAR(20) NOT NULL,
     `masp` VARCHAR(20) NOT NULL,
+    `ngayhethan` DATETIME(6) not NULL,
     `dongianhap` int(11) NOT NULL,
     `soluongnhap` int(11) NOT NULL
 );
