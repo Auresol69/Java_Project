@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -20,19 +21,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import GUI_model.ChucNang;
+import GUI_model.Header;
 
-/**
- *
- * @author ANH QUYÊN
- */
+
 public class QLSieuThi extends JFrame{
     JPanel panelWest, panelNorth, panelSouth, panelEast, panelCenter;
     JButton exit;
+    private int DEFAULT_WIDTH, DEFAULT_HEIGHT;
     public QLSieuThi(){
         init();
     }
     
     public void init(){
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        DEFAULT_HEIGHT = (int)(d.getHeight()*5/6);
+        DEFAULT_WIDTH = (int)(d.getWidth()*5/6);
         this.setUndecorated(true);
         this.setLayout(new BorderLayout());
         panelWest = new JPanel();
@@ -71,11 +74,6 @@ public class QLSieuThi extends JFrame{
         btnNCC.setBackground(Color.BLACK);
         btnNCC.setBorderPainted(false);
         btnNCC.setContentAreaFilled(true); // Giữ màu nền của nút
-//        btnQLSP.setPreferredSize(new Dimension(100,100));
-//        btnQLNV.setSize(100,50);
-//        btnQLKH.setSize(100,50);
-//        btnNCC.setSize(100,50);
-//        btnNX.setSize(100,50);
         Dimension btnSize = new Dimension(200, 50);
         btnQLSP.setMaximumSize(btnSize);
         btnQLNV.setMaximumSize(btnSize);
@@ -121,19 +119,18 @@ public class QLSieuThi extends JFrame{
 //        panelWest.add(btnNCC);
         panelNorth = new JPanel();
         panelNorth.setPreferredSize(new Dimension(0,50));
-        JPanel header = new JPanel ();
-        JLabel hello = new JLabel("Chào bạn");
-        exit =new JButton (new ImageIcon("C:\\Users\\ANH QUYÊN\\OneDrive\\Tài liệu\\NetBeansProjects\\NewJFrame'\\src\\IMG\\icons8-exit-30.png"));
-        exit.setBackground(Color.GREEN);
-        exit.setBorder(null);
-        exit.setContentAreaFilled(true);  // Bật màu nền cho button
-        exit.setPreferredSize(new Dimension(50,40));
-        header.add(hello);
-        header.add(exit);
-        header.setBackground(Color.GREEN);
-        header.setPreferredSize(new Dimension(120,0));
-        panelNorth.setLayout(new BorderLayout());
-        panelNorth.add(header, BorderLayout.EAST);
+        JPanel header = new Header(this,DEFAULT_WIDTH);
+        // exit =new JButton (new ImageIcon("QLSThi\\QLSuperMarket\\src\\main\\java\\IMG\\icons8-exit-30.png"));
+        // exit.setBackground(Color.GREEN);
+        // exit.setBorder(null);
+        // exit.setContentAreaFilled(true);  // Bật màu nền cho button
+        // exit.setPreferredSize(new Dimension(50,40));
+        // header.add(hello);
+        // header.add(exit);
+        // header.setBackground(Color.GREEN);
+        // header.setPreferredSize(new Dimension(120,0));
+        //  panelNorth.setLayout(new BorderLayout());
+        panelNorth.add(header);
 //        panelSouth = new JPanel();
 //        panelSouth.add(new JLabel("This is South"));
 //        panelSouth.setPreferredSize(new Dimension(0,100));
@@ -142,90 +139,18 @@ public class QLSieuThi extends JFrame{
 //        panelEast.setPreferredSize(new Dimension(100,0));
         panelCenter = new JPanel();
         panelWest.setBackground(Color.red);
-//        panelSouth.setBackground(Color.BLUE);
-//        panelEast.setBackground(Color.GRAY);
         panelNorth.setBackground(Color.GREEN);
         
 //        this.add(panelSouth , BorderLayout.SOUTH);
         this.add(panelNorth , BorderLayout.NORTH);
 //        this.add(panelEast , BorderLayout.EAST);
         this.add(panelWest, BorderLayout.WEST);
-        this.setSize(1400,800);
+        
+        this.setSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        
-        
-        exit.addMouseListener( new MouseAdapter(){
-            public void mouseEntered( MouseEvent e){
-                exit.setBackground(Color.RED);
-            }
-            public void mouseExited(MouseEvent e){
-                exit.setBackground(Color.GREEN);
-            }
-            public void mouseClicked(MouseEvent e){
-                System.exit(0);
-            }
-        });
-
-        
-//        btnQLNV.addMouseListener( new MouseAdapter(){
-//            public void mouseEntered( MouseEvent e){
-//                btnQLNV.setBackground(Color.RED);
-//            }
-//            public void mouseExited( MouseEvent e){
-//                btnQLNV.setBackground(Color.BLACK);
-//            }
-//            public void mouseClicked (MouseEvent e){
-//                if (panelCenter instanceof QLNhanVienPanel){
-//                    return ;
-//                }
-//                else {
-//                panelCenter.removeAll();
-//                panelCenter = new QLNhanVienPanel();
-//                getContentPane().add(panelCenter, BorderLayout.CENTER);
-//                revalidate();
-//                repaint();
-//                }
-//            }
-//        });
-//        btnQLSP.addMouseListener( new MouseAdapter(){
-//           public void mouseEntered (MouseEvent e){ 
-//               btnQLSP.setBackground(Color.red);
-//           }
-//           public void mouseExited (MouseEvent e){
-//               btnQLSP.setBackground(Color.black);
-//           }
-//        });
-//        btnNCC.addMouseListener( new MouseAdapter(){
-//           public void mouseEntered (MouseEvent e){ 
-//               btnNCC.setBackground(Color.red);
-//           }
-//           public void mouseExited (MouseEvent e){
-//               btnNCC.setBackground(Color.black);
-//           }
-//        });
-//        btnQLKH.addMouseListener( new MouseAdapter(){
-//           public void mouseEntered (MouseEvent e){ 
-//               btnQLKH.setBackground(Color.red);
-//           }
-//           public void mouseExited (MouseEvent e){
-//               btnQLKH.setBackground(Color.black);
-//           }
-//        });
-//        btnNX.addMouseListener( new MouseAdapter(){
-//           public void mouseEntered (MouseEvent e){ 
-//               btnNX.setBackground(Color.red);
-//           }
-//           public void mouseExited (MouseEvent e){
-//               btnNX.setBackground(Color.black);
-//           }
-//        });
     }
-    // danhSachQuanLy.add(new ChucNang(1, "Quản lý khách hàng", "../IMG/icons8-exit-30.png"));
-    // danhSachQuanLy.add(new ChucNang(2, "Quản lý sản phẩm", "../IMG/icons8-exit-30.png"));
-    // danhSachQuanLy.add(new ChucNang(3, "Quản lý nhân viên", "../IMG/icons8-exit-30.png"));
-    // danhSachQuanLy.add(new ChucNang(4, "Quản lý nhà cung cấp", "../IMG/icons8-exit-30.png"));
-    // danhSachQuanLy.add(new ChucNang(5, "Quản lý phiếu nhập", "../IMG/icons8-exit-30.png"));
+
     private void switchPanel(String TenChucNang){
         getContentPane().remove(panelCenter);
         switch(TenChucNang){
