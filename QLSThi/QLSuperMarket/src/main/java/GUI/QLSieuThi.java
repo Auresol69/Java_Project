@@ -117,33 +117,14 @@ public class QLSieuThi extends JFrame{
 //        panelWest.add(btnQLKH);
 //        panelWest.add(btnNX);
 //        panelWest.add(btnNCC);
-        panelNorth = new JPanel();
-        panelNorth.setPreferredSize(new Dimension(0,50));
-        JPanel header = new Header(this,DEFAULT_WIDTH);
-        // exit =new JButton (new ImageIcon("QLSThi\\QLSuperMarket\\src\\main\\java\\IMG\\icons8-exit-30.png"));
-        // exit.setBackground(Color.GREEN);
-        // exit.setBorder(null);
-        // exit.setContentAreaFilled(true);  // Bật màu nền cho button
-        // exit.setPreferredSize(new Dimension(50,40));
-        // header.add(hello);
-        // header.add(exit);
-        // header.setBackground(Color.GREEN);
-        // header.setPreferredSize(new Dimension(120,0));
-        //  panelNorth.setLayout(new BorderLayout());
-        panelNorth.add(header);
-//        panelSouth = new JPanel();
-//        panelSouth.add(new JLabel("This is South"));
-//        panelSouth.setPreferredSize(new Dimension(0,100));
-//        panelEast = new JPanel();
-//        panelEast.add(new JLabel("This is East"));
-//        panelEast.setPreferredSize(new Dimension(100,0));
+        panelNorth = new JPanel(new BorderLayout()); // Đổi từ FlowLayout sang BorderLayout
+        panelNorth.setPreferredSize(new Dimension(0, 50));
+
+        JPanel header = new Header(this, DEFAULT_WIDTH);
+        panelNorth.add(header, BorderLayout.CENTER);
         panelCenter = new JPanel();
         panelWest.setBackground(Color.red);
-        panelNorth.setBackground(Color.GREEN);
-        
-//        this.add(panelSouth , BorderLayout.SOUTH);
         this.add(panelNorth , BorderLayout.NORTH);
-//        this.add(panelEast , BorderLayout.EAST);
         this.add(panelWest, BorderLayout.WEST);
         
         this.setSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
