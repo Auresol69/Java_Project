@@ -41,7 +41,7 @@ public class LoginGUI extends JFrame {
         // slogan.setAlignmentX(Component.CENTER_ALIGNMENT);
         slogan.setHorizontalAlignment(SwingConstants.CENTER); // Căn giữa theo chiều ngang
 
-        JLabel sloganLabel = createImageLabel("QLSuperMarket/src/main/java/IMG/icons8-rocket-100.png", 120, 120);
+        JLabel sloganLabel = createImageLabel("C://xampp/htdocs/Java_Projet/QLSThi/QLSuperMarket/src/main/java/IMG/icons8-rocket-100.png", 120, 120);
         sloganLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         // slogan.setHorizontalAlignment(SwingConstants.CENTER);
         //         // Tạo JLabel cho Icon với hiệu ứng Hover
@@ -57,13 +57,13 @@ public class LoginGUI extends JFrame {
         sloganLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                sloganLabel.setIcon(new ImageIcon(new ImageIcon("QLSuperMarket/src/main/java/IMG/icons8-rocket-100.png")
+                sloganLabel.setIcon(new ImageIcon(new ImageIcon("C://xampp/htdocs/Java_Projet/QLSThi/QLSuperMarket/src/main/java/IMG/icons8-rocket-100.png")
                         .getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH)));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                sloganLabel.setIcon(new ImageIcon(new ImageIcon("QLSuperMarket/src/main/java/IMG/icons8-rocket-100.png")
+                sloganLabel.setIcon(new ImageIcon(new ImageIcon("C://xampp/htdocs/Java_Project/QLSThi/QLSuperMarket/src/main/java/IMG/icons8-rocket-100.png")
                         .getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH)));
             }
         });
