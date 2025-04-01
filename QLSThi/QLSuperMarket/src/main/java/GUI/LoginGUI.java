@@ -1,15 +1,17 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-public class LoginGUI extends JFrame {
-    JTextField txtUsername, txtpassword;
+import DAO.TaiKhoanDAO;
+import DTO.TaiKhoanDTO;
+import GUI_Component.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+public class LoginGUI extends JFrame implements KeyListener {
+    InputForm txtpassword,txtUsername;
     JPanel left, right;
 
     public LoginGUI() {
@@ -23,125 +25,65 @@ public class LoginGUI extends JFrame {
     }
 
     public void init() {
-        this.setLayout(new GridLayout(1, 2));
-        right = new JPanel(new GridBagLayout());
-        left = new JPanel();
-        right.setBackground(new Color(45, 52, 54));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        txtUsername = new InputForm("Tên đăng nhập");
+        txtpassword = new InputForm("Mật Khẩu", "password");
 
-        left.setBackground(new Color(238, 59, 59));
-        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        left.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+    }
+    public void checkLogin() throws UnsupportedOperationException{
+        String usernameCheck = txtUsername.getText();
+        String passwordCheck = txtpassword.getPass();
+        if (usernameCheck.equals("") || passwordCheck.equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin đầy đủ", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+         } //else {
+        //     TaiKhoanDTO tk = TaiKhoanDAO.getInstance().selectByUser(usernameCheck);
+        //     if (tk == null) {
+        //         JOptionPane.showMessageDialog(this, "Tài khoản của bạn không tồn tại trên hệ thống", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+        //     } else {
+        //         if (tk.getTrangthai() == 0) {
+        //             JOptionPane.showMessageDialog(this, "Tài khoản của bạn đang bị khóa", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+        //         } else {
+        //             if (BCrypt.checkpw(passwordCheck, tk.getMatkhau())) {
+        //                 try {
+        //                     this.dispose();
+        //                     Main main = new Main(tk);
+        //                     main.setVisible(true);
+        //                 } catch (UnsupportedLookAndFeelException ex) {
+        //                     Logger.getLogger(Log_In.class.getName()).log(Level.SEVERE, null, ex);
+        //                 }
+        //             } else {
+        //                 JOptionPane.showMessageDialog(this, "Mật khẩu không khớp", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+        //             }
+        //         }
 
-        JLabel slogan = new JLabel("<html><div style='width: 200px; text-align:center;'><br>Be part of our awesome team and have fun with us</div></html>");
-        slogan.setFont(new Font("Montserrat", Font.BOLD, 18));
-        // slogan.setAlignmentX(Component.CENTER_ALIGNMENT);
-        slogan.setHorizontalAlignment(SwingConstants.CENTER); // Căn giữa theo chiều ngang
-
-        JLabel sloganLabel = createImageLabel("src\\main\\java\\IMG\\icons8-rocket-100.png", 120, 120);
-        sloganLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // slogan.setHorizontalAlignment(SwingConstants.CENTER);
-        //         // Tạo JLabel cho Icon với hiệu ứng Hover
-        //         JLabel sloganLabel = createImageLabel("QLSuperMarket\\src\\main\\java\\IMG\\icons8-rocket-100.png", 120, 120);
-        sloganLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Căn giữa theo BoxLayout
-        slogan.setAlignmentX(Component.CENTER_ALIGNMENT);
-        left.add(Box.createVerticalGlue());
-        left.add(sloganLabel);
-        left.add(Box.createRigidArea(new Dimension(0, 10)));
-        left.add(slogan);
-        left.add(Box.createVerticalGlue());
-
-        sloganLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                sloganLabel.setIcon(new ImageIcon(new ImageIcon("src\\main\\java\\IMG\\icons8-rocket-100.png")
-                        .getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH)));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                sloganLabel.setIcon(new ImageIcon(new ImageIcon("src\\main\\java\\IMG\\icons8-rocket-100.png")
-                        .getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH)));
-            }
-        });
-
-        JLabel titleLabel = new JLabel("ĐĂNG NHẬP");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titleLabel.setForeground(new Color(241, 196, 15));
-        gbc.gridwidth = 2;
-        right.add(titleLabel, gbc);
-
-        gbc.gridwidth = 1;
-        gbc.gridy = 1;
-        JLabel userLabel = new JLabel("Tên đăng nhập:");
-        userLabel.setForeground(Color.WHITE);
-        right.add(userLabel, gbc);
-
-        gbc.gridx = 1;
-        JTextField userText = new JTextField(15);
-        userText.setFont(new Font("Arial", Font.PLAIN, 14));
-        userText.setOpaque(false);
-        userText.setForeground(Color.WHITE);
-        userText.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE));
-        right.add(userText, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        JLabel passwordLabel = new JLabel("Mật khẩu:");
-        passwordLabel.setForeground(Color.WHITE);
-        right.add(passwordLabel, gbc);
-
-        gbc.gridx = 1;
-        JPasswordField passwordText = new JPasswordField(15);
-        passwordText.setFont(new Font("Arial", Font.PLAIN, 14));
-        passwordText.setOpaque(false);
-        passwordText.setForeground(Color.WHITE);
-        passwordText.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE));
-        userText.setCaretColor(Color.WHITE);
-        passwordText.setCaretColor(Color.WHITE);
-        right.add(passwordText, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        JButton loginButton = new JButton("Đăng nhập");
-        loginButton.setBackground(new Color(41, 128, 185));
-        loginButton.setForeground(Color.WHITE);
-        loginButton.setFont(new Font("Arial", Font.BOLD, 18));
-        loginButton.setFocusPainted(false);
-        loginButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
-        right.add(loginButton, gbc);
-
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = userText.getText();
-                String password = new String(passwordText.getPassword());
-                if (username.equals("admin") && password.equals("1234")) {
-                    JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Sai tên đăng nhập hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        this.add(left);
-        this.add(right);
+        //     }
+        // }
+    }
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
-    public static void main(String[] args) {
-        new LoginGUI();
-    }
-    public static JLabel createImageLabel(String imagePath, int width, int height) {
-        ImageIcon originalIcon = new ImageIcon(imagePath);
-        if (originalIcon.getIconWidth() == -1) {
-            System.out.println("Lỗi: Không thể tải ảnh từ " + imagePath);
-            return new JLabel("Ảnh không tồn tại!");
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                checkLogin(); // Gọi hàm kiểm tra đăng nhập
+            } catch (UnsupportedLookAndFeelException ex) {
+                // Ghi log lỗi với thông tin chi tiết
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, "Lỗi giao diện không được hỗ trợ", ex);
+            } catch (Exception ex) {
+                // Xử lý các ngoại lệ khác nếu có
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, "Lỗi không xác định khi đăng nhập", ex);
+                JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi đăng nhập!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new JLabel(new ImageIcon(scaledImage));
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 }
