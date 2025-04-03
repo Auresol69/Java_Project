@@ -11,8 +11,11 @@ public class PhieuNhap extends JPanel {
     Table table = new Table();
 
     public PhieuNhap() {
-        this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.setLayout(new BorderLayout(10, 10));
+        this.setBackground(new Color(213, 236, 246));
         this.add(chucNang, BorderLayout.NORTH);
         this.add(nhapLieu, BorderLayout.WEST);
+        this.add(table);
     }
 }

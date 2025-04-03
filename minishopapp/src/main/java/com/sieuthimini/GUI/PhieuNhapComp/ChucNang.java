@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -43,6 +44,8 @@ public class ChucNang extends JPanel implements ActionListener {
 
     public ChucNang() {
         this.setLayout(new FlowLayout());
+        this.setBackground(Color.white);
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         setUpButton(themButton = new JButton(), "Thêm", "square-plus-solid.png");
         setUpButton(chiTietButton = new JButton(), "Thông tin", "circle-info-solid.png");
