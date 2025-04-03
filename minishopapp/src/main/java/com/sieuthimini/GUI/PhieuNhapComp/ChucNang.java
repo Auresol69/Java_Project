@@ -23,7 +23,7 @@ public class ChucNang extends JPanel implements ActionListener {
     JTextField timKiem;
     JButton refreshButton;
 
-    public void setUpButton(JButton button, String text, String imgName) {
+    private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
         ImageIcon icon = new ImageIcon(new GetImagePNG().getImage(imgName));
         if (icon != null) {
@@ -44,16 +44,10 @@ public class ChucNang extends JPanel implements ActionListener {
     public ChucNang() {
         this.setLayout(new FlowLayout());
 
-        themButton = new JButton();
-        chiTietButton = new JButton();
-        huyButton = new JButton();
-        xuatExcelButton = new JButton();
-        refreshButton = new JButton();
-
-        setUpButton(themButton, "Thêm", "square-plus-solid.png");
-        setUpButton(chiTietButton, "Thông tin", "circle-info-solid.png");
-        setUpButton(huyButton, "Hủy", "circle-xmark-solid.png");
-        setUpButton(xuatExcelButton, "Xuất Excel", "file-excel-solid.png");
+        setUpButton(themButton = new JButton(), "Thêm", "square-plus-solid.png");
+        setUpButton(chiTietButton = new JButton(), "Thông tin", "circle-info-solid.png");
+        setUpButton(huyButton = new JButton(), "Hủy", "circle-xmark-solid.png");
+        setUpButton(xuatExcelButton = new JButton(), "Xuất Excel", "file-excel-solid.png");
 
         String options[] = { "tất cả", "mã phiếu", "nhân viên", "nhà cung cấp" };
         columnSort = new JComboBox<>(options);
@@ -82,7 +76,7 @@ public class ChucNang extends JPanel implements ActionListener {
         });
         this.add(timKiem);
 
-        setUpButton(refreshButton, "Làm mới", "arrows-rotate-solid.png");
+        setUpButton(refreshButton = new JButton(), "Làm mới", "arrows-rotate-solid.png");
 
     }
 

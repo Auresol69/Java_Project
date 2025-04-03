@@ -13,5 +13,6 @@ public class PhieuNhap extends JPanel {
     public PhieuNhap() {
         this.setLayout(new BorderLayout());
         this.add(chucNang, BorderLayout.NORTH);
+        this.add(nhapLieu, BorderLayout.WEST);
     }
 }
