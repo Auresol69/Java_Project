@@ -36,7 +36,8 @@ public class DataBase {
         return null;
     }
 
-    public static void main(String[] args) {
-        Connection connection = getConnection();
-    }
+    // Test
+    // public static void main(String[] args) {
+    // Connection connection = getConnection();
+    // }
 }
