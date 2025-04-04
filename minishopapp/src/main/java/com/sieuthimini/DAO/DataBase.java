@@ -37,12 +37,6 @@ public class DataBase {
     }
 
     public static void main(String[] args) {
-        ResultSet rs = SelectQuery();
-        try {
-            while (rs.next()) {
-            }
-        } catch (SQLException e) {
-
-        }
+        Connection connection = getConnection();
     }
 }
