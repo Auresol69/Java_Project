@@ -1,4 +1,4 @@
-package com.sieuthimini.GUI.PhieuNhapComp;
+package com.sieuthimini.GUI.PhieuComp;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 
 import com.toedter.calendar.JDateChooser;
 
-public class NhapLieu extends JPanel {
+public abstract class NhapLieu extends JPanel {
 
     JLabel suplierLabel, staffLabel, fromDateLabel, toDateLabel, fromMoneyLabel, toMoneyLabel;
     JTextField fromMoneyField, toMoneyField;
@@ -42,12 +42,12 @@ public class NhapLieu extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0, 10)));
     }
 
-    public NhapLieu() {
+    public NhapLieu(String text) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.white);
         this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        setUpLabel(suplierLabel = new JLabel("Nhà cung cấp:"));
+        setUpLabel(suplierLabel = new JLabel(text));
         setUpComponent(suplierComboBox = new JComboBox<>());
         setUpLabel(staffLabel = new JLabel("Nhân viên nhập:"));
         setUpComponent(staffComboBox = new JComboBox<>());

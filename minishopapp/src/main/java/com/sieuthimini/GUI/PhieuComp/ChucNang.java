@@ -1,4 +1,4 @@
-package com.sieuthimini.GUI.PhieuNhapComp;
+package com.sieuthimini.GUI.PhieuComp;
 
 import com.sieuthimini.ExtendClasses.GetImagePNG;
 
