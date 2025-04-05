@@ -1,4 +1,4 @@
-package GUI_model;
+package GUI.Model;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
