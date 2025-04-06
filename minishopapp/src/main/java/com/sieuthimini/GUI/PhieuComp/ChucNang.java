@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -23,6 +24,7 @@ public class ChucNang extends JPanel implements ActionListener {
     JComboBox columnSort;
     JTextField timKiem;
     JButton refreshButton;
+    JFrame parent;
 
     private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
@@ -42,7 +44,8 @@ public class ChucNang extends JPanel implements ActionListener {
         this.add(button);
     }
 
-    public ChucNang() {
+    public ChucNang(JFrame parent) {
+        this.parent = parent;
         this.setLayout(new FlowLayout());
         this.setBackground(Color.white);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -86,7 +89,9 @@ public class ChucNang extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == themButton) {
-            System.out.println("Them moi");
+            parent.setContentPane(new newPhieuNhap());
+            parent.revalidate();
+            parent.repaint();
         }
     }
 }

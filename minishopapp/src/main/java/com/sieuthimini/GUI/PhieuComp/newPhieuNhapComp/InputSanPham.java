@@ -1,11 +1,11 @@
 package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -19,6 +19,7 @@ public class InputSanPham extends JPanel {
     JTextField maSanPhamField, tenSanPhamField;
     JComboBox loaiSanPhamComboBox;
     JTextField soluongSanPhamField, giaSanPhamField;
+    JButton suaButton, xoaButton;
 
     public JPanel getPanel(JLabel label, JComponent component) {
         JPanel panel = new JPanel();
@@ -75,6 +76,17 @@ public class InputSanPham extends JPanel {
 
         gbc.gridx = 1;
         this.add(getPanel(giaSanPhamLabel, giaSanPhamField), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1;
+        suaButton = new JButton("Sửa");
+        this.add(suaButton, gbc);
+
+        gbc.gridx = 1;
+        xoaButton = new JButton("Xóa");
+        this.add(xoaButton, gbc);
     }
 
     public static void main(String[] args) {

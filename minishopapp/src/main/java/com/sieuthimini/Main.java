@@ -7,15 +7,15 @@ import com.sieuthimini.GUI.PhieuXuat;
 
 public class Main extends JFrame {
 
-    Phieu phieuNhap = new PhieuNhap();
-    Phieu phieuXuat = new PhieuXuat();
+    Phieu phieuNhap = new PhieuNhap(this);
+    Phieu phieuXuat = new PhieuXuat(this);
 
     public Main() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("SanPham");
         this.setLocationRelativeTo(null);
 
-        this.add(phieuXuat);
+        this.add(phieuNhap);
 
         this.pack();
         this.setVisible(true);
