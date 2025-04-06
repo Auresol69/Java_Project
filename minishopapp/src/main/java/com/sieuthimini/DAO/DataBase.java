@@ -1,19 +1,18 @@
 package com.sieuthimini.DAO;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBase {
-    private static final String URL = "jdbc:mysql://localhost:3306/tree_shopping";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private final String URL = "jdbc:mysql://localhost:3306/sieuthimini";
+    private final String USER = "root";
+    private final String PASSWORD = "";
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("Successfully connected to database " + URL);
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -21,23 +20,25 @@ public class DataBase {
         return null;
     }
 
-    public static ResultSet SelectQuery() {
-        try {
-            Connection connection = getConnection();
-            if (connection == null)
-                return null;
-            Statement statement = connection.createStatement();
-            String sql = "SELECT * FROM customer";
-            return statement.executeQuery(sql);
+    public List<Object[]> selectQuery(String tableName) {
+        List<Object[]> data = new ArrayList<>();
+        String sql = "SELECT * FROM " + tableName;
 
-        } catch (SQLException e) {
-            e.printStackTrace(); // In ra lỗi để debug
+        try (Connection connection = getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(sql)) {
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            while (rs.next()) {
+                Object[] row = new Object[columnCount];
+                for (int i = 1; i <= columnCount; ++i) {
+                    row[i - 1] = rs.getObject(i);
+                }
+                data.add(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return data;
     }
-
-    // Test
-    // public static void main(String[] args) {
-    // Connection connection = getConnection();
-    // }
 }

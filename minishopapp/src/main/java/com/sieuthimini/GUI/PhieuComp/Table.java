@@ -1,27 +1,31 @@
 package com.sieuthimini.GUI.PhieuComp;
 
 import java.awt.BorderLayout;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.sieuthimini.DAO.DataBase;
+
 public class Table extends JPanel {
 
-    private String[] columnNames = { "ID", "Tên", "Tuổi" }; // Example, mai mot flexible
-    private Object[][] data = {
-            { 1, "Nguyễn Văn A", 25 },
-            { 2, "Trần Thị B", 30 },
-            { 3, "Phạm Minh C", 22 }
-    };
+    private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "mancc", "img" };
+
     JTable table;
     JScrollPane scrollPane;
 
     public Table() {
         this.setLayout(new BorderLayout());
         table = new JTable();
-        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        DataBase db = new DataBase();
+        List<Object[]> data = db.selectQuery("product");
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        for (Object[] row : data) {
+            model.addRow(row);
+        }
         table.setModel(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
