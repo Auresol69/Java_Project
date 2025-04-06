@@ -17,7 +17,7 @@ public class InputSanPham extends JPanel {
 
     JLabel maSanPhamLabel, tenSanPhamLabel, soluongSanPhamLabel, giaSanPhamLabel, loaiSanPhamLabel;
     JTextField maSanPhamField, tenSanPhamField;
-    JComboBox loaiSanPhamComboBox;
+    JComboBox<String> loaiSanPhamComboBox;
     JTextField soluongSanPhamField, giaSanPhamField;
     JButton suaButton, xoaButton;
 

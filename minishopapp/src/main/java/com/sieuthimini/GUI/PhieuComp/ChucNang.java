@@ -21,7 +21,7 @@ import java.awt.event.FocusEvent;
 
 public class ChucNang extends JPanel implements ActionListener {
     JButton themButton, chiTietButton, huyButton, xuatExcelButton;
-    JComboBox columnSort;
+    JComboBox<String> columnSort;
     JTextField timKiem;
     JButton refreshButton;
     JFrame parent;

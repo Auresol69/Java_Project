@@ -20,7 +20,7 @@ public abstract class NhapLieu extends JPanel {
     JLabel suplierLabel, staffLabel, fromDateLabel, toDateLabel, fromMoneyLabel, toMoneyLabel;
     JTextField fromMoneyField, toMoneyField;
     JDateChooser fromDateChooser, toDateChooser;
-    JComboBox suplierComboBox, staffComboBox;
+    JComboBox<String> suplierComboBox, staffComboBox;
 
     private void setUpLabel(JLabel label) {
         label.setHorizontalAlignment(SwingConstants.RIGHT);

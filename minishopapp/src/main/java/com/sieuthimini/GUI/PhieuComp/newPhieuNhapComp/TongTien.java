@@ -16,7 +16,7 @@ import javax.swing.Box;
 public class TongTien extends JPanel {
     JLabel maphieunhapLabel, manhanviennhapLabel, nhacungcapLabel;
     JTextField mapphieunhapField, manhanviennhapField;
-    JComboBox nhacungcapComboBox;
+    JComboBox<String> nhacungcapComboBox;
     JLabel totalAmount;
     JButton nhapHang;
 
