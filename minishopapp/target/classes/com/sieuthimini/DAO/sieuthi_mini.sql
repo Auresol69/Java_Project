@@ -176,42 +176,56 @@ ALTER TABLE `remove_product` ADD CONSTRAINT fk_remove_product_masp FOREIGN KEY (
 ALTER TABLE account ADD CONSTRAINT fk_account_mastaff FOREIGN KEY (`mastaff`) REFERENCES staff(`mastaff`) ON DELETE CASCADE;
 -- Trigger
 
--- DELIMITER $$
+DELIMITER $$
 
--- CREATE TRIGGER before_insert_customer
--- BEFORE INSERT ON customer
--- FOR EACH ROW
--- BEGIN
---     DECLARE new_id INT;
---     SELECT COALESCE(MAX(CAST(SUBSTRING(macustomer,4) AS UNSIGNED)),0) + 1 INTO new_id FROM customer;
---     SET NEW.macustomer = CONCAT('CUS', LPAD(CAST(new_id AS CHAR),3,'0')); 
--- END$$
+CREATE TRIGGER before_insert_customer
+BEFORE INSERT ON customer
+FOR EACH ROW
+BEGIN
+    DECLARE new_id INT;
+    SELECT COALESCE(MAX(CAST(SUBSTRING(macustomer,4) AS UNSIGNED)),0) + 1 INTO new_id FROM customer;
+    SET NEW.macustomer = CONCAT('CUS', LPAD(CAST(new_id AS CHAR),3,'0')); 
+END$$
 
--- CREATE TRIGGER before_insert_product
--- BEFORE INSERT ON product
--- FOR EACH ROW
--- BEGIN
---     DECLARE new_id INT;
---     SELECT COALESCE(MAX(CAST(SUBSTRING(masp,4) AS UNSIGNED)),0) + 1 INTO new_id FROM product;
---     SET NEW.masp = CONCAT('PRO', LPAD(CAST(new_id AS CHAR),3,'0')); 
--- END$$
+CREATE TRIGGER before_insert_product
+BEFORE INSERT ON product
+FOR EACH ROW
+BEGIN
+    DECLARE new_id INT;
+    SELECT COALESCE(MAX(CAST(SUBSTRING(masp,4) AS UNSIGNED)),0) + 1 INTO new_id FROM product;
+    SET NEW.masp = CONCAT('PRO', LPAD(CAST(new_id AS CHAR),3,'0')); 
+END$$
 
--- CREATE TRIGGER before_insert_producttype
--- BEFORE INSERT ON producttype
--- FOR EACH ROW
--- BEGIN
---     DECLARE new_id INT;
---     SELECT COALESCE(MAX(CAST(SUBSTRING(maloaisp,4) AS UNSIGNED)),0) + 1 INTO new_id FROM producttype;
---     SET NEW.maloaisp = CONCAT('TYP', LPAD(CAST(new_id AS CHAR),3,'0')); 
--- END$$
+CREATE TRIGGER before_insert_producttype
+BEFORE INSERT ON producttype
+FOR EACH ROW
+BEGIN
+    DECLARE new_id INT;
+    SELECT COALESCE(MAX(CAST(SUBSTRING(maloaisp,4) AS UNSIGNED)),0) + 1 INTO new_id FROM producttype;
+    SET NEW.maloaisp = CONCAT('TYP', LPAD(CAST(new_id AS CHAR),3,'0')); 
+END$$
 
--- CREATE TRIGGER before_insert_supplier
--- BEFORE INSERT ON supplier
--- FOR EACH ROW
--- BEGIN
---     DECLARE new_id INT;
---     SELECT COALESCE(MAX(CAST(SUBSTRING(mancc,4) AS UNSIGNED)),0) + 1 INTO new_id FROM supplier;
---     SET NEW.mancc = CONCAT('SUP', LPAD(CAST(new_id AS CHAR),3,'0')); 
--- END$$
+CREATE TRIGGER before_insert_supplier
+BEFORE INSERT ON supplier
+FOR EACH ROW
+BEGIN
+    DECLARE new_id INT;
+    SELECT COALESCE(MAX(CAST(SUBSTRING(mancc,4) AS UNSIGNED)),0) + 1 INTO new_id FROM supplier;
+    SET NEW.mancc = CONCAT('SUP', LPAD(CAST(new_id AS CHAR),3,'0')); 
+END$$
 
--- DELIMITER ;
+CREATE TRIGGER after_insert_detail_entry_form
+AFTER INSERT ON detail_entry_form
+FOR EACH ROW
+BEGIN
+    UPDATE product SET soluong = soluong + NEW.soluongnhap, dongiasanpham = NEW.dongianhap where masp = NEW.masp;
+END$$
+
+CREATE TRIGGER after_insert_bill_product
+AFTER INSERT ON bill_product
+FOR EACH ROW
+BEGIN
+    UPDATE product SET soluong = soluong - NEW.soluong WHERE masp = NEW.masp;
+END$$
+
+DELIMITER ;
