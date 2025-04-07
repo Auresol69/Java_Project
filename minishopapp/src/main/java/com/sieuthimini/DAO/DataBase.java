@@ -12,7 +12,6 @@ public class DataBase {
     public Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Successfully connected to database " + URL);
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -22,7 +21,7 @@ public class DataBase {
 
     public List<Object[]> selectQuery(String tableName) {
         List<Object[]> data = new ArrayList<>();
-        String sql = "SELECT * FROM " + tableName;
+        String sql = tableName;
 
         try (Connection connection = getConnection();
                 Statement statement = connection.createStatement();

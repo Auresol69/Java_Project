@@ -1,23 +1,23 @@
 package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 
+import java.util.List;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.sieuthimini.DAO.DataBase;
+
 public class TableSanPham extends JPanel {
     JTable table = new JTable();
 
-    private String[] columnNames = { "ID", "Tên", "Tuổi" }; // Example, mai mot flexible
-    private Object[][] data = {
-            { 1, "Nguyễn Văn A", 25 },
-            { 2, "Trần Thị B", 30 },
-            { 3, "Phạm Minh C", 22 }
-    };
+    private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "mancc", "img" };
 
     public TableSanPham() {
-        DefaultTableModel mode = new DefaultTableModel(data, columnNames);
-        table = new JTable(mode);
+
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        table = new JTable(model);
 
         JScrollPane scrollPane = new JScrollPane(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);

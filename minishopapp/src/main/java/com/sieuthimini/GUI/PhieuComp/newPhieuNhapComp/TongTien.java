@@ -11,6 +11,7 @@ import javax.swing.JButton;
 
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 
 public class TongTien extends JPanel {
@@ -42,6 +43,8 @@ public class TongTien extends JPanel {
 
     public TongTien() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
         setUpLabel(manhanviennhapLabel = new JLabel("Mã nhân viên nhập:"));
         setUpField(mapphieunhapField = new JTextField());
         setUpLabel(maphieunhapLabel = new JLabel("Mã phiếu nhập:"));
