@@ -10,7 +10,7 @@ public class KhachHangBUS {
     public ArrayList<KhachHangDTO> listKhachHang = new ArrayList<>();
 
     public KhachHangBUS() {
-        listKhachHang = khDAO.selectALl();
+        listKhachHang = khDAO.selectAll();
     }
 
     public ArrayList<KhachHangDTO> getAll(){
