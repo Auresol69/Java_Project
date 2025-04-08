@@ -20,8 +20,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import GUI_model.ChucNang;
-import GUI_model.Header;
+import GUI.Model.ChucNang;
+import GUI.Model.Header;
 
 
 public class QLSieuThi extends JFrame{
