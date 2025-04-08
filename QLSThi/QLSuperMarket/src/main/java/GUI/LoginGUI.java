@@ -181,7 +181,6 @@ public class LoginGUI extends JFrame implements KeyListener {
         LoginGUI login = new LoginGUI();
         login.setVisible(true);
     }
-
     public void imgIntro() {
         JPanel bo = new JPanel();
         bo.setBorder(new EmptyBorder(3, 10, 5, 5));
@@ -198,6 +197,5 @@ public class LoginGUI extends JFrame implements KeyListener {
         }
         bo.add(lblImage);
     }
-    
 }
 

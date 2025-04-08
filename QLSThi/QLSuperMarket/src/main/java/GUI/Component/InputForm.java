@@ -118,5 +118,4 @@ public final class InputForm extends JPanel {
     public String getDocument() {
         return txtForm.getText();
     }
-
 }

@@ -5,12 +5,12 @@ public class TaiKhoanDTO {
     private String maStaff;
     private String username;
     private String password;
-    private String powerGroupId;
+    private int powerGroupId;
     private String email;
     public TaiKhoanDTO() {
     }
 
-    public TaiKhoanDTO(String maAccount, String maStaff, String username, String password, String powerGroupId, String email) {
+    public TaiKhoanDTO(String maAccount, String maStaff, String username, String password, int powerGroupId, String email) {
         this.maAccount = maAccount;
         this.maStaff = maStaff;
         this.username = username;
@@ -51,11 +51,11 @@ public class TaiKhoanDTO {
         this.password = password;
     }
 
-    public String getPowerGroupId() {
+    public int getPowerGroupId() {
         return powerGroupId;
     }
 
-    public void setPowerGroupId(String powerGroupId) {
+    public void setPowerGroupId(int powerGroupId) {
         this.powerGroupId = powerGroupId;
     }
 

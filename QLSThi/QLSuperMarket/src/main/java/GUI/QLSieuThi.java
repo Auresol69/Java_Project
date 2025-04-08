@@ -5,24 +5,36 @@
 package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+
+import org.apache.batik.svggen.font.Font;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
@@ -31,11 +43,13 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import DTO.TaiKhoanDTO;
 import GUI.Model.ChucNang;
 import GUI.Model.Header;
+import GUI.Model.TaiKhoanGUI;
 
 
 public class QLSieuThi extends JFrame{
     JPanel panelWest, panelNorth, panelSouth, panelEast, panelCenter;
     JButton exit;
+    JLabel Logout;
     public TaiKhoanDTO user;
     private int DEFAULT_WIDTH, DEFAULT_HEIGHT;
     public QLSieuThi(){
@@ -78,7 +92,7 @@ public class QLSieuThi extends JFrame{
         panelWest.setPreferredSize(new Dimension(200,0));
         
         
-        panelWest.setLayout(new BoxLayout(panelWest, BoxLayout.Y_AXIS)); // Đặt các nút vào một cột dọc
+        panelWest.setLayout(new BorderLayout()); // Đặt các nút vào một cột dọc
         ImageIcon avtIcon = new ImageIcon(getClass().getResource("/IMG/icons8-avatar-50.png"));
         Image img = avtIcon.getImage(); 
         Image scaledImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH); 
@@ -87,8 +101,8 @@ public class QLSieuThi extends JFrame{
         JLabel avt = new JLabel(avtIcon);
 //        avt.setPreferredSize(new Dimension(100, 100)); 
 //        JLabel avt = new JLabel(new ImageIcon("../icons8-avatar-50.png"));
-        avt.setPreferredSize(new Dimension(200,100));
-        panelWest.add(avt);
+        avt.setPreferredSize(new Dimension(200,200));
+        panelWest.add(avt, BorderLayout.NORTH);
         JButton btnQLSP = new JButton("Quản lý Sản Phẩm");
         btnQLSP.setBackground(Color.BLACK);
         btnQLSP.setContentAreaFilled(true); // Giữ màu nền của nút
@@ -125,18 +139,28 @@ public class QLSieuThi extends JFrame{
         danhSachQuanLy.add(new ChucNang(5, "Quản lý phiếu nhập", "../IMG/icons8-receipt-50.png"));
         danhSachQuanLy.add(new ChucNang(6, "Tài Khoản", "../IMG/icons8-receipt-50.png"));
         danhSachQuanLy.add(new ChucNang(7, "Phân Quyền", "../IMG/icons8-receipt-50.png"));
-
+        JPanel LabelPanel = new JPanel();
+        LabelPanel.setLayout(new BoxLayout(LabelPanel, BoxLayout.Y_AXIS));
+        LabelPanel.setBackground(Color.white);
+        LabelPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JScrollPane scrollPane = new JScrollPane(LabelPanel);
+        scrollPane.setPreferredSize(new Dimension(220, 400));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(null); // Xoá viền nếu cần
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setOpaque(false);
         JLabel[] labels = new JLabel[danhSachQuanLy.size()];
         for (int i = 0; i < danhSachQuanLy.size(); i++) {
             String stringImg = danhSachQuanLy.get(i).geticon();
             labels[i] = new JLabel(danhSachQuanLy.get(i).getTenChucNang());
+            labels[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0,0));
             labels[i].setIcon(new ImageIcon(getClass().getResource(stringImg)));
-//          labels[i].setIcon(new ImageIcon(getClass().getResource(url)));
             labels[i].setMaximumSize(new Dimension(200, 50));
             labels[i].setBackground(Color.WHITE);
             labels[i].setForeground(Color.BLACK);
             labels[i].setOpaque(true);
-            panelWest.add(labels[i]);
+            LabelPanel.add(labels[i]);
             labels[i].addMouseListener(new MouseAdapter(){
             public void mouseEntered(MouseEvent e){
                 MouseEntered(e);
@@ -150,6 +174,30 @@ public class QLSieuThi extends JFrame{
             }
             });
         }
+        panelWest.add(scrollPane, BorderLayout.CENTER);
+        Logout = new JLabel("Đăng Xuất");
+        Logout.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); 
+        Logout.setHorizontalAlignment(SwingConstants.LEFT);     // Căn trái toàn bộ nội dung
+        Logout.setIconTextGap(10);                              // Khoảng cách giữa icon và chữ
+        Logout.setVerticalAlignment(SwingConstants.CENTER);
+        ImageIcon resizedIcon = resizeIcon("../IMG/logout.png", 50, 50);
+        Logout.setIcon(resizedIcon);
+        Logout.setMaximumSize(new Dimension(200, 50));
+        Logout.setBackground(Color.WHITE);
+        Logout.setForeground(Color.BLACK);
+        Logout.setOpaque(true);
+        Logout.addMouseListener(new MouseAdapter(){
+            public void mouseEntered(MouseEvent e){
+                MouseEntered(e);
+            }
+            public void mouseExited(MouseEvent e){
+                MouseExited(e);
+            }
+            public void mousePressed(MouseEvent e){
+                Logout(e);
+            }
+        });
+        panelWest.add(Logout ,BorderLayout.SOUTH);
 //        panelWest.add(avt);
 //        panelWest.add(btnQLSP);
 //        panelWest.add(btnQLNV);
@@ -169,12 +217,10 @@ public class QLSieuThi extends JFrame{
         panelWest.setBackground(Color.white);
         this.add(panelNorth , BorderLayout.NORTH);
         this.add(panelWest, BorderLayout.WEST);
-        
         this.setSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-
     private void switchPanel(String TenChucNang){
         getContentPane().remove(panelCenter);
         switch(TenChucNang){
@@ -190,6 +236,9 @@ public class QLSieuThi extends JFrame{
                 break ;
             case "Quản lý phiếu nhập" : 
                 break ;
+            case "Tài Khoản":
+                panelCenter = new TaiKhoanGUI(this);
+                break;
         }; 
         getContentPane().add(panelCenter, BorderLayout.CENTER);
         revalidate();
@@ -198,14 +247,34 @@ public class QLSieuThi extends JFrame{
     public void MouseEntered(MouseEvent e){
         JLabel ClickedLabel = (JLabel) e.getSource();
         String labelname = ClickedLabel.getText();
-        ClickedLabel.setBackground(Color.RED);
+        ClickedLabel.setBackground(Color.GRAY);
         ClickedLabel.setForeground(Color.WHITE);
     }
     public void MouseExited(MouseEvent e) {
     JLabel ClickedLabel = (JLabel) e.getSource();
     ClickedLabel.setBackground(null); // Trả về màu nền mặc định
     ClickedLabel.setForeground(Color.BLACK);
-}
+    }
+    public void Logout(MouseEvent e){
+         int input = JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc chắn muốn đăng xuất?", "Đăng xuất",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == 0) {
+            LoginGUI login = new LoginGUI();
+            this.dispose();
+            login.setVisible(true);
+        }
+    }
+    private ImageIcon resizeIcon(String path, int width, int height) {
+          try {
+        BufferedImage originalImage = ImageIO.read(getClass().getResource(path));
+        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    } catch (IOException e) {
+        e.printStackTrace();
+        return null;
+    }
+    }
     public static void main (String []args){
         new QLSieuThi();
     }
