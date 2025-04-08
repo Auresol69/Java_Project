@@ -133,8 +133,8 @@ public class QLSieuThi extends JFrame{
             labels[i].setIcon(new ImageIcon(getClass().getResource(stringImg)));
 //          labels[i].setIcon(new ImageIcon(getClass().getResource(url)));
             labels[i].setMaximumSize(new Dimension(200, 50));
-            labels[i].setBackground(Color.red);
-            labels[i].setForeground(Color.WHITE);
+            labels[i].setBackground(Color.WHITE);
+            labels[i].setForeground(Color.BLACK);
             labels[i].setOpaque(true);
             panelWest.add(labels[i]);
             labels[i].addMouseListener(new MouseAdapter(){
@@ -198,11 +198,13 @@ public class QLSieuThi extends JFrame{
     public void MouseEntered(MouseEvent e){
         JLabel ClickedLabel = (JLabel) e.getSource();
         String labelname = ClickedLabel.getText();
-        ClickedLabel.setBackground(Color.);
+        ClickedLabel.setBackground(Color.RED);
+        ClickedLabel.setForeground(Color.WHITE);
     }
     public void MouseExited(MouseEvent e) {
     JLabel ClickedLabel = (JLabel) e.getSource();
     ClickedLabel.setBackground(null); // Trả về màu nền mặc định
+    ClickedLabel.setForeground(Color.BLACK);
 }
     public static void main (String []args){
         new QLSieuThi();

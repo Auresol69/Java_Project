@@ -14,10 +14,6 @@
     import java.util.logging.Level;
     import java.util.logging.Logger;
 
-    /**
-    *
-    * @author Minh Minion
-    */
     public class MySQLConnect {
     private String user = "root";
     private String password="";
