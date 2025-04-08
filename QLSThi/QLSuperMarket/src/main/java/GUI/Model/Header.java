@@ -41,8 +41,8 @@ public class Header extends JPanel {
         hello.setForeground(Color.white);
         hello.setOpaque(true);
     
-        minimize = createButton("QLSuperMarket\\src\\main\\java\\IMG\\icons8-minimize-window-50.png");
-        exit = createButton("QLSuperMarket\\src\\main\\java\\IMG\\icons8-exit-30.png");
+        minimize = createButton("QLSuperMarket\\src\\main\\java\\IMG\\layers.png");
+        exit = createButton("QLSuperMarket\\src\\main\\java\\IMG\\close.png");
     
         // Cấu hình nameMarket (bên trái)
         gbc.gridx = 0;
@@ -73,7 +73,7 @@ public class Header extends JPanel {
     
     
     private JButton createButton(String imagePath) {
-        JButton button = new JButton(resizeIcon(imagePath, 50, 50));
+        JButton button = new JButton(resizeIcon(imagePath, 20, 20));
         button.setBackground(new Color(45, 52, 54));
         button.setBorderPainted(false);
         button.setFocusPainted(false);
