@@ -9,7 +9,7 @@ public interface DAOinterface<T> {
 
     public int update(T t);
 
-    public ArrayList<T> selectALl();
+    public ArrayList<T> selectAll();
 
     public T selectedByID(String t);
 
