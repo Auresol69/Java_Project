@@ -32,7 +32,8 @@ CREATE Table if not exists account(
     `username` varchar(50) NOT NULL,
     `password` varchar(255) NOT NULL,
     `powergroupid` VARCHAR(20),
-    `email` VARCHAR(255)
+    `email` VARCHAR(255),
+    `status` TINYINT(1) CHECK (`status` IN (0, 1)) DEFAULT 1
 );
 
 DROP TABLE IF EXISTS powergroup;
