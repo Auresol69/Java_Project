@@ -7,7 +7,6 @@ public class TaiKhoanDTO {
     private String password;
     private String powerGroupId;
     private String email;
-
     public TaiKhoanDTO() {
     }
 

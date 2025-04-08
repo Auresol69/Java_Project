@@ -23,7 +23,6 @@ public class Header extends JPanel {
         this.DEFAULT_WIDTH = width;
         init();
     }
-
     private void init() {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

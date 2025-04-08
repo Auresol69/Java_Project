@@ -1,3 +1,4 @@
+
 package GUI;
 
 import javax.swing.*;
@@ -35,7 +36,6 @@ public class LoginGUI extends JFrame implements KeyListener {
         txtUsername.setText("admin");
         txtpassword.setPass("123456");
     }
-
     public void init() {
         txtUsername = new InputForm("Tên đăng nhập");
         txtpassword = new InputForm("Mật Khẩu", "password");
@@ -200,3 +200,4 @@ public class LoginGUI extends JFrame implements KeyListener {
     }
     
 }
+
