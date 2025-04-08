@@ -12,11 +12,11 @@ public class KhachHangDTO {
     public KhachHangDTO() {
     }
 
-    public KhachHangDTO (int maKH, String hoten, String sdt, String address){
+    public KhachHangDTO (int maKH, String address, String sdt, String hoten){
         this.maKH = maKH;
-        this.hoten = hoten;
-        this.sdt = sdt;
         this.address = address;
+        this.sdt = sdt;
+        this.hoten = hoten;
     }
 
     public int getMaKH() {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public interface DAOinterface<T> {
     public int insert(T t);
 
-    public int delete(T t);
+    public int delete(String t);
 
     public int update(T t);
 
@@ -13,6 +13,6 @@ public interface DAOinterface<T> {
 
     public T selectedByID(String t);
 
-    int getAutoIncrement();
-    
+    // int getAutoIncrement();
+
 }
