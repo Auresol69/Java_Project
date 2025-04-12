@@ -6,10 +6,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import com.sieuthimini.BUS.SupplierBUS;
+import com.sieuthimini.DTO.SupplierDTO;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,7 +22,7 @@ import javax.swing.Box;
 public class TongTien extends JPanel {
     JLabel maphieunhapLabel, manhanviennhapLabel, nhacungcapLabel;
     JTextField mapphieunhapField, manhanviennhapField;
-    JComboBox<String> nhacungcapComboBox;
+    JComboBox<SupplierDTO> nhacungcapComboBox;
     JLabel totalAmount;
     JButton nhapHang;
 
@@ -30,13 +35,16 @@ public class TongTien extends JPanel {
 
     private void setUpField(JTextField field) {
         field.setColumns(20);
-        field.setFocusable(false);
+        field.setFocusable(true);
+        field.setMaximumSize(new Dimension(400, 25));
         this.add(field);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
     }
 
     private void setUpComponent(JComponent comp) {
         comp.setFocusable(false);
+        comp.setMaximumSize(new Dimension(400, 25));
+
         this.add(comp);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
     }
@@ -46,11 +54,13 @@ public class TongTien extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         setUpLabel(manhanviennhapLabel = new JLabel("Mã nhân viên nhập:"));
-        setUpField(mapphieunhapField = new JTextField());
+        setUpField(manhanviennhapField = new JTextField());
         setUpLabel(maphieunhapLabel = new JLabel("Mã phiếu nhập:"));
         setUpField(mapphieunhapField = new JTextField());
         setUpLabel(nhacungcapLabel = new JLabel("Nhà cung cấp:"));
         setUpComponent(nhacungcapComboBox = new JComboBox<>());
+        getNhaCungCapComboBox();
+        this.add(Box.createVerticalGlue());
         setUpLabel(totalAmount = new JLabel("Tổng tiền:"));
 
         nhapHang = new JButton("Nhập hàng");
@@ -59,5 +69,12 @@ public class TongTien extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(nhapHang);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
+    }
+
+    public void getNhaCungCapComboBox() {
+        List<SupplierDTO> data = new SupplierBUS().getNhaCungCap();
+        for (SupplierDTO supplierDTO : data) {
+            nhacungcapComboBox.addItem(supplierDTO);
+        }
     }
 }

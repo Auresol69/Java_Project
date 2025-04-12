@@ -7,12 +7,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class TableSanPham extends JPanel {
     JTable table = new JTable();
-
+    DefaultTableModel model;
     private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "mancc", "img" };
 
     public TableSanPham() {
 
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
 
         JScrollPane scrollPane = new JScrollPane(table);

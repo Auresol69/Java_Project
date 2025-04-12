@@ -54,4 +54,9 @@ public class SupplierDTO {
     public SupplierDTO() {
 
     }
+
+    @Override
+    public String toString() {
+        return this.getTencc();
+    }
 }

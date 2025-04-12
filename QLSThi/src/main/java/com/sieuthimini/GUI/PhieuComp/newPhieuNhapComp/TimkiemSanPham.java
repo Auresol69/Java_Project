@@ -25,12 +25,14 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
     JButton addSanPham, nhapExcel;
     private Timer searchTimer;
     InputSanPham inputSanPham;
+    TableSanPham tableSanPham;
 
     private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "mancc", "img" };
     private DefaultTableModel model;
 
-    public TimkiemSanPham(InputSanPham inputSanPham) {
+    public TimkiemSanPham(InputSanPham inputSanPham, TableSanPham tableSanPham) {
         this.inputSanPham = inputSanPham;
+        this.tableSanPham = tableSanPham;
 
         this.setLayout(new BorderLayout());
 
@@ -121,14 +123,15 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
 
         for (ProductDTO sp : results) {
             model.addRow(new Object[] {
-                    sp.getMasp(),
-                    sp.getMaloaisp(),
-                    sp.getSoluong(),
-                    sp.getDongiasanpham(),
-                    sp.getMancc(),
-                    sp.getTensp(),
-                    sp.getImg()
+                    sp.getMasp(), // masp
+                    sp.getTensp(), // tensp
+                    sp.getSoluong(), // soluong
+                    sp.getDongiasanpham(), // dongiasanpham
+                    sp.getMaloaisp(), // maloaisp
+                    sp.getMancc(), // mancc
+                    sp.getImg() // img
             });
+
         }
     }
 
@@ -177,6 +180,18 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                 if (data.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "There is no info about this product!", "WARNINGGG",
                             JOptionPane.WARNING_MESSAGE);
+                } else {
+                    for (Object[] row : data) {
+                        tableSanPham.model.addRow(new Object[] {
+                                row[0],
+                                row[1],
+                                inputSanPham.soluongSanPhamField.getText(),
+                                inputSanPham.giaSanPhamField.getText(),
+                                row[4],
+                                row[5],
+                                row[6]
+                        });
+                    }
                 }
             }
         }
