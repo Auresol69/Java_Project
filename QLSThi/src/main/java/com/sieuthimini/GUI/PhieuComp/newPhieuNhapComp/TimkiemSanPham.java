@@ -147,8 +147,6 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener {
                 inputSanPham.maSanPhamField.setText(model.getValueAt(modelRow, 0).toString());
                 inputSanPham.tenSanPhamField.setText(model.getValueAt(modelRow, 1).toString());
                 setSelectedLoaiSanPham(model.getValueAt(modelRow, 4).toString());
-                System.out.println("Số cột trong bảng: " + model.getColumnCount());
-
             }
         }
     }
