@@ -8,14 +8,17 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.sieuthimini.DAO.TimkiemSanPhamDAO;
+import com.sieuthimini.BUS.ProductBUS;
 import com.sieuthimini.DAO.DataBase;
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.DTO.ProductTypeDTO;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
-public class TimkiemSanPham extends JPanel implements ListSelectionListener {
+public class TimkiemSanPham extends JPanel implements ListSelectionListener, ActionListener {
     JTextField sortSanPham;
     JTable table;
     JScrollPane scrollPane;
@@ -132,6 +135,7 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener {
     public JPanel getChucNang() {
         JPanel chucNang = new JPanel(new FlowLayout());
         addSanPham = new JButton("Thêm sản phẩm");
+        addSanPham.addActionListener(this);
         nhapExcel = new JButton("Nhập từ Excel");
         chucNang.add(addSanPham);
         chucNang.add(nhapExcel);
@@ -147,8 +151,6 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener {
                 inputSanPham.maSanPhamField.setText(model.getValueAt(modelRow, 0).toString());
                 inputSanPham.tenSanPhamField.setText(model.getValueAt(modelRow, 1).toString());
                 setSelectedLoaiSanPham(model.getValueAt(modelRow, 4).toString());
-                System.out.println("Số cột trong bảng: " + model.getColumnCount());
-
             }
         }
     }
@@ -159,6 +161,23 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener {
             if (item.getMaloaisp().equals(maLoaiDaChon)) {
                 inputSanPham.loaiSanPhamComboBox.setSelectedItem(item);
                 break;
+            }
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == addSanPham) {
+            String masp = inputSanPham.maSanPhamField.getText();
+            String tensp = inputSanPham.tenSanPhamField.getText();
+            Object selectedItem = inputSanPham.loaiSanPhamComboBox.getSelectedItem();
+            if (selectedItem instanceof ProductTypeDTO) {
+                String maloaisp = ((ProductTypeDTO) selectedItem).getMaloaisp();
+                List<Object[]> data = new ProductBUS().checkSanPham(masp, tensp, maloaisp);
+                if (data.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "There is no info about this product!", "WARNINGGG",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         }
     }

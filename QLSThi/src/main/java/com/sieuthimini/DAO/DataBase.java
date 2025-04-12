@@ -19,9 +19,8 @@ public class DataBase {
         return null;
     }
 
-    public List<Object[]> selectQuery(String tableName, Object... params) {
+    public List<Object[]> selectQuery(String sql, Object... params) {
         List<Object[]> data = new ArrayList<>();
-        String sql = tableName;
 
         try (Connection connection = getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql);) {

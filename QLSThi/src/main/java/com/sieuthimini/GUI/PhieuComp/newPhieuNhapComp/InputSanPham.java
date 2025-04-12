@@ -3,7 +3,6 @@ package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
