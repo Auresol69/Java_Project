@@ -27,4 +27,9 @@ public class ProductTypeDTO {
     public ProductTypeDTO() {
     }
 
+    @Override
+    public String toString() {
+        return this.tenloaisp;
+    }
+
 }

@@ -60,8 +60,8 @@ public class ProductDTO {
         this.dongiasanpham = dongiasanpham;
     }
 
-    public ProductDTO(String masp, String maloaisp, String mancc, String tensp, String img, Integer soluong,
-            Integer dongiasanpham) {
+    public ProductDTO(String masp, String maloaisp, Integer soluong,
+            Integer dongiasanpham, String mancc, String tensp, String img) {
         this.masp = masp;
         this.maloaisp = maloaisp;
         this.mancc = mancc;

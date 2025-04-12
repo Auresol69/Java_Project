@@ -3,6 +3,8 @@ package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -13,11 +15,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.sieuthimini.DAO.DataBase;
+import com.sieuthimini.DTO.ProductTypeDTO;
+
 public class InputSanPham extends JPanel {
 
     JLabel maSanPhamLabel, tenSanPhamLabel, soluongSanPhamLabel, giaSanPhamLabel, loaiSanPhamLabel;
     JTextField maSanPhamField, tenSanPhamField;
-    JComboBox<String> loaiSanPhamComboBox;
+    JComboBox<ProductTypeDTO> loaiSanPhamComboBox;
     JTextField soluongSanPhamField, giaSanPhamField;
     JButton suaButton, xoaButton;
 
@@ -38,8 +43,9 @@ public class InputSanPham extends JPanel {
         tenSanPhamField = new JTextField(15);
 
         loaiSanPhamLabel = new JLabel("Loại sản phẩm");
-        String[] loaiSanPhamItems = { "Sản phẩm 1", "Sản phẩm 2", "Sản phẩm 3" };
-        loaiSanPhamComboBox = new JComboBox<>(loaiSanPhamItems);
+
+        loaiSanPhamComboBox = new JComboBox<>();
+        loadLoaiSanPham();
 
         soluongSanPhamLabel = new JLabel("Số lượng");
         soluongSanPhamField = new JTextField(15);
@@ -87,6 +93,15 @@ public class InputSanPham extends JPanel {
         gbc.gridx = 1;
         xoaButton = new JButton("Xóa");
         this.add(xoaButton, gbc);
+    }
+
+    public void loadLoaiSanPham() {
+        DataBase db = new DataBase();
+        List<Object[]> data = db.selectQuery("SELECT * FROM producttype");
+        for (Object[] row : data) {
+            loaiSanPhamComboBox.addItem(new ProductTypeDTO(row[0].toString(), row[1].toString()));
+        }
+
     }
 
     public static void main(String[] args) {

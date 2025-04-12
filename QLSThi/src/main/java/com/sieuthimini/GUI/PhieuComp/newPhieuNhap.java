@@ -12,7 +12,7 @@ public class newPhieuNhap extends JPanel {
 
         InputSanPham input = new InputSanPham();
         TableSanPham table = new TableSanPham();
-        TimkiemSanPham timKiem = new TimkiemSanPham();
+        TimkiemSanPham timKiem = new TimkiemSanPham(input);
         TongTien tongTien = new TongTien();
 
         GridBagConstraints gbc = new GridBagConstraints();
