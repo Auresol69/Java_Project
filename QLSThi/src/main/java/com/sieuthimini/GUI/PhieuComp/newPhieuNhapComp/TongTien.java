@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.sieuthimini.BUS.AccountBUS;
 import com.sieuthimini.BUS.SupplierBUS;
+import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.SupplierDTO;
 
 import javax.swing.BoxLayout;
@@ -21,7 +23,8 @@ import javax.swing.Box;
 
 public class TongTien extends JPanel {
     JLabel maphieunhapLabel, manhanviennhapLabel, nhacungcapLabel;
-    JTextField mapphieunhapField, manhanviennhapField;
+    JTextField mapphieunhapField;
+    JComboBox<AccountDTO> manhanviennhapComboBox;
     JComboBox<SupplierDTO> nhacungcapComboBox;
     JLabel totalAmount;
     JButton nhapHang;
@@ -54,7 +57,8 @@ public class TongTien extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         setUpLabel(manhanviennhapLabel = new JLabel("Mã nhân viên nhập:"));
-        setUpField(manhanviennhapField = new JTextField());
+        setUpComponent(manhanviennhapComboBox = new JComboBox<>());
+        getNhanVienComboBox();
         setUpLabel(maphieunhapLabel = new JLabel("Mã phiếu nhập:"));
         setUpField(mapphieunhapField = new JTextField());
         setUpLabel(nhacungcapLabel = new JLabel("Nhà cung cấp:"));
@@ -69,6 +73,14 @@ public class TongTien extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(nhapHang);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
+    }
+
+    // bug
+    public void getNhanVienComboBox() {
+        List<AccountDTO> data = new AccountBUS().getNhanVien();
+        for (AccountDTO accountDTO : data) {
+            manhanviennhapComboBox.addItem(accountDTO);
+        }
     }
 
     public void getNhaCungCapComboBox() {

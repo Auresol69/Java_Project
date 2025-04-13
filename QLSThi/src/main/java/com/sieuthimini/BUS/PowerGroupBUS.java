@@ -1,10 +1,7 @@
 package com.sieuthimini.BUS;
 
-import java.util.ArrayList;
-
 import com.sieuthimini.DAO.Func;
 import com.sieuthimini.DAO.PowerGroupDAO;
-import com.sieuthimini.DTO.PowerGroupDTO;
 
 public class PowerGroupBUS {
     private final PowerGroupDAO powerGroupDAO = new PowerGroupDAO();

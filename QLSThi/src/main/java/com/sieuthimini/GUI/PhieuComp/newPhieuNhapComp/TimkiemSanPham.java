@@ -26,13 +26,15 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
     private Timer searchTimer;
     InputSanPham inputSanPham;
     TableSanPham tableSanPham;
+    TongTien tongTien;
 
-    private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "mancc", "img" };
+    private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "mancc" };
     private DefaultTableModel model;
 
-    public TimkiemSanPham(InputSanPham inputSanPham, TableSanPham tableSanPham) {
+    public TimkiemSanPham(InputSanPham inputSanPham, TableSanPham tableSanPham, TongTien tongTien) {
         this.inputSanPham = inputSanPham;
         this.tableSanPham = tableSanPham;
+        this.tongTien = tongTien;
 
         this.setLayout(new BorderLayout());
 
@@ -123,15 +125,12 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
 
         for (ProductDTO sp : results) {
             model.addRow(new Object[] {
-                    sp.getMasp(), // masp
-                    sp.getTensp(), // tensp
-                    sp.getSoluong(), // soluong
-                    sp.getDongiasanpham(), // dongiasanpham
-                    sp.getMaloaisp(), // maloaisp
-                    sp.getMancc(), // mancc
-                    sp.getImg() // img
-            });
-
+                    sp.getMasp(),
+                    sp.getTensp(),
+                    sp.getSoluong(),
+                    sp.getDongiasanpham(),
+                    sp.getMaloaisp(),
+                    sp.getMancc() });
         }
     }
 
@@ -171,26 +170,42 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addSanPham) {
-            String masp = inputSanPham.maSanPhamField.getText();
-            String tensp = inputSanPham.tenSanPhamField.getText();
-            Object selectedItem = inputSanPham.loaiSanPhamComboBox.getSelectedItem();
-            if (selectedItem instanceof ProductTypeDTO) {
-                String maloaisp = ((ProductTypeDTO) selectedItem).getMaloaisp();
-                List<Object[]> data = new ProductBUS().checkSanPham(masp, tensp, maloaisp);
-                if (data.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "There is no info about this product!", "WARNINGGG",
-                            JOptionPane.WARNING_MESSAGE);
-                } else {
-                    for (Object[] row : data) {
-                        tableSanPham.model.addRow(new Object[] {
-                                row[0],
-                                row[1],
-                                inputSanPham.soluongSanPhamField.getText(),
-                                inputSanPham.giaSanPhamField.getText(),
-                                row[4],
-                                row[5],
-                                row[6]
-                        });
+            if (inputSanPham.maSanPhamField.getText().isBlank() ||
+                    inputSanPham.tenSanPhamField.getText().isBlank() ||
+                    inputSanPham.soluongSanPhamField.getText().isBlank() ||
+                    inputSanPham.giaSanPhamField.getText().isBlank() ||
+                    inputSanPham.loaiSanPhamComboBox.getSelectedItem() == null ||
+                    tongTien.nhacungcapComboBox.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Vui lòng nhập đầy đủ thông tin sản phẩm!",
+                        "Thiếu thông tin",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                String masp = inputSanPham.maSanPhamField.getText();
+                String tensp = inputSanPham.tenSanPhamField.getText();
+                Object selectedItem = inputSanPham.loaiSanPhamComboBox.getSelectedItem();
+                if (selectedItem instanceof ProductTypeDTO) {
+                    String maloaisp = ((ProductTypeDTO) selectedItem).getMaloaisp();
+                    List<Object[]> data = new ProductBUS().checkSanPham(masp, tensp, maloaisp);
+                    if (data.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "There is no info about this product!", "WARNINGGG",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        for (Object[] row : data) {
+                            tableSanPham.model.addRow(new Object[] {
+                                    row[0],
+                                    row[1],
+                                    inputSanPham.soluongSanPhamField.getText(),
+                                    inputSanPham.giaSanPhamField.getText(),
+                                    inputSanPham.loaiSanPhamComboBox.getSelectedItem(),
+                                    tongTien.nhacungcapComboBox.getSelectedItem()
+                            });
+                        }
+                        inputSanPham.soluongSanPhamField.setText("");
+                        inputSanPham.giaSanPhamField.setText("");
+                        inputSanPham.maSanPhamField.setText("");
+                        inputSanPham.tenSanPhamField.setText("");
                     }
                 }
             }
