@@ -68,7 +68,7 @@ public final class NhanVien extends JPanel {
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
         String[] action = {"create", "update", "delete", "detail", "import", "export"};
-        mainFunction = new MainFunction(Integer.parseInt(m.user.getPowerGroupId()), "nhanvien", action);
+        mainFunction = new MainFunction((m.user.getPowerGroupId()), "nhanvien", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(nvBus);
         }

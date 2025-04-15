@@ -18,6 +18,7 @@ import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.ListNhanVien;
 import GUI.Dialog.TaiKhoanDialog;
 import helper.Validation;
+import helper.BCrypt;
 import helper.JTableExporter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -193,7 +194,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                         "Bạn có chắc chắn muốn xóa tài khoản :)!", "Xóa xóa tài khoản",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    TaiKhoanDAO.getInstance().deleteTaiKhoan(listTk.get(index).getMaStaff() + "");
+                    TaiKhoanDAO.getInstance().deleteTaiKhoan(listTk.get(index).getMaStaff());
                     loadTable(taiKhoanBus.getDsTaiKhoan());
                 }
             }
@@ -282,16 +283,14 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                             check4 = 1;
                         }
                     }
-    
+
                     // Nếu dữ liệu hợp lệ thì thêm
                     if (check1 == 0 && check2 == 0 && check3 == 0 && check4 == 0) {
-                        String maAccount = taoMaTuDong(); // Sinh mã account nếu không lấy từ file
+                        int maAccount = taoMaTuDong(); // phải trả về int
                         String pass = BCrypt.hashpw(matkhau, BCrypt.gensalt(12));
                         TaiKhoanDTO newaccount = new TaiKhoanDTO(
-                            maAccount, String.valueOf(manv), tendangnhap, pass, manhomquyen, trangthai
+                            maAccount, manv, tendangnhap, pass, manhomquyen, trangthai
                         );
-                        TaiKhoanDAO.getInstance().insert(newaccount);
-                        listTk.add(newaccount);
                     } else {
                         k++;
                     }
@@ -319,6 +318,17 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         String txt = search.txtSearchForm.getText();
         listTk = taiKhoanBus.search(txt, type);
         loadTable(listTk);
+    }
+
+    public int taoMaTuDong() {
+        ArrayList<TaiKhoanDTO> danhSach = taiKhoanBus.getDsTaiKhoan();
+        int maxId = 0;
+        for (TaiKhoanDTO tk : danhSach) {
+            if (tk.getMaAccount() > maxId) {
+                maxId = tk.getMaAccount();
+            }
+        }
+        return maxId + 1;
     }
 
 }

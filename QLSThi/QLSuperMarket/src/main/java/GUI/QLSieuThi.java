@@ -15,7 +15,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
+import GUI.Panel.*;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -217,9 +217,11 @@ public class QLSieuThi extends JFrame{
             case "Quản lý phiếu nhập" : 
                 break ;
             case "Tài Khoản" :
-                panelCenter = new TaiKhoan(); 
+                panelCenter = new TaiKhoan(this); 
                 break ;
-            
+            case "Phân Quyền" :
+                panelCenter = new TaiKhoan(this); 
+                break ;
         }; 
         getContentPane().add(panelCenter, BorderLayout.CENTER);
         revalidate();

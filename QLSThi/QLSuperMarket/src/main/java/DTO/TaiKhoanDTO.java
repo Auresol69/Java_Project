@@ -2,37 +2,45 @@ package DTO;
 
 public class TaiKhoanDTO {
 
-
-    private String maAccount;
-    private String maStaff;
+    private int maAccount;
+    private int maStaff;
     private String username;
     private String password;
     private int powerGroupId;
     private boolean trangthai;
+
     public TaiKhoanDTO() {
     }
 
-    public TaiKhoanDTO(String maAccount, String maStaff, String username, String password, int powerGroupId, boolean trangthai) {
-    this.maAccount = maAccount;
-    this.maStaff = maStaff;
-    this.username = username;
-    this.password = password;
-    this.powerGroupId = powerGroupId;
-    this.trangthai = trangthai;
+    public TaiKhoanDTO(int maAccount, int maStaff, String username, String password, int powerGroupId, boolean trangthai) {
+        this.maAccount = maAccount;
+        this.maStaff = maStaff;
+        this.username = username;
+        this.password = password;
+        this.powerGroupId = powerGroupId;
+        this.trangthai = trangthai;
     }
-    public String getMaAccount() {
+    public TaiKhoanDTO(int manv, String tendangnhap, String pass, int manhom, int tt) {
+        maStaff = manv;
+        username = tendangnhap;
+        password = pass;
+        powerGroupId = manhom;
+        trangthai = (tt != 0);
+    }
+
+    public int getMaAccount() {
         return maAccount;
     }
 
-    public void setMaAccount(String maAccount) {
+    public void setMaAccount(int maAccount) {
         this.maAccount = maAccount;
     }
 
-    public String getMaStaff() {
+    public int getMaStaff() {
         return maStaff;
     }
 
-    public void setMaStaff(String maStaff) {
+    public void setMaStaff(int maStaff) {
         this.maStaff = maStaff;
     }
 
@@ -59,10 +67,11 @@ public class TaiKhoanDTO {
     public void setPowerGroupId(int powerGroupId) {
         this.powerGroupId = powerGroupId;
     }
+
     public boolean getTrangThai() {
         return trangthai;
     }
-    
+
     public void setTrangThai(boolean trangthai) {
         this.trangthai = trangthai;
     }

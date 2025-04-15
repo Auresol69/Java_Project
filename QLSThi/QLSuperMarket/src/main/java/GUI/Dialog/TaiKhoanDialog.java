@@ -14,6 +14,8 @@ import GUI.Component.InputForm;
 import GUI.Component.SelectForm;
 import GUI.Panel.TaiKhoan;
 import helper.BCrypt;
+
+// import helper.BCrypt;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -45,7 +47,7 @@ public class TaiKhoanDialog extends JDialog {
     private SelectForm trangthai;
     int manv;
     private ArrayList<NhomQuyenDTO> listNq = NhomQuyenDAO.getInstance().selectAll();
-    private ArrayList<TaiKhoanDTO> listTK = TaiKhoanDAO.getInstance().selectAll();
+    private ArrayList<TaiKhoanDTO> listTK = TaiKhoanDAO.getInstance().getAllTaiKhoan();
 
     public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type, int manv) {
         super(owner, title, modal);
@@ -59,12 +61,12 @@ public class TaiKhoanDialog extends JDialog {
     public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type, TaiKhoanDTO tk) {
         super(owner, title, modal);
         init(title, type);
-        this.manv = tk.getManv();
+        this.manv = tk.getMaStaff();
         this.taiKhoan = taiKhoan;
         username.setText(tk.getUsername());
-        password.setPass(tk.getMatkhau());
-        maNhomQuyen.setSelectedItem(NhomQuyenDAO.getInstance().selectById(tk.getManhomquyen() + "").getTennhomquyen());
-        trangthai.setSelectedIndex(tk.getTrangthai());
+        password.setPass(tk.getPassword());
+        maNhomQuyen.setSelectedItem(NhomQuyenDAO.getInstance().selectedByID(tk.getPowerGroupId()).getTenNhomQuyen());
+        trangthai.setSelectedIndex(tk.getTrangThai() ? 0 : 1);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -103,13 +105,14 @@ public class TaiKhoanDialog extends JDialog {
                         }
                     }
                     if (check == 0) {
+                        
                         String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
-                        int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
+                        int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getMaNhomQuyen();
                         int tt = trangthai.getSelectedIndex();
                         TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
                         TaiKhoanDAO.getInstance().insert(tk);
                         taiKhoan.taiKhoanBus.addAcc(tk);
-                        taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
+                        taiKhoan.loadTable(taiKhoan.taiKhoanBus.getDsTaiKhoan());
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Tên tài khoản đã tồn tại. Vui lòng đổi tên khác!", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
@@ -125,12 +128,12 @@ public class TaiKhoanDialog extends JDialog {
                 if (!(username.getText().length() == 0)) {
                     String tendangnhap = username.getText();
                     String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
-                    int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
+                    int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getMaNhomQuyen();
                     int tt = trangthai.getSelectedIndex();
                     TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
-                    TaiKhoanDAO.getInstance().update(tk);
-                    taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRowSelected(), tk);
-                    taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
+                    TaiKhoanDAO.getInstance().updateTaiKhoan(tk);
+                    taiKhoan.taiKhoanBus.updateTaiKhoan(tk);
+                    taiKhoan.loadTable(taiKhoan.taiKhoanBus.getDsTaiKhoan());
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Vui lòng không để trống tên");
@@ -172,7 +175,7 @@ public class TaiKhoanDialog extends JDialog {
     public String[] getNhomQuyen() {
         String[] listNhomQuyen = new String[listNq.size()];
         for (int i = 0; i < listNq.size(); i++) {
-            listNhomQuyen[i] = listNq.get(i).getTennhomquyen();
+            listNhomQuyen[i] = listNq.get(i).getTenNhomQuyen();
         }
         return listNhomQuyen;
     }
