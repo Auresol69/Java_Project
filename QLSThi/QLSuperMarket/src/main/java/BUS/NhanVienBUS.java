@@ -75,7 +75,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         int vitri = -1;
         int size = this.listNv.size();
         while (i < size && vitri == -1) {
-            if (this.listNv.get(i).getManv() == manv) {
+            if (this.listNv.get(i).getMaNV() == manv) {
                 vitri = i;
             } else {
                 i++;
@@ -87,7 +87,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     
     
     public String getNameById(int manv) {
-        return nhanVienDAO.selectById(manv+"").getHoten();
+        return nhanVienDAO.selectedByID(manv).getHoten();
     }
 
     public String[] getArrTenNhanVien() {
@@ -179,9 +179,9 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     }
 
     public void deleteNv(NhanVienDTO nv) {
-        NhanVienDAO.getInstance().delete(nv.getManv() + "");
-        TaiKhoanDAO.getInstance().delete(nv.getManv() + "");
-        listNv.removeIf(n -> (n.getManv() == nv.getManv()));
+        NhanVienDAO.getInstance().delete(nv.getMaNV() + "");
+        TaiKhoanDAO.getInstance().deleteTaiKhoan(nv.getMaNV() + "");
+        listNv.removeIf(n -> (n.getMaNV() == nv.getMaNV()));
         loadTable();
     }
 
@@ -238,8 +238,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         switch (luachon) {
             case "Tất cả" -> {
                 for (NhanVienDTO i : this.listNv) {
-                    if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
-                            || i.getSdt().toLowerCase().contains(text)) {
+                    if (i.getHoten().toLowerCase().contains(text) || i.getSdt().toLowerCase().contains(text)) {
                         result.add(i);
                     }
                 }
@@ -247,14 +246,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             case "Họ tên" -> {
                 for (NhanVienDTO i : this.listNv) {
                     if (i.getHoten().toLowerCase().contains(text)) {
-                        result.add(i);
-                    }
-                }
-            }
-            case "Email" -> {
-                for (NhanVienDTO i : this.listNv) {
-                    if (i.getEmail().toLowerCase().contains(text)
-                           ) {
                         result.add(i);
                     }
                 }
@@ -309,22 +300,16 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
             cellStyleFormatNumber.setDataFormat(format);
         }
         Cell cell = row.createCell(0);
-        cell.setCellValue(nv.getManv());
+        cell.setCellValue(nv.getMaNV());
 
         cell = row.createCell(1);
         cell.setCellValue(nv.getHoten());
 
         cell = row.createCell(2);
-        cell.setCellValue(nv.getEmail());
+        cell.setCellValue(nv.getAddress());
 
         cell = row.createCell(3);
         cell.setCellValue(nv.getSdt());
-
-        cell = row.createCell(4);
-        cell.setCellValue(nv.getGioitinh() == 1 ? "Nam" : "Nữ");
-
-        cell = row.createCell(5);
-        cell.setCellValue("" + nv.getNgaysinh());
     }
 
     public void importExcel() {
@@ -347,30 +332,23 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 
                 for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
                     int check = 1;
-                    int gt;
                     XSSFRow excelRow = excelSheet.getRow(row);
                     int id = NhanVienDAO.getInstance().getAutoIncrement();
-                    String tennv = excelRow.getCell(0).getStringCellValue();
-                    String gioitinh = excelRow.getCell(1).getStringCellValue();
-                    if (gioitinh.equals("Nam") || gioitinh.equals("nam")) {
-                        gt = 1;
-                    } else {
-                        gt = 0;
-                    }
+                    String tennv = excelRow.getCell(0).getStringCellValue();     
                     String sdt = excelRow.getCell(3).getStringCellValue();
+                    String diachi = excelRow.getCell(5).getStringCellValue();
                     Date ngaysinh = (Date) excelRow.getCell(2).getDateCellValue();
                     java.sql.Date birth = new java.sql.Date(ngaysinh.getTime());
                     String email = excelRow.getCell(4).getStringCellValue();
-                    if (Validation.isEmpty(tennv) || Validation.isEmpty(email)
-                            || !Validation.isEmail(email) || Validation.isEmpty(sdt)
-                            || Validation.isEmpty(sdt) || !isPhoneNumber(sdt)
-                            || sdt.length() != 10 || Validation.isEmpty(gioitinh)) {
+                    if (Validation.isEmpty(tennv) || Validation.isEmpty(diachi)
+                            || Validation.isEmpty(sdt) || Validation.isEmpty(sdt) 
+                            || !isPhoneNumber(sdt) || sdt.length() != 10) {
                         check = 0;
                     }
                     if (check == 0) {
                         k += 1;
                     } else {
-                        NhanVienDTO nvdto = new NhanVienDTO(id, tennv, gt, birth, sdt, 1, email);
+                        NhanVienDTO nvdto = new NhanVienDTO(id, tennv, sdt, diachi, 1);
                         NhanVienDAO.getInstance().insert(nvdto);
                     }
                     JOptionPane.showMessageDialog(null, "Nhập thành công");

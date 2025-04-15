@@ -13,6 +13,6 @@ public interface DAOinterface<T> {
 
     public T selectedByID(int t);
 
-    // int getAutoIncrement();
+    int getAutoIncrement();
 
 }

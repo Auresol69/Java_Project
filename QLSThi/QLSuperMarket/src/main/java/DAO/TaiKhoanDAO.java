@@ -12,6 +12,10 @@ import java.util.logging.Logger;
 public class TaiKhoanDAO {
     MySQLConnect db = new MySQLConnect();
 
+    public static TaiKhoanDAO getInstance(){
+        return new TaiKhoanDAO();
+    }
+
     // Lấy danh sách tất cả tài khoản
     public ArrayList<TaiKhoanDTO> getAllTaiKhoan() {
         ArrayList<TaiKhoanDTO> list = new ArrayList<>();

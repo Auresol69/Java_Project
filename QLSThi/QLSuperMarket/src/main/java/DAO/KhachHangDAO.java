@@ -145,5 +145,32 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
 
         return result;
     }
+
+    @Override
+    public int getAutoIncrement() {
+        int result = -1;
+        String sql = "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES " +
+                    "WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME = 'customer'";
+        MySQLConnect db = new MySQLConnect();
+
+        try {
+            Connection con = db.getConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                result = rs.getInt("AUTO_INCREMENT");
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // hoặc log ra nếu muốn đẹp hơn
+        } finally {
+            db.disConnect();
+        }
+
+        return result;
+    }
 }
 
