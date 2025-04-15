@@ -24,7 +24,7 @@ public class TaiKhoanDAO {
                     rs.getString("mastaff"),
                     rs.getString("username"),
                     rs.getString("password"),
-                    rs.getString("powergroupid"),
+                    rs.getInt("powergroupid"),
                     rs.getString("email")
                 );
                 list.add(tk);
@@ -94,7 +94,7 @@ public class TaiKhoanDAO {
                     rs.getString("mastaff"),
                     rs.getString("username"),
                     rs.getString("password"),
-                    rs.getString("powergroupid"),
+                    rs.getInt("powergroupid"),
                     rs.getString("email")
                 );
             }
