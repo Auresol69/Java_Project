@@ -7,7 +7,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
-import GUI.Main;
+import GUI.QLSieuThi;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +22,7 @@ public final class NhanVien extends JPanel {
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     public IntegratedSearch search;
-    Main m;
+    QLSieuThi m;
     ArrayList<DTO.NhanVienDTO> listnv = nvBus.getAll();
 
     Color BackgroundColor = new Color(240, 247, 250);
@@ -68,12 +68,12 @@ public final class NhanVien extends JPanel {
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
         String[] action = {"create", "update", "delete", "detail", "import", "export"};
-        mainFunction = new MainFunction(m.user.getManhomquyen(), "nhanvien", action);
+        mainFunction = new MainFunction(Integer.parseInt(m.user.getPowerGroupId()), "nhanvien", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(nvBus);
         }
         functionBar.add(mainFunction);
-        search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên", "Email"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên"});
         functionBar.add(search);
         search.btnReset.addActionListener(nvBus);
         search.cbxChoose.addActionListener(nvBus);
@@ -90,7 +90,7 @@ public final class NhanVien extends JPanel {
         scrollTableSanPham = new JScrollPane();
         tableNhanVien = new JTable();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV", "Họ tên", "Giới tính", "Ngày Sinh", "SDT", "Email"};
+        String[] header = new String[]{"MNV", "Họ tên", "SDT", "Địa chỉ"};
 
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setModel(tblModel);
@@ -102,15 +102,13 @@ public final class NhanVien extends JPanel {
         tableNhanVien.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-        tableNhanVien.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         scrollTableSanPham.setViewportView(tableNhanVien);
         main.add(scrollTableSanPham);
     }
 
     
 
-    public NhanVien(Main m) {
+    public NhanVien(QLSieuThi m) {
         this.m = m;
         initComponent();
         tableNhanVien.setDefaultEditor(Object.class, null);
@@ -130,7 +128,7 @@ public final class NhanVien extends JPanel {
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : listnv) {
             tblModel.addRow(new Object[]{
-                nhanVien.getManv(), nhanVien.getHoten(), nhanVien.getGioitinh() == 1 ? "Nam" : "Nữ", nhanVien.getNgaysinh(), nhanVien.getSdt(), nhanVien.getEmail()
+                nhanVien.getMaNV(), nhanVien.getHoten(), nhanVien.getSdt(), nhanVien.getAddress()
             });
         }
     }

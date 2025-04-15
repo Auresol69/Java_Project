@@ -110,7 +110,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
     }
 
     @Override
-    public NhomQuyenDTO selectedByID(String t) {
+    public NhomQuyenDTO selectedByID(int t) {
         NhomQuyenDTO result = null;
         String sql = "SELECT * FROM powergroup WHERE powergroupid = ?";
         MySQLConnect db = new MySQLConnect();
@@ -118,7 +118,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         try {
             Connection con = db.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, t);
+            ps.setInt(1, t);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -132,6 +132,33 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
             ps.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            db.disConnect();
+        }
+
+        return result;
+    }
+
+    @Override
+    public int getAutoIncrement() {
+        int result = -1;
+        String sql = "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES " +
+                    "WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME = 'powergroup'";
+        MySQLConnect db = new MySQLConnect();
+
+        try {
+            Connection con = db.getConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                result = rs.getInt("AUTO_INCREMENT");
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // hoặc log ra nếu muốn đẹp hơn
         } finally {
             db.disConnect();
         }

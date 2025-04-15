@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.TableSorter;
 import GUI.Dialog.KhachHangDialog;
-import GUI.Main;
+import GUI.QLSieuThi;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import helper.JTableExporter;
@@ -49,7 +49,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
     public KhachHangBUS khachhangBUS = new KhachHangBUS();
     public ArrayList<KhachHangDTO> listkh = khachhangBUS.getAll();
     KhachHangDTO kh = new KhachHangDTO();
-    Main m;
+    QLSieuThi m;
     Color BackgroundColor = new Color(240, 247, 250);
 
     private void initComponent() {
@@ -110,7 +110,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         String[] action = {"create", "update", "delete", "detail", "import", "export"};
-        mainFunction = new MainFunction(m.user.getManhomquyen(), "khachhang", action);
+        mainFunction = new MainFunction(Integer.parseInt(m.user.getPowerGroupId()), "khachhang", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
@@ -147,7 +147,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         main.add(scrollTableKhachHang);
     }
 
-    public KhachHang(Main m) {
+    public KhachHang(QLSieuThi m) {
         this.m = m;
         initComponent();
         tableKhachHang.setDefaultEditor(Object.class, null);
@@ -158,7 +158,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tblModel.setRowCount(0);
         for (DTO.KhachHangDTO khachHang : result) {
             tblModel.addRow(new Object[]{
-                khachHang.getMaKH(), khachHang.getHoten(), khachHang.getDiachi(), khachHang.getSdt(), khachHang.getNgaythamgia()
+                khachHang.getMaKH(), khachHang.getHoten(), khachHang.getAddress(), khachHang.getSdt()
             });
         }
     }
