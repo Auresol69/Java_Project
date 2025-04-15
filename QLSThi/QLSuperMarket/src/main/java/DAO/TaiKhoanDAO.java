@@ -39,9 +39,8 @@ public class TaiKhoanDAO {
         }
         return list;
     }
-    public static TaiKhoanDAO getInstance(){
-        return new TaiKhoanDAO();
-    }
+
+    
     // Thêm tài khoản mới
     public boolean insertTaiKhoan(TaiKhoanDTO tk) {
         String sql = String.format(
