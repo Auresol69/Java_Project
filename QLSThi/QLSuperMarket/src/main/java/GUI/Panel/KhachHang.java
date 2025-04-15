@@ -110,7 +110,8 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         String[] action = {"create", "update", "delete", "detail", "import", "export"};
-        mainFunction = new MainFunction((m.user.getPowerGroupId()), "khachhang", action);
+
+        mainFunction = new MainFunction(m.user.getPowerGroupId(), "khachhang", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
