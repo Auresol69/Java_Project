@@ -1,10 +1,14 @@
 package DAO;
 
 import DTO.TaiKhoanDTO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class TaiKhoanDAO {
     MySQLConnect db = new MySQLConnect();
 
@@ -21,7 +25,7 @@ public class TaiKhoanDAO {
                     rs.getString("username"),
                     rs.getString("password"),
                     rs.getInt("powergroupid"),
-                    rs.getString("email")
+                    rs.getBoolean("trangthai") // Thêm dòng này
                 );
                 list.add(tk);
             }
@@ -31,14 +35,16 @@ public class TaiKhoanDAO {
         }
         return list;
     }
-
+    public static TaiKhoanDAO getInstance(){
+        return new TaiKhoanDAO();
+    }
     // Thêm tài khoản mới
     public boolean insertTaiKhoan(TaiKhoanDTO tk) {
         String sql = String.format(
-            "INSERT INTO account (maaccount, mastaff, username, password, powergroupid, email) " +
-            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+            "INSERT INTO account (maaccount, mastaff, username, password, powergroupid, email, trangthai) " +
+            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %b)",
             tk.getMaAccount(), tk.getMaStaff(), tk.getUsername(),
-            tk.getPassword(), tk.getPowerGroupId(), tk.getEmail()
+            tk.getPassword(), tk.getPowerGroupId(), tk.getTrangThai()
         );
         try {
             db.executeUpdate(sql);
@@ -52,10 +58,10 @@ public class TaiKhoanDAO {
     // Cập nhật tài khoản
     public boolean updateTaiKhoan(TaiKhoanDTO tk) {
         String sql = String.format(
-            "UPDATE account SET mastaff='%s', username='%s', password='%s', powergroupid='%s', email='%s' " +
+            "UPDATE account SET mastaff='%s', username='%s', password='%s', powergroupid='%s', email='%s', trangthai=%b " +
             "WHERE maaccount='%s'",
             tk.getMaStaff(), tk.getUsername(), tk.getPassword(),
-            tk.getPowerGroupId(), tk.getEmail(), tk.getMaAccount()
+            tk.getPowerGroupId(), tk.getTrangThai(), tk.getMaAccount()
         );
         try {
             db.executeUpdate(sql);
@@ -91,7 +97,7 @@ public class TaiKhoanDAO {
                     rs.getString("username"),
                     rs.getString("password"),
                     rs.getInt("powergroupid"),
-                    rs.getString("email")
+                    rs.getBoolean("trangthai") // Thêm dòng này
                 );
             }
             rs.close();
@@ -100,4 +106,25 @@ public class TaiKhoanDAO {
         }
         return tk;
     }
+    public int insert(TaiKhoanDTO t) {
+        int result = 0;
+        try {
+            Connection con = MySQLConnect.getConnection();
+            String sql = "INSERT INTO `account`(`maaccount`, `mastaff`, `username`, `password`, `powergroupid`, `trangthai`) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, t.getMaAccount());                          // maaccount (String)
+            pst.setString(2, t.getMaStaff());                            // mastaff (String)
+            pst.setString(3, t.getUsername());                           // username (String)
+            pst.setString(4, t.getPassword());                           // password (String)
+            pst.setInt(5, t.getPowerGroupId());                          // powergroupid (int)
+            pst.setBoolean(6, t.getTrangThai());                         // trangthai (boolean)
+    
+            result = pst.executeUpdate();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
 }

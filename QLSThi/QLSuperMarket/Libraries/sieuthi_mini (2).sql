@@ -260,7 +260,8 @@ INSERT INTO staff (mastaff, address, tennhanstaff, dienthoai) VALUES
 INSERT INTO account (maaccount, mastaff, username, password, powergroupid, email) VALUES
 ('ACC001', 'STF001', 'admin', '123456', 1, 'admin@example.com'),
 ('ACC002', 'STF002', 'sale', 'sale', 2, 'staff@example.com');
-
+ALTER TABLE account
+ADD COLUMN trangthai BOOLEAN DEFAULT TRUE;
 -- Thêm loại sản phẩm (để trigger tự sinh ID)
 INSERT INTO producttype (tenloaisp) VALUES ('Điện thoại'), ('Laptop');
 

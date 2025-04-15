@@ -1,24 +1,25 @@
 package DTO;
 
 public class TaiKhoanDTO {
+
+
     private String maAccount;
     private String maStaff;
     private String username;
     private String password;
     private int powerGroupId;
-    private String email;
+    private boolean trangthai;
     public TaiKhoanDTO() {
     }
 
-    public TaiKhoanDTO(String maAccount, String maStaff, String username, String password, int powerGroupId, String email) {
-        this.maAccount = maAccount;
-        this.maStaff = maStaff;
-        this.username = username;
-        this.password = password;
-        this.powerGroupId = powerGroupId;
-        this.email = email;
+    public TaiKhoanDTO(String maAccount, String maStaff, String username, String password, int powerGroupId, boolean trangthai) {
+    this.maAccount = maAccount;
+    this.maStaff = maStaff;
+    this.username = username;
+    this.password = password;
+    this.powerGroupId = powerGroupId;
+    this.trangthai = trangthai;
     }
-
     public String getMaAccount() {
         return maAccount;
     }
@@ -58,12 +59,11 @@ public class TaiKhoanDTO {
     public void setPowerGroupId(int powerGroupId) {
         this.powerGroupId = powerGroupId;
     }
-
-    public String getEmail() {
-        return email;
+    public boolean getTrangThai() {
+        return trangthai;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
+    
+    public void setTrangThai(boolean trangthai) {
+        this.trangthai = trangthai;
     }
 }

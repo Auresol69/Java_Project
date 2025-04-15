@@ -37,6 +37,7 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import DTO.TaiKhoanDTO;
 import GUI.Model.ChucNang;
 import GUI.Model.Header;
+import GUI.Panel.TaiKhoan;
 
 
 public class QLSieuThi extends JFrame{
@@ -215,6 +216,10 @@ public class QLSieuThi extends JFrame{
                 break ;
             case "Quản lý phiếu nhập" : 
                 break ;
+            case "Tài Khoản" :
+                panelCenter = new TaiKhoan(); 
+                break ;
+            
         }; 
         getContentPane().add(panelCenter, BorderLayout.CENTER);
         revalidate();

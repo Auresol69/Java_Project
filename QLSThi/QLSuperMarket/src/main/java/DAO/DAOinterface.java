@@ -11,7 +11,7 @@ public interface DAOinterface<T> {
 
     public ArrayList<T> selectAll();
 
-    public T selectedByID(String t);
+    public T selectedByID(int t);
 
     // int getAutoIncrement();
 

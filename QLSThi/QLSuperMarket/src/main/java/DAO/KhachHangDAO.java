@@ -115,7 +115,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
     }
 
     @Override
-    public KhachHangDTO selectedByID(String t) {
+    public KhachHangDTO selectedByID(int t) {
         KhachHangDTO result = null;
         String sql = "SELECT * FROM customer WHERE macustomer = ?";
         MySQLConnect db = new MySQLConnect();
@@ -123,7 +123,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         try {
             Connection con = db.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, t); // Quan trọng nhaaaa
+            ps.setInt(1, t); // Quan trọng nhaaaa
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {

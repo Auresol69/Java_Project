@@ -3,6 +3,7 @@ package DAO;
 import DTO.NhanVienDTO;
 import java.sql.*;
 import java.util.ArrayList;
+import DAO.MySQLConnect;
 
 
 public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
@@ -149,5 +150,27 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
 
         return result;
     }
-
+    public ArrayList<NhanVienDTO> selectAllNV() {
+        ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
+        try {
+            Connection con = (Connection) MySQLConnect.getConnection();
+            String sql = "SELECT * FROM staff WHERE trangthai = '1'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = (ResultSet) pst.executeQuery();
+            while(rs.next()){
+                int manv = rs.getInt("mastaff");
+                String hoten = rs.getString("hoten");
+                String address = rs.getString("address");
+                String sdt = rs.getString("sdt");
+                int trangthai = rs.getInt("trangthai");
+                NhanVienDTO nv = new NhanVienDTO(manv,hoten, sdt,address,trangthai);
+                result.add(nv);
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
+

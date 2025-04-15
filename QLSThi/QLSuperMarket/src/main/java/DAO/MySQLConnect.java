@@ -63,10 +63,11 @@
             Logger.getLogger(MySQLConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public Connection getConnection()
+    public static Connection getConnection()
     {
-        Connect();
-        return conn;
+        MySQLConnect db = new MySQLConnect();
+        db.Connect();
+        return db.conn;
     }
     public boolean isConnect()
     {

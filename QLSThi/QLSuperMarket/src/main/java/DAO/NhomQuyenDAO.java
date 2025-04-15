@@ -110,7 +110,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
     }
 
     @Override
-    public NhomQuyenDTO selectedByID(String t) {
+    public NhomQuyenDTO selectedByID(int t) {
         NhomQuyenDTO result = null;
         String sql = "SELECT * FROM powergroup WHERE powergroupid = ?";
         MySQLConnect db = new MySQLConnect();
@@ -118,7 +118,7 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         try {
             Connection con = db.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, t);
+            ps.setInt(1, t);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
