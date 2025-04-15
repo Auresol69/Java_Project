@@ -5,21 +5,27 @@
 package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -78,46 +84,27 @@ public class QLSieuThi extends JFrame{
         panelWest.setPreferredSize(new Dimension(200,0));
         
         
-        panelWest.setLayout(new BoxLayout(panelWest, BoxLayout.Y_AXIS)); // Đặt các nút vào một cột dọc
+        panelWest.setLayout(new BorderLayout());
+        panelWest.setBackground(Color.WHITE);
         ImageIcon avtIcon = new ImageIcon(getClass().getResource("/IMG/icons8-avatar-50.png"));
-        Image img = avtIcon.getImage(); 
-        Image scaledImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH); 
-        avtIcon = new ImageIcon(scaledImg);
-
+        Image avtIMG = avtIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
+        // Tạo JLabel chứa ảnh
         JLabel avt = new JLabel(avtIcon);
-//        avt.setPreferredSize(new Dimension(100, 100)); 
-//        JLabel avt = new JLabel(new ImageIcon("../icons8-avatar-50.png"));
-        avt.setPreferredSize(new Dimension(200,100));
-        panelWest.add(avt);
-        JButton btnQLSP = new JButton("Quản lý Sản Phẩm");
-        btnQLSP.setBackground(Color.BLACK);
-        btnQLSP.setContentAreaFilled(true); // Giữ màu nền của nút
-        btnQLSP.setForeground(Color.WHITE); // Đổi màu chữ thành trắng
-        JButton btnQLNV = new JButton("Quản lý nhân viên");
-        btnQLNV.setBackground(Color.BLACK);
-        btnQLNV.setForeground(Color.WHITE); // Đổi màu chữ thành trắng
-        btnQLNV.setContentAreaFilled(true); // Giữ màu nền của nút
-        JButton btnQLKH = new JButton ("Quản lý khách hàng ");
-        btnQLKH.setForeground(Color.WHITE); // Đổi màu chữ thành trắng
-        btnQLKH.setBackground(Color.BLACK);
-        btnQLKH.setContentAreaFilled(true); // Giữ màu nền của nút
-        JButton btnNX = new JButton("Nhập và Xuất");
-        btnNX.setForeground(Color.WHITE); // Đổi màu chữ thành trắng
-        btnNX.setBackground(Color.BLACK);
-        btnNX.setContentAreaFilled(true); // Giữ màu nền của nút
-        JButton btnNCC = new JButton ("Nhà cung cấp");
-        btnNCC.setForeground(Color.WHITE); // Đổi màu chữ thành trắng
-        btnNCC.setBackground(Color.BLACK);
-        btnNCC.setBorderPainted(false);
-        btnNCC.setContentAreaFilled(true); // Giữ màu nền của nút
-        Dimension btnSize = new Dimension(200, 50);
-        btnQLSP.setMaximumSize(btnSize);
-        btnQLNV.setMaximumSize(btnSize);
-        btnQLKH.setMaximumSize(btnSize);
-        btnNCC.setMaximumSize(btnSize);
-        btnNX.setMaximumSize(btnSize);
+        avt.setIcon(new ImageIcon(avtIMG ));
+        avt.setPreferredSize(new Dimension(200, 120));
+        avt.setHorizontalAlignment(SwingConstants.CENTER); // Căn giữa ảnh trong label
+        avt.setVerticalAlignment(SwingConstants.CENTER);
+        
+        // Thêm vào panelWest ở vị trí BorderLayout.NORTH
+        panelWest.setLayout(new BorderLayout());
+        panelWest.add(avt, BorderLayout.NORTH);
+
         ArrayList<ChucNang> danhSachQuanLy = new ArrayList<>();
         // Thêm các mục vào danh sách
+        JPanel panelLabelGroup = new JPanel();
+        panelLabelGroup.setLayout(new BoxLayout(panelLabelGroup, BoxLayout.Y_AXIS));
+        panelLabelGroup.setBackground(Color.WHITE);
+
         danhSachQuanLy.add(new ChucNang(1, "Quản lý khách hàng", "../IMG/icons8-customer-48.png"));
         danhSachQuanLy.add(new ChucNang(2, "Quản lý sản phẩm", "../IMG/icons8-product-50.png"));
         danhSachQuanLy.add(new ChucNang(3, "Quản lý nhân viên", "../IMG/icons8-employee-50.png"));
@@ -125,18 +112,23 @@ public class QLSieuThi extends JFrame{
         danhSachQuanLy.add(new ChucNang(5, "Quản lý phiếu nhập", "../IMG/icons8-receipt-50.png"));
         danhSachQuanLy.add(new ChucNang(6, "Tài Khoản", "../IMG/icons8-receipt-50.png"));
         danhSachQuanLy.add(new ChucNang(7, "Phân Quyền", "../IMG/icons8-receipt-50.png"));
-
         JLabel[] labels = new JLabel[danhSachQuanLy.size()];
         for (int i = 0; i < danhSachQuanLy.size(); i++) {
             String stringImg = danhSachQuanLy.get(i).geticon();
-            labels[i] = new JLabel(danhSachQuanLy.get(i).getTenChucNang());
-            labels[i].setIcon(new ImageIcon(getClass().getResource(stringImg)));
-//          labels[i].setIcon(new ImageIcon(getClass().getResource(url)));
+            String tenChucNang = danhSachQuanLy.get(i).getTenChucNang();
+            labels[i] = new JLabel(tenChucNang);
+            ImageIcon icon = new ImageIcon(getClass().getResource(stringImg));
+            Image im = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH); // scale ảnh 30x30
+            labels[i].setIcon(new ImageIcon(im));
             labels[i].setMaximumSize(new Dimension(200, 50));
-            labels[i].setBackground(Color.red);
-            labels[i].setForeground(Color.WHITE);
+            labels[i].setBackground(Color.white);
+            labels[i].setForeground(Color.BLACK);
             labels[i].setOpaque(true);
-            panelWest.add(labels[i]);
+            labels[i].setHorizontalAlignment(SwingConstants.LEFT);
+            labels[i].setIconTextGap(15); // khoảng cách icon - text
+            labels[i].setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10)); // padding trong
+            labels[i].setAlignmentX(Component.LEFT_ALIGNMENT); // canh trái khi dùng BoxLayout
+            panelLabelGroup.add(labels[i]);
             labels[i].addMouseListener(new MouseAdapter(){
             public void mouseEntered(MouseEvent e){
                 MouseEntered(e);
@@ -150,6 +142,39 @@ public class QLSieuThi extends JFrame{
             }
             });
         }
+        panelWest.add(panelLabelGroup, BorderLayout.CENTER);
+        JLabel lblDangXuat = new JLabel("Đăng Xuất");
+        ImageIcon icon = new ImageIcon(getClass().getResource("../IMG/logout.png"));
+        Image imLogut = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH); // scale ảnh 30x30
+        lblDangXuat.setIcon(new ImageIcon(imLogut));
+        lblDangXuat.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+        lblDangXuat.setOpaque(true);
+        lblDangXuat.setBackground(Color.WHITE);
+        lblDangXuat.setForeground(Color.RED);
+        lblDangXuat.setFont(new Font("Arial", Font.BOLD, 13));
+        lblDangXuat.setHorizontalAlignment(SwingConstants.LEFT);
+        lblDangXuat.setIconTextGap(15);
+        lblDangXuat.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        lblDangXuat.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelWest.add(lblDangXuat , BorderLayout.SOUTH);
+        lblDangXuat.addMouseListener(new MouseAdapter() {
+        public void mouseEntered(MouseEvent e) {
+            MouseEntered(e); // Đổi màu nền
+        }
+
+        public void mouseExited(MouseEvent e) {
+            lblDangXuat.setForeground(Color.red);
+            lblDangXuat.setBackground(null);
+        }
+
+        public void mouseClicked(MouseEvent e) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Gọi hàm đăng xuất hoặc chuyển về màn hình đăng nhập
+                dangXuat(); // Bạn tự định nghĩa hàm này
+            }
+        }
+    });
 //        panelWest.add(avt);
 //        panelWest.add(btnQLSP);
 //        panelWest.add(btnQLNV);
@@ -197,14 +222,20 @@ public class QLSieuThi extends JFrame{
     }
     public void MouseEntered(MouseEvent e){
         JLabel ClickedLabel = (JLabel) e.getSource();
-        String labelname = ClickedLabel.getText();
-        ClickedLabel.setBackground(Color.red);
+        ClickedLabel.setBackground(Color.gray);
+        ClickedLabel.setForeground(Color.black); // đổi màu chữ thành đen
     }
     public void MouseExited(MouseEvent e) {
-    JLabel ClickedLabel = (JLabel) e.getSource();
-    ClickedLabel.setBackground(null); // Trả về màu nền mặc định
-}
+        JLabel ClickedLabel = (JLabel) e.getSource();
+        ClickedLabel.setBackground(null); // trả về màu nền mặc định
+        ClickedLabel.setForeground(null); // trả về màu chữ mặc định
+    }   
     public static void main (String []args){
         new QLSieuThi();
+    }
+    public void dangXuat() {
+        // Ví dụ: quay về form đăng nhập
+        this.dispose(); // đóng form hiện tại
+        new LoginGUI().setVisible(true); // mở lại form đăng nhập
     }
 }

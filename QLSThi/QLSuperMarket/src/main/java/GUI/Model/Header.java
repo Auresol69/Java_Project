@@ -3,6 +3,8 @@ package GUI.Model;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 
 public class Header extends JPanel {
@@ -40,9 +42,8 @@ public class Header extends JPanel {
         hello.setBackground(new Color(45, 52, 54));
         hello.setForeground(Color.white);
         hello.setOpaque(true);
-    
-        minimize = createButton("QLSuperMarket\\src\\main\\java\\IMG\\layers.png");
-        exit = createButton("QLSuperMarket\\src\\main\\java\\IMG\\close.png");
+        minimize = createButton("/IMG/layers.png");
+        exit = createButton("/IMG/close.png");
     
         // Cấu hình nameMarket (bên trái)
         gbc.gridx = 0;
@@ -105,9 +106,18 @@ public class Header extends JPanel {
         return button;
     }
     private ImageIcon resizeIcon(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(path);
+        ImageIcon icon = new ImageIcon(getClass().getResource(path)); // Load từ resources
         Image img = icon.getImage();
-        Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(newImg);
+    
+        BufferedImage buffered = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = buffered.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.drawImage(img, 0, 0, width, height, null);
+        g2d.dispose();
+    
+        return new ImageIcon(buffered);
     }
+    
 }

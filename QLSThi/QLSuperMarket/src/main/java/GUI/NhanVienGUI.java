@@ -3,7 +3,6 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 public class NhanVienGUI extends JPanel {
     JButton btnThem = new JButton("Thêm");
@@ -18,22 +17,17 @@ public class NhanVienGUI extends JPanel {
     String[] labels = {"Mã NV", "Họ Tên", "Năm Sinh", "Địa Chỉ", "Điện Thoại", "Hình Ảnh", "Email"};
     JLabel[] labelComponents = new JLabel[labels.length];
     JTextField[] textFields = new JTextField[labels.length];
-
+    private JLabel imageLabel = new JLabel(); // đặt ngoài constructor
     public NhanVienGUI() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Phần trên (40% chiều cao)
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 0.4;
         gbc.fill = GridBagConstraints.BOTH;
         add(TopPanel(), gbc);
-
-        // Phần dưới (60% chiều cao)
         gbc.gridy = 1;
         gbc.weighty = 0.6;
         add(BottomPanel(), gbc);
@@ -49,17 +43,14 @@ public class NhanVienGUI extends JPanel {
     public JPanel TopPanel() {
         JPanel topPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridy = 0;
+        gbc.weighty = 1;
 
-        // Cột 1 - Hình ảnh (30%)
-        JLabel imageLabel = new JLabel();
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
         gbc.gridx = 0;
-        gbc.weightx = 0.3;
-
-        // Kiểm tra load ảnh tránh lỗi
+        gbc.weightx = 0.2;
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
         try {
             ImageIcon icon = new ImageIcon(getClass().getResource("/IMG/icons8-avatar-50.png"));
             if (icon.getImage() != null) {
@@ -69,16 +60,12 @@ public class NhanVienGUI extends JPanel {
         } catch (Exception e) {
             imageLabel.setText("Không có ảnh");
         }
-
         topPanel.add(imageLabel, gbc);
 
-        // Cột 2 - Nội dung văn bản (40%)
         gbc.gridx = 1;
-        gbc.weightx = 0.4;
-        gbc.weighty = 1;
+        gbc.weightx = 0.5;
         topPanel.add(createEmployeePanel(), gbc);
 
-        // Cột 3 - Nút bấm (30%)
         gbc.gridx = 2;
         gbc.weightx = 0.3;
         topPanel.add(CreateEmployeeSetting(), gbc);
@@ -87,33 +74,36 @@ public class NhanVienGUI extends JPanel {
     }
 
     public JPanel createEmployeePanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        
-        int labelWidth = 80, fieldWidth = 300, heightField = 25, startY = 0;
-        for (int i = 0; i < labels.length; i++) {
-            labelComponents[i] = new JLabel(labels[i] + ":");
-            labelComponents[i].setBounds(0, startY, labelWidth, heightField);
-            panel.add(labelComponents[i]);
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
 
-            textFields[i] = new JTextField();
-            textFields[i].setBounds(labelWidth + 5, startY, fieldWidth, heightField);
-            panel.add(textFields[i]);
-            startY += heightField;
+        for (int i = 0; i < labels.length; i++) {
+            gbc.gridx = 0;
+            gbc.gridy = i;
+            labelComponents[i] = new JLabel(labels[i] + ":");
+            panel.add(labelComponents[i], gbc);
+
+            gbc.gridx = 1;
+            textFields[i] = new JTextField(20);
+            panel.add(textFields[i], gbc);
+            textFields[i].setEditable(false);
+            textFields[i].setFocusable(false);    // Không cho focus
         }
-        panel.setMinimumSize(new Dimension(300, startY));
+
         return panel;
     }
 
     public JPanel CreateEmployeeSetting() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(2, 2, 2, 2);
+        gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
-        gbc.weighty = 0;
 
-        // Hàng 1
         gbc.gridx = 0; gbc.gridy = 0;
         panel.add(btnThem, gbc);
         gbc.gridx = 1;
@@ -121,7 +111,6 @@ public class NhanVienGUI extends JPanel {
         gbc.gridx = 2;
         panel.add(btnXoa, gbc);
 
-        // Hàng 2
         gbc.gridx = 0; gbc.gridy = 1;
         panel.add(btnExport, gbc);
         gbc.gridx = 1;
@@ -129,7 +118,6 @@ public class NhanVienGUI extends JPanel {
         gbc.gridx = 2;
         panel.add(btnTuyChon, gbc);
 
-        // Hàng 3: Ô tìm kiếm + Nút tìm kiếm
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
         panel.add(txtSearch, gbc);
         gbc.gridx = 2; gbc.gridwidth = 1;
@@ -140,14 +128,11 @@ public class NhanVienGUI extends JPanel {
 
     public JPanel BottomPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-
-        String[] labels = {"Mã NV", "Họ Tên", "Năm Sinh", "Địa Chỉ", "Điện Thoại", "Hình Ảnh", "Email"};
         Object[][] data = {
             {"NV001", "Nguyễn Văn A", "1990", "Hà Nội", "0123456789", "avatar1.png", "a@gmail.com"},
             {"NV002", "Trần Thị B", "1995", "TP.HCM", "0987654321", "avatar2.png", "b@gmail.com"},
             {"NV003", "Lê Văn C", "1988", "Đà Nẵng", "0912345678", "avatar3.png", "c@gmail.com"},
         };
-
         DefaultTableModel model = new DefaultTableModel(data, labels);
         table = new JTable(model);
         table.getTableHeader().setReorderingAllowed(false);
@@ -165,19 +150,20 @@ public class NhanVienGUI extends JPanel {
         btnExport.addActionListener(e -> Export());
         btnTimKiem.addActionListener(e -> TimKiem());
     }
-     public void suaNhanVien(){
+
+    public void suaNhanVien(){
         int selected = table.getSelectedRow();
         if (selected == -1){
             JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên để sửa!", "Thông báo" , JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         for (int i = 0 ; i < labels.length; i ++){
             model.setValueAt(textFields[i].getText().trim(), selected, i);
         }
         JOptionPane.showMessageDialog(null, "Cập nhật thành công" , "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }
+
     public void xoaNhanVien(){
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1){
@@ -188,11 +174,10 @@ public class NhanVienGUI extends JPanel {
         model.removeRow(selectedRow);
         JOptionPane.showMessageDialog(null,"Suuccessfull Deleted! ", "NEWS", JOptionPane.INFORMATION_MESSAGE);
     }
-   public void TimKiem(){
+
+    public void TimKiem(){
         String search = txtSearch.getText().trim();
-        if (search.isEmpty()){
-           return;
-        }
+        if (search.isEmpty()) return;
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         for (int i = 0 ; i< table.getRowCount();i++){
             String maNV = model.getValueAt(i , 0 ).toString();
@@ -202,17 +187,36 @@ public class NhanVienGUI extends JPanel {
             }
         }
     }
-    public void Export(){
-        
+    public void Export() {
+        JOptionPane.showMessageDialog(null, "Export function chưa được cài đặt");
     }
-    public void chonNhanVien(){
+
+    public void chonNhanVien() {
         int selected = table.getSelectedRow();
-        if (selected == -1) return ;
-        for (int i = 0 ; i< labels.length; i++){
+        if (selected == -1) return;
+    
+        for (int i = 0; i < labels.length; i++) {
             Object value = table.getValueAt(selected, i);
-            textFields[i].setText(value != null ? value.toString(): " ");
+            textFields[i].setText(value != null ? value.toString() : "");
         }
+    
+        // Load ảnh từ cột "Hình Ảnh" (index 5)
+        String imageFileName = table.getValueAt(selected, 5).toString();
+        ImageIcon icon = null;
+        try {
+            icon = new ImageIcon(getClass().getResource("/IMG/" + imageFileName));
+            if (icon.getIconWidth() == -1) throw new Exception(); // ảnh không tồn tại
+        } catch (Exception e) {
+            // Dùng ảnh mặc định nếu không có ảnh hoặc lỗi
+            icon = new ImageIcon(getClass().getResource("/IMG/icons8-avatar-50.png"));
+        }
+    
+        // Scale và hiển thị ảnh
+        Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(img));
+        imageLabel.setText("");
     }
+
     public void themNhanVien() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         String[] newRow = new String[labels.length];
@@ -226,7 +230,7 @@ public class NhanVienGUI extends JPanel {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Quản lý nhân viên");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(900, 600);
         frame.setLocationRelativeTo(null);
         frame.add(new NhanVienGUI());
         frame.setVisible(true);
