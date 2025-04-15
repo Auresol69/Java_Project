@@ -22,8 +22,8 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 
 public class TongTien extends JPanel {
-    JLabel maphieunhapLabel, manhanviennhapLabel, nhacungcapLabel;
-    JTextField mapphieunhapField;
+    JLabel gianhapLabel, manhanviennhapLabel, nhacungcapLabel;
+    JTextField gianhapField;
     JComboBox<AccountDTO> manhanviennhapComboBox;
     JComboBox<SupplierDTO> nhacungcapComboBox;
     JLabel totalAmount;
@@ -59,8 +59,8 @@ public class TongTien extends JPanel {
         setUpLabel(manhanviennhapLabel = new JLabel("Mã nhân viên nhập:"));
         setUpComponent(manhanviennhapComboBox = new JComboBox<>());
         getNhanVienComboBox();
-        setUpLabel(maphieunhapLabel = new JLabel("Mã phiếu nhập:"));
-        setUpField(mapphieunhapField = new JTextField());
+        setUpLabel(gianhapLabel = new JLabel("Giá nhập:"));
+        setUpField(gianhapField = new JTextField());
         setUpLabel(nhacungcapLabel = new JLabel("Nhà cung cấp:"));
         setUpComponent(nhacungcapComboBox = new JComboBox<>());
         getNhaCungCapComboBox();
@@ -73,6 +73,70 @@ public class TongTien extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(nhapHang);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
+    }
+
+    public JLabel getGianhapLabel() {
+        return gianhapLabel;
+    }
+
+    public void setGianhapLabel(JLabel gianhapLabel) {
+        this.gianhapLabel = gianhapLabel;
+    }
+
+    public JLabel getManhanviennhapLabel() {
+        return manhanviennhapLabel;
+    }
+
+    public void setManhanviennhapLabel(JLabel manhanviennhapLabel) {
+        this.manhanviennhapLabel = manhanviennhapLabel;
+    }
+
+    public JLabel getNhacungcapLabel() {
+        return nhacungcapLabel;
+    }
+
+    public void setNhacungcapLabel(JLabel nhacungcapLabel) {
+        this.nhacungcapLabel = nhacungcapLabel;
+    }
+
+    public JTextField getGianhapField() {
+        return gianhapField;
+    }
+
+    public void setGianhapField(JTextField gianhapField) {
+        this.gianhapField = gianhapField;
+    }
+
+    public JComboBox<AccountDTO> getManhanviennhapComboBox() {
+        return manhanviennhapComboBox;
+    }
+
+    public void setManhanviennhapComboBox(JComboBox<AccountDTO> manhanviennhapComboBox) {
+        this.manhanviennhapComboBox = manhanviennhapComboBox;
+    }
+
+    public JComboBox<SupplierDTO> getNhacungcapComboBox() {
+        return nhacungcapComboBox;
+    }
+
+    public void setNhacungcapComboBox(JComboBox<SupplierDTO> nhacungcapComboBox) {
+        this.nhacungcapComboBox = nhacungcapComboBox;
+    }
+
+    public JLabel getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(JLabel totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public JButton getNhapHang() {
+        return nhapHang;
+    }
+
+    public void setNhapHang(JButton nhapHang) {
+        this.nhapHang = nhapHang;
     }
 
     // bug

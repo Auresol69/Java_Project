@@ -12,6 +12,7 @@ import com.sieuthimini.BUS.ProductBUS;
 import com.sieuthimini.DAO.DataBase;
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.DTO.ProductTypeDTO;
+import com.sieuthimini.ExtendClasses.DeleteInput;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -149,18 +150,25 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
         if (!e.getValueIsAdjusting() && e.getSource() == table.getSelectionModel()) {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
+                this.addSanPham.setEnabled(true);
+                this.nhapExcel.setEnabled(true);
+                inputSanPham.suaButton.setEnabled(false);
+                inputSanPham.xoaButton.setEnabled(false);
+
+                new DeleteInput(inputSanPham, tongTien).Delete();
+
                 int modelRow = table.convertRowIndexToModel(selectedRow);
                 inputSanPham.maSanPhamField.setText(model.getValueAt(modelRow, 0).toString());
                 inputSanPham.tenSanPhamField.setText(model.getValueAt(modelRow, 1).toString());
-                setSelectedLoaiSanPham(model.getValueAt(modelRow, 4).toString());
+                setSelectedLoaiSanPham(Integer.parseInt(model.getValueAt(modelRow, 4).toString()));
             }
         }
     }
 
-    public void setSelectedLoaiSanPham(String maLoaiDaChon) {
+    public void setSelectedLoaiSanPham(int maLoaiDaChon) {
         for (int i = 0; i < inputSanPham.loaiSanPhamComboBox.getItemCount(); i++) {
             ProductTypeDTO item = inputSanPham.loaiSanPhamComboBox.getItemAt(i);
-            if (item.getMaloaisp().equals(maLoaiDaChon)) {
+            if (item.getMaloaisp() == maLoaiDaChon) {
                 inputSanPham.loaiSanPhamComboBox.setSelectedItem(item);
                 break;
             }
@@ -175,18 +183,19 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                     inputSanPham.soluongSanPhamField.getText().isBlank() ||
                     inputSanPham.giaSanPhamField.getText().isBlank() ||
                     inputSanPham.loaiSanPhamComboBox.getSelectedItem() == null ||
-                    tongTien.nhacungcapComboBox.getSelectedItem() == null) {
+                    tongTien.nhacungcapComboBox.getSelectedItem() == null ||
+                    tongTien.gianhapField.getText().isBlank()) {
                 JOptionPane.showMessageDialog(null,
                         "Vui lòng nhập đầy đủ thông tin sản phẩm!",
                         "Thiếu thông tin",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             } else {
-                String masp = inputSanPham.maSanPhamField.getText();
+                int masp = Integer.parseInt(inputSanPham.maSanPhamField.getText());
                 String tensp = inputSanPham.tenSanPhamField.getText();
                 Object selectedItem = inputSanPham.loaiSanPhamComboBox.getSelectedItem();
                 if (selectedItem instanceof ProductTypeDTO) {
-                    String maloaisp = ((ProductTypeDTO) selectedItem).getMaloaisp();
+                    int maloaisp = ((ProductTypeDTO) selectedItem).getMaloaisp();
                     List<Object[]> data = new ProductBUS().checkSanPham(masp, tensp, maloaisp);
                     if (data.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "There is no info about this product!", "WARNINGGG",
@@ -199,13 +208,10 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                                     inputSanPham.soluongSanPhamField.getText(),
                                     inputSanPham.giaSanPhamField.getText(),
                                     inputSanPham.loaiSanPhamComboBox.getSelectedItem(),
-                                    tongTien.nhacungcapComboBox.getSelectedItem()
-                            });
+                                    tongTien.nhacungcapComboBox.getSelectedItem(),
+                                    tongTien.gianhapField.getText() });
                         }
-                        inputSanPham.soluongSanPhamField.setText("");
-                        inputSanPham.giaSanPhamField.setText("");
-                        inputSanPham.maSanPhamField.setText("");
-                        inputSanPham.tenSanPhamField.setText("");
+                        new DeleteInput(inputSanPham, tongTien).Delete();
                     }
                 }
             }

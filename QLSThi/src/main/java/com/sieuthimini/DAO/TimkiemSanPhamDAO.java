@@ -19,7 +19,7 @@ public class TimkiemSanPhamDAO {
         List<ProductDTO> result = new ArrayList<>();
         for (Object[] row : rawData) {
             result.add(new ProductDTO(
-                    row[0].toString(),
+                    Integer.parseInt(row[0].toString()),
                     row[1].toString(),
                     Integer.parseInt(row[2].toString()),
                     Integer.parseInt(row[3].toString()),

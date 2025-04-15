@@ -8,7 +8,7 @@ public class ProductBUS {
 
     private ProductDAO productDAO = new ProductDAO();
 
-    public List<Object[]> checkSanPham(String masp, String tensp, String maloaisp) {
+    public List<Object[]> checkSanPham(int masp, String tensp, int maloaisp) {
         return productDAO.getProductByInfo(masp, tensp, maloaisp);
     }
 }

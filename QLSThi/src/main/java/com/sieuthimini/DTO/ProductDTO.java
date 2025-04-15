@@ -1,14 +1,15 @@
 package com.sieuthimini.DTO;
 
 public class ProductDTO {
-    private String masp, maloaisp, mancc, tensp, img;
+    private String maloaisp, mancc, tensp, img;
     private Integer soluong, dongiasanpham;
+    private int masp;
 
-    public String getMasp() {
+    public int getMasp() {
         return masp;
     }
 
-    public void setMasp(String masp) {
+    public void setMasp(int masp) {
         this.masp = masp;
     }
 
@@ -60,7 +61,7 @@ public class ProductDTO {
         this.dongiasanpham = dongiasanpham;
     }
 
-    public ProductDTO(String masp, String maloaisp, Integer soluong,
+    public ProductDTO(int masp, String maloaisp, Integer soluong,
             Integer dongiasanpham, String mancc, String tensp, String img) {
         this.masp = masp;
         this.maloaisp = maloaisp;

@@ -1,14 +1,15 @@
 package com.sieuthimini.DTO;
 
 public class BillDTO {
-    private String mabill, mapayby, macustomer, ngaymua;
+    private String mapayby, macustomer, ngaymua;
     private Integer tongtien;
+    private int mabill;
 
-    public String getMabill() {
+    public int getMabill() {
         return mabill;
     }
 
-    public void setMabill(String mabill) {
+    public void setMabill(int mabill) {
         this.mabill = mabill;
     }
 
@@ -44,7 +45,7 @@ public class BillDTO {
         this.tongtien = tongtien;
     }
 
-    public BillDTO(String mabill, String mapayby, String macustomer, String ngaymua, Integer tongtien) {
+    public BillDTO(int mabill, String mapayby, String macustomer, String ngaymua, Integer tongtien) {
         this.mabill = mabill;
         this.mapayby = mapayby;
         this.macustomer = macustomer;

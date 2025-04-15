@@ -1,13 +1,15 @@
 package com.sieuthimini.DTO;
 
 public class EntryFormDTO {
-    private String maaccount, mancc, maphieunhap, ngaynhap;
+    private String mancc, maphieunhap, ngaynhap;
 
-    public String getMaaccount() {
+    private int maaccount;
+
+    public int getMaaccount() {
         return maaccount;
     }
 
-    public void setMaaccount(String maaccount) {
+    public void setMaaccount(int maaccount) {
         this.maaccount = maaccount;
     }
 
@@ -35,7 +37,7 @@ public class EntryFormDTO {
         this.ngaynhap = ngaynhap;
     }
 
-    public EntryFormDTO(String maaccount, String mancc, String maphieunhap, String ngaynhap) {
+    public EntryFormDTO(int maaccount, String mancc, String maphieunhap, String ngaynhap) {
         this.maaccount = maaccount;
         this.mancc = mancc;
         this.maphieunhap = maphieunhap;

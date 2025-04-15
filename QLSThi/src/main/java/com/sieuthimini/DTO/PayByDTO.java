@@ -1,13 +1,14 @@
 package com.sieuthimini.DTO;
 
 public class PayByDTO {
-    String mapayby, paybyname, address, detail;
+    private String paybyname, address, detail;
+    private int mapayby;
 
-    public String getMapayby() {
+    public int getMapayby() {
         return mapayby;
     }
 
-    public void setMapayby(String mapayby) {
+    public void setMapayby(int mapayby) {
         this.mapayby = mapayby;
     }
 
@@ -35,7 +36,7 @@ public class PayByDTO {
         this.detail = detail;
     }
 
-    public PayByDTO(String mapayby, String paybyname, String address, String detail) {
+    public PayByDTO(int mapayby, String paybyname, String address, String detail) {
         this.mapayby = mapayby;
         this.paybyname = paybyname;
         this.address = address;

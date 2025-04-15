@@ -11,10 +11,12 @@ public class newPhieuNhap extends JPanel {
         this.setLayout(new GridBagLayout());
 
         InputSanPham input = new InputSanPham();
-        TableSanPham table = new TableSanPham();
         TongTien tongTien = new TongTien();
+        TableSanPham table = new TableSanPham(input, tongTien);
 
         TimkiemSanPham timKiem = new TimkiemSanPham(input, table, tongTien);
+
+        table.setTimkiemSanPham(timKiem);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;

@@ -1,13 +1,14 @@
 package com.sieuthimini.DTO;
 
 public class CustomerDTO {
-    private String macustomer, address, phone, name;
+    private String address, phone, name;
+    private int macustomer;
 
-    public String getMacustomer() {
+    public int getMacustomer() {
         return macustomer;
     }
 
-    public void setMacustomer(String macustomer) {
+    public void setMacustomer(int macustomer) {
         this.macustomer = macustomer;
     }
 
@@ -35,7 +36,7 @@ public class CustomerDTO {
         this.name = name;
     }
 
-    public CustomerDTO(String macustomer, String address, String phone, String name) {
+    public CustomerDTO(int macustomer, String address, String phone, String name) {
         this.macustomer = macustomer;
         this.address = address;
         this.phone = phone;

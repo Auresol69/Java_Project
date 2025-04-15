@@ -1,13 +1,14 @@
 package com.sieuthimini.DTO;
 
 public class ProductTypeDTO {
-    private String maloaisp, tenloaisp;
+    private String tenloaisp;
+    private int maloaisp;
 
-    public String getMaloaisp() {
+    public int getMaloaisp() {
         return maloaisp;
     }
 
-    public void setMaloaisp(String maloaisp) {
+    public void setMaloaisp(int maloaisp) {
         this.maloaisp = maloaisp;
     }
 
@@ -19,7 +20,7 @@ public class ProductTypeDTO {
         this.tenloaisp = tenloaisp;
     }
 
-    public ProductTypeDTO(String maloaisp, String tenloaisp) {
+    public ProductTypeDTO(int maloaisp, String tenloaisp) {
         this.maloaisp = maloaisp;
         this.tenloaisp = tenloaisp;
     }

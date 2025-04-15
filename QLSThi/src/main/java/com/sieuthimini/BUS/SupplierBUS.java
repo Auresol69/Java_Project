@@ -12,8 +12,9 @@ public class SupplierBUS {
         List<Object[]> data = new SupplierDAO().getNhaCungCap();
         ArrayList<SupplierDTO> aSupplierDTOs = new ArrayList<>();
         for (Object[] object : data) {
-            aSupplierDTOs.add(new SupplierDTO(object[0].toString(), object[1].toString(), object[2].toString(),
-                    object[3].toString(), object[4].toString()));
+            aSupplierDTOs.add(
+                    new SupplierDTO(Integer.parseInt(object[0].toString()), object[1].toString(), object[2].toString(),
+                            object[3].toString(), object[4].toString()));
         }
         return aSupplierDTOs;
     }

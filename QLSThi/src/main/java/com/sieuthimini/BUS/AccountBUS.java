@@ -11,9 +11,10 @@ public class AccountBUS {
         ArrayList<AccountDTO> accounts = new ArrayList<>();
         List<Object[]> rawAccounts = new AccountDAO().getNhanVien();
         for (Object[] object : rawAccounts) {
-            accounts.add(new AccountDTO(object[0].toString(), object[1].toString(), object[2].toString(),
-                    object[3].toString(), object[4].toString(), object[5].toString(),
-                    Integer.parseInt(object[6].toString())));
+            accounts.add(
+                    new AccountDTO(Integer.parseInt(object[0].toString()), object[1].toString(), object[2].toString(),
+                            object[3].toString(), object[4].toString(), object[5].toString(),
+                            Boolean.parseBoolean(object[6].toString())));
         }
         return accounts;
     }

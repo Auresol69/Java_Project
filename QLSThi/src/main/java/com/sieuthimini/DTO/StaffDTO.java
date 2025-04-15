@@ -1,13 +1,14 @@
 package com.sieuthimini.DTO;
 
 public class StaffDTO {
-    private String mastaff, address, tennhan, tennhanstaff, dienthoai;
+    private String address, tennhan, tennhanstaff, dienthoai;
+    private int mastaff;
 
-    public String getMastaff() {
+    public int getMastaff() {
         return mastaff;
     }
 
-    public void setMastaff(String mastaff) {
+    public void setMastaff(int mastaff) {
         this.mastaff = mastaff;
     }
 
@@ -43,7 +44,7 @@ public class StaffDTO {
         this.dienthoai = dienthoai;
     }
 
-    public StaffDTO(String mastaff, String address, String tennhan, String tennhanstaff, String dienthoai) {
+    public StaffDTO(int mastaff, String address, String tennhan, String tennhanstaff, String dienthoai) {
         this.mastaff = mastaff;
         this.address = address;
         this.tennhan = tennhan;

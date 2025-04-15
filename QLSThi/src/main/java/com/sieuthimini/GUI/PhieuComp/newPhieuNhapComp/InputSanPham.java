@@ -87,10 +87,12 @@ public class InputSanPham extends JPanel {
         gbc.gridwidth = 1;
         gbc.weightx = 1;
         suaButton = new JButton("Sửa");
+        suaButton.setEnabled(false);
         this.add(suaButton, gbc);
 
         gbc.gridx = 1;
         xoaButton = new JButton("Xóa");
+        xoaButton.setEnabled(false);
         this.add(xoaButton, gbc);
     }
 
@@ -98,7 +100,7 @@ public class InputSanPham extends JPanel {
         DataBase db = new DataBase();
         List<Object[]> data = db.selectQuery("SELECT * FROM producttype");
         for (Object[] row : data) {
-            loaiSanPhamComboBox.addItem(new ProductTypeDTO(row[0].toString(), row[1].toString()));
+            loaiSanPhamComboBox.addItem(new ProductTypeDTO(Integer.parseInt(row[0].toString()), row[1].toString()));
         }
 
     }
@@ -109,5 +111,101 @@ public class InputSanPham extends JPanel {
         frame.setSize(300, 200);
         frame.add(new InputSanPham());
         frame.setVisible(true);
+    }
+
+    public JLabel getMaSanPhamLabel() {
+        return maSanPhamLabel;
+    }
+
+    public void setMaSanPhamLabel(JLabel maSanPhamLabel) {
+        this.maSanPhamLabel = maSanPhamLabel;
+    }
+
+    public JLabel getTenSanPhamLabel() {
+        return tenSanPhamLabel;
+    }
+
+    public void setTenSanPhamLabel(JLabel tenSanPhamLabel) {
+        this.tenSanPhamLabel = tenSanPhamLabel;
+    }
+
+    public JLabel getSoluongSanPhamLabel() {
+        return soluongSanPhamLabel;
+    }
+
+    public void setSoluongSanPhamLabel(JLabel soluongSanPhamLabel) {
+        this.soluongSanPhamLabel = soluongSanPhamLabel;
+    }
+
+    public JLabel getGiaSanPhamLabel() {
+        return giaSanPhamLabel;
+    }
+
+    public void setGiaSanPhamLabel(JLabel giaSanPhamLabel) {
+        this.giaSanPhamLabel = giaSanPhamLabel;
+    }
+
+    public JLabel getLoaiSanPhamLabel() {
+        return loaiSanPhamLabel;
+    }
+
+    public void setLoaiSanPhamLabel(JLabel loaiSanPhamLabel) {
+        this.loaiSanPhamLabel = loaiSanPhamLabel;
+    }
+
+    public JTextField getMaSanPhamField() {
+        return maSanPhamField;
+    }
+
+    public void setMaSanPhamField(JTextField maSanPhamField) {
+        this.maSanPhamField = maSanPhamField;
+    }
+
+    public JTextField getTenSanPhamField() {
+        return tenSanPhamField;
+    }
+
+    public void setTenSanPhamField(JTextField tenSanPhamField) {
+        this.tenSanPhamField = tenSanPhamField;
+    }
+
+    public JComboBox<ProductTypeDTO> getLoaiSanPhamComboBox() {
+        return loaiSanPhamComboBox;
+    }
+
+    public void setLoaiSanPhamComboBox(JComboBox<ProductTypeDTO> loaiSanPhamComboBox) {
+        this.loaiSanPhamComboBox = loaiSanPhamComboBox;
+    }
+
+    public JTextField getSoluongSanPhamField() {
+        return soluongSanPhamField;
+    }
+
+    public void setSoluongSanPhamField(JTextField soluongSanPhamField) {
+        this.soluongSanPhamField = soluongSanPhamField;
+    }
+
+    public JTextField getGiaSanPhamField() {
+        return giaSanPhamField;
+    }
+
+    public void setGiaSanPhamField(JTextField giaSanPhamField) {
+        this.giaSanPhamField = giaSanPhamField;
+    }
+
+    public JButton getSuaButton() {
+        return suaButton;
+    }
+
+    public void setSuaButton(JButton suaButton) {
+        this.suaButton = suaButton;
+    }
+
+    public JButton getXoaButton() {
+        return xoaButton;
+    }
+
+    public void setXoaButton(JButton xoaButton) {
+        this.xoaButton = xoaButton;
     }
 }

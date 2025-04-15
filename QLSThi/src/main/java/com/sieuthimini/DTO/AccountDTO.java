@@ -1,14 +1,15 @@
 package com.sieuthimini.DTO;
 
 public class AccountDTO {
-    private String maaccount, mastaff, username, password, powergroupid, email;
-    private int status;
+    private String mastaff, username, password, powergroupid, email;
+    private boolean status;
+    private int maaccount;
 
-    public String getMaaccount() {
+    public int getMaaccount() {
         return maaccount;
     }
 
-    public void setMaaccount(String maaccount) {
+    public void setMaaccount(int maaccount) {
         this.maaccount = maaccount;
     }
 
@@ -52,16 +53,16 @@ public class AccountDTO {
         this.email = email;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
-    public AccountDTO(String maaccount, String mastaff, String username, String password, String powergroupid,
-            String email, int status) {
+    public AccountDTO(int maaccount, String mastaff, String username, String password, String powergroupid,
+            String email, boolean status) {
         this.maaccount = maaccount;
         this.mastaff = mastaff;
         this.username = username;

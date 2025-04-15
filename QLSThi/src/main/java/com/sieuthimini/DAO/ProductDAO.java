@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ProductDAO {
 
-    public List<Object[]> getProductByInfo(String masp, String tensp, String maloaisp) {
+    public List<Object[]> getProductByInfo(int masp, String tensp, int maloaisp) {
         DataBase db = new DataBase();
         return db.selectQuery("SELECT * FROM product WHERE masp = ? AND tensp = ? AND maloaisp = ?",
                 masp, tensp, maloaisp);

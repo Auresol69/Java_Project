@@ -1,13 +1,14 @@
 package com.sieuthimini.DTO;
 
 public class SupplierDTO {
-    private String mancc, tencc, diachi, dienthoai, sofax;
+    private String tencc, diachi, dienthoai, sofax;
+    private int mancc;
 
-    public String getMancc() {
+    public int getMancc() {
         return mancc;
     }
 
-    public void setMancc(String mancc) {
+    public void setMancc(int mancc) {
         this.mancc = mancc;
     }
 
@@ -43,7 +44,7 @@ public class SupplierDTO {
         this.sofax = sofax;
     }
 
-    public SupplierDTO(String mancc, String tencc, String diachi, String dienthoai, String sofax) {
+    public SupplierDTO(int mancc, String tencc, String diachi, String dienthoai, String sofax) {
         this.mancc = mancc;
         this.tencc = tencc;
         this.diachi = diachi;
