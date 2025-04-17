@@ -16,12 +16,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 
-public class TongTien extends JPanel {
+public class TongTien extends JPanel implements ActionListener {
     JLabel gianhapLabel, manhanviennhapLabel, nhacungcapLabel;
     JTextField gianhapField;
     JComboBox<AccountDTO> manhanviennhapComboBox;
@@ -69,6 +71,7 @@ public class TongTien extends JPanel {
 
         nhapHang = new JButton("Nhập hàng");
         nhapHang.setFocusable(false);
+        nhapHang.addActionListener(this);
         this.add(totalAmount);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(nhapHang);
@@ -151,6 +154,15 @@ public class TongTien extends JPanel {
         List<SupplierDTO> data = new SupplierBUS().getNhaCungCap();
         for (SupplierDTO supplierDTO : data) {
             nhacungcapComboBox.addItem(supplierDTO);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == nhapHang) {
+            // for (iterable_type iterable_element : iterable) {
+
+            // }
         }
     }
 }

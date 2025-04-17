@@ -3,6 +3,8 @@ package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -17,13 +19,14 @@ import javax.swing.JTextField;
 import com.sieuthimini.DAO.DataBase;
 import com.sieuthimini.DTO.ProductTypeDTO;
 
-public class InputSanPham extends JPanel {
+public class InputSanPham extends JPanel implements ActionListener {
 
     JLabel maSanPhamLabel, tenSanPhamLabel, soluongSanPhamLabel, giaSanPhamLabel, loaiSanPhamLabel;
     JTextField maSanPhamField, tenSanPhamField;
     JComboBox<ProductTypeDTO> loaiSanPhamComboBox;
     JTextField soluongSanPhamField, giaSanPhamField;
     JButton suaButton, xoaButton;
+    TableSanPham tableSanPham;
 
     public JPanel getPanel(JLabel label, JComponent component) {
         JPanel panel = new JPanel();
@@ -88,11 +91,13 @@ public class InputSanPham extends JPanel {
         gbc.weightx = 1;
         suaButton = new JButton("Sửa");
         suaButton.setEnabled(false);
+        suaButton.addActionListener(this);
         this.add(suaButton, gbc);
 
         gbc.gridx = 1;
         xoaButton = new JButton("Xóa");
         xoaButton.setEnabled(false);
+        xoaButton.addActionListener(this);
         this.add(xoaButton, gbc);
     }
 
@@ -207,5 +212,22 @@ public class InputSanPham extends JPanel {
 
     public void setXoaButton(JButton xoaButton) {
         this.xoaButton = xoaButton;
+    }
+
+    public TableSanPham getTableSanPham() {
+        return tableSanPham;
+    }
+
+    public void setTableSanPham(TableSanPham tableSanPham) {
+        this.tableSanPham = tableSanPham;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == suaButton) {
+            tableSanPham.updateRow();
+        } else if (e.getSource() == xoaButton) {
+            tableSanPham.deleteRow();
+        }
     }
 }

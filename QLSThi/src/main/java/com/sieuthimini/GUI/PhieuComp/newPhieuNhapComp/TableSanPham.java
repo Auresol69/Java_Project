@@ -67,6 +67,7 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
 
     public TableSanPham(InputSanPham inputSanPham, TongTien tongTien) {
         this.inputSanPham = inputSanPham;
+        this.tongTien = tongTien;
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
 
@@ -90,9 +91,15 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
 
     public Object getValueAtChoosedRow(int columnIndex) {
         int row = getIndexChoosedRow();
-        if (row != 1)
+        if (row != -1)
             return table.getValueAt(row, columnIndex);
         return null;
+    }
+
+    public void setValueAtChoosedRow(Object object, int row, int column) {
+        if (row != -1) {
+            table.setValueAt(object, row, column);
+        }
     }
 
     @Override
@@ -113,7 +120,41 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
 
             tongTien.nhacungcapComboBox.setSelectedItem(getValueAtChoosedRow(5));
             tongTien.gianhapField.setText(getValueAtChoosedRow(6).toString());
-
         }
+    }
+
+    public void updateRow() {
+        table.getSelectionModel().removeListSelectionListener(this);
+
+        int row = getIndexChoosedRow();
+        setValueAtChoosedRow(inputSanPham.getMaSanPhamField().getText(), row, 0);
+        setValueAtChoosedRow(inputSanPham.getTenSanPhamField().getText(), row, 1);
+        setValueAtChoosedRow(inputSanPham.getSoluongSanPhamField().getText(), row, 2);
+        setValueAtChoosedRow(inputSanPham.getGiaSanPhamField().getText(), row, 3);
+        setValueAtChoosedRow(inputSanPham.getLoaiSanPhamComboBox().getSelectedItem(), row, 4);
+        setValueAtChoosedRow(tongTien.getNhacungcapComboBox().getSelectedItem(), row, 5);
+        setValueAtChoosedRow(tongTien.getGianhapField().getText(), row, 6);
+        table.clearSelection();
+        table.getSelectionModel().addListSelectionListener(this);
+
+        inputSanPham.getXoaButton().setEnabled(false);
+        inputSanPham.getSuaButton().setEnabled(false);
+        timkiemSanPham.getAddSanPham().setEnabled(true);
+        timkiemSanPham.getNhapExcel().setEnabled(true);
+    }
+
+    public void deleteRow() {
+
+        table.getSelectionModel().removeListSelectionListener(this);
+
+        model.removeRow(getIndexChoosedRow());
+
+        table.clearSelection();
+        table.getSelectionModel().addListSelectionListener(this);
+
+        inputSanPham.getXoaButton().setEnabled(false);
+        inputSanPham.getSuaButton().setEnabled(false);
+        timkiemSanPham.getAddSanPham().setEnabled(true);
+        timkiemSanPham.getNhapExcel().setEnabled(true);
     }
 }

@@ -217,4 +217,21 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
             }
         }
     }
+
+    public JButton getAddSanPham() {
+        return addSanPham;
+    }
+
+    public void setAddSanPham(JButton addSanPham) {
+        this.addSanPham = addSanPham;
+    }
+
+    public JButton getNhapExcel() {
+        return nhapExcel;
+    }
+
+    public void setNhapExcel(JButton nhapExcel) {
+        this.nhapExcel = nhapExcel;
+    }
+
 }
