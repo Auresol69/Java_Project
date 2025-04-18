@@ -181,7 +181,6 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
             if (inputSanPham.maSanPhamField.getText().isBlank() ||
                     inputSanPham.tenSanPhamField.getText().isBlank() ||
                     inputSanPham.soluongSanPhamField.getText().isBlank() ||
-                    inputSanPham.giaSanPhamField.getText().isBlank() ||
                     inputSanPham.loaiSanPhamComboBox.getSelectedItem() == null ||
                     tongTien.nhacungcapComboBox.getSelectedItem() == null ||
                     tongTien.gianhapField.getText().isBlank()) {
@@ -206,12 +205,12 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                                     row[0],
                                     row[1],
                                     inputSanPham.soluongSanPhamField.getText(),
-                                    inputSanPham.giaSanPhamField.getText(),
                                     inputSanPham.loaiSanPhamComboBox.getSelectedItem(),
                                     tongTien.nhacungcapComboBox.getSelectedItem(),
                                     tongTien.gianhapField.getText() });
                         }
                         new DeleteInput(inputSanPham, tongTien).Delete();
+                        tableSanPham.updateTongTien();
                     }
                 }
             }
@@ -232,6 +231,78 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
 
     public void setNhapExcel(JButton nhapExcel) {
         this.nhapExcel = nhapExcel;
+    }
+
+    public JTextField getSortSanPham() {
+        return sortSanPham;
+    }
+
+    public void setSortSanPham(JTextField sortSanPham) {
+        this.sortSanPham = sortSanPham;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public void setScrollPane(JScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
+    public Timer getSearchTimer() {
+        return searchTimer;
+    }
+
+    public void setSearchTimer(Timer searchTimer) {
+        this.searchTimer = searchTimer;
+    }
+
+    public InputSanPham getInputSanPham() {
+        return inputSanPham;
+    }
+
+    public void setInputSanPham(InputSanPham inputSanPham) {
+        this.inputSanPham = inputSanPham;
+    }
+
+    public TableSanPham getTableSanPham() {
+        return tableSanPham;
+    }
+
+    public void setTableSanPham(TableSanPham tableSanPham) {
+        this.tableSanPham = tableSanPham;
+    }
+
+    public TongTien getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(TongTien tongTien) {
+        this.tongTien = tongTien;
+    }
+
+    public String[] getColumnNames() {
+        return columnNames;
+    }
+
+    public void setColumnNames(String[] columnNames) {
+        this.columnNames = columnNames;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+    public void setModel(DefaultTableModel model) {
+        this.model = model;
     }
 
 }

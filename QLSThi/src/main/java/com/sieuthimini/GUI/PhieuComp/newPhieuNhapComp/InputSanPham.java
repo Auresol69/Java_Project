@@ -21,10 +21,10 @@ import com.sieuthimini.DTO.ProductTypeDTO;
 
 public class InputSanPham extends JPanel implements ActionListener {
 
-    JLabel maSanPhamLabel, tenSanPhamLabel, soluongSanPhamLabel, giaSanPhamLabel, loaiSanPhamLabel;
+    JLabel maSanPhamLabel, tenSanPhamLabel, soluongSanPhamLabel, loaiSanPhamLabel;
     JTextField maSanPhamField, tenSanPhamField;
     JComboBox<ProductTypeDTO> loaiSanPhamComboBox;
-    JTextField soluongSanPhamField, giaSanPhamField;
+    JTextField soluongSanPhamField;
     JButton suaButton, xoaButton;
     TableSanPham tableSanPham;
 
@@ -52,9 +52,6 @@ public class InputSanPham extends JPanel implements ActionListener {
         soluongSanPhamLabel = new JLabel("Số lượng");
         soluongSanPhamField = new JTextField(15);
 
-        giaSanPhamLabel = new JLabel("Giá sản phẩm");
-        giaSanPhamField = new JTextField(15);
-
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -81,9 +78,6 @@ public class InputSanPham extends JPanel implements ActionListener {
         gbc.gridy = 2;
         gbc.weightx = 0.5;
         this.add(getPanel(soluongSanPhamLabel, soluongSanPhamField), gbc);
-
-        gbc.gridx = 1;
-        this.add(getPanel(giaSanPhamLabel, giaSanPhamField), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -142,14 +136,6 @@ public class InputSanPham extends JPanel implements ActionListener {
         this.soluongSanPhamLabel = soluongSanPhamLabel;
     }
 
-    public JLabel getGiaSanPhamLabel() {
-        return giaSanPhamLabel;
-    }
-
-    public void setGiaSanPhamLabel(JLabel giaSanPhamLabel) {
-        this.giaSanPhamLabel = giaSanPhamLabel;
-    }
-
     public JLabel getLoaiSanPhamLabel() {
         return loaiSanPhamLabel;
     }
@@ -188,14 +174,6 @@ public class InputSanPham extends JPanel implements ActionListener {
 
     public void setSoluongSanPhamField(JTextField soluongSanPhamField) {
         this.soluongSanPhamField = soluongSanPhamField;
-    }
-
-    public JTextField getGiaSanPhamField() {
-        return giaSanPhamField;
-    }
-
-    public void setGiaSanPhamField(JTextField giaSanPhamField) {
-        this.giaSanPhamField = giaSanPhamField;
     }
 
     public JButton getSuaButton() {

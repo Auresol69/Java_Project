@@ -15,7 +15,9 @@ import com.sieuthimini.DTO.SupplierDTO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -67,7 +69,9 @@ public class TongTien extends JPanel implements ActionListener {
         setUpComponent(nhacungcapComboBox = new JComboBox<>());
         getNhaCungCapComboBox();
         this.add(Box.createVerticalGlue());
-        setUpLabel(totalAmount = new JLabel("Tổng tiền:"));
+        setUpLabel(totalAmount = new JLabel("Tổng tiền: 0"));
+        totalAmount.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        totalAmount.setForeground(Color.RED);
 
         nhapHang = new JButton("Nhập hàng");
         nhapHang.setFocusable(false);

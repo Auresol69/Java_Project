@@ -12,7 +12,7 @@ import com.sieuthimini.ExtendClasses.DeleteInput;
 public class TableSanPham extends JPanel implements ListSelectionListener {
     JTable table = new JTable();
     DefaultTableModel model;
-    private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "tenloaisp", "ncc", "gianhap" };
+    private String[] columnNames = { "masp", "tensp", "soluong", "tenloaisp", "ncc", "gianhap" };
     InputSanPham inputSanPham;
     TimkiemSanPham timkiemSanPham;
     TongTien tongTien;
@@ -105,6 +105,12 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting() && e.getSource() == table.getSelectionModel()) {
+
+            // BUG
+            timkiemSanPham.getTable().getSelectionModel().removeListSelectionListener(timkiemSanPham);
+            timkiemSanPham.getTable().clearSelection();
+            timkiemSanPham.getTable().getSelectionModel().addListSelectionListener(timkiemSanPham);
+
             inputSanPham.suaButton.setEnabled(true);
             inputSanPham.xoaButton.setEnabled(true);
             timkiemSanPham.addSanPham.setEnabled(false);
@@ -115,11 +121,10 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
             inputSanPham.maSanPhamField.setText(getValueAtChoosedRow(0).toString());
             inputSanPham.tenSanPhamField.setText(getValueAtChoosedRow(1).toString());
             inputSanPham.soluongSanPhamField.setText(getValueAtChoosedRow(2).toString());
-            inputSanPham.giaSanPhamField.setText(getValueAtChoosedRow(3).toString());
-            inputSanPham.loaiSanPhamComboBox.setSelectedItem(getValueAtChoosedRow(4));
+            inputSanPham.loaiSanPhamComboBox.setSelectedItem(getValueAtChoosedRow(3));
 
-            tongTien.nhacungcapComboBox.setSelectedItem(getValueAtChoosedRow(5));
-            tongTien.gianhapField.setText(getValueAtChoosedRow(6).toString());
+            tongTien.nhacungcapComboBox.setSelectedItem(getValueAtChoosedRow(4));
+            tongTien.gianhapField.setText(getValueAtChoosedRow(5).toString());
         }
     }
 
@@ -130,10 +135,9 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         setValueAtChoosedRow(inputSanPham.getMaSanPhamField().getText(), row, 0);
         setValueAtChoosedRow(inputSanPham.getTenSanPhamField().getText(), row, 1);
         setValueAtChoosedRow(inputSanPham.getSoluongSanPhamField().getText(), row, 2);
-        setValueAtChoosedRow(inputSanPham.getGiaSanPhamField().getText(), row, 3);
-        setValueAtChoosedRow(inputSanPham.getLoaiSanPhamComboBox().getSelectedItem(), row, 4);
-        setValueAtChoosedRow(tongTien.getNhacungcapComboBox().getSelectedItem(), row, 5);
-        setValueAtChoosedRow(tongTien.getGianhapField().getText(), row, 6);
+        setValueAtChoosedRow(inputSanPham.getLoaiSanPhamComboBox().getSelectedItem(), row, 3);
+        setValueAtChoosedRow(tongTien.getNhacungcapComboBox().getSelectedItem(), row, 4);
+        setValueAtChoosedRow(tongTien.getGianhapField().getText(), row, 5);
         table.clearSelection();
         table.getSelectionModel().addListSelectionListener(this);
 
@@ -141,6 +145,8 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         inputSanPham.getSuaButton().setEnabled(false);
         timkiemSanPham.getAddSanPham().setEnabled(true);
         timkiemSanPham.getNhapExcel().setEnabled(true);
+
+        updateTongTien();
     }
 
     public void deleteRow() {
@@ -156,5 +162,27 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         inputSanPham.getSuaButton().setEnabled(false);
         timkiemSanPham.getAddSanPham().setEnabled(true);
         timkiemSanPham.getNhapExcel().setEnabled(true);
+
+        updateTongTien();
+    }
+
+    public void updateTongTien() {
+        int sum = 0;
+        for (int i = 0; i < table.getRowCount(); i++) {
+            Object valSoLuong = model.getValueAt(i, 2);
+            Object valGiaNhap = model.getValueAt(i, 5);
+            if (valSoLuong != null && valGiaNhap != null) {
+                try {
+                    int soLuong = Integer.parseInt(valSoLuong.toString());
+                    int giaNhap = Integer.parseInt(valGiaNhap.toString());
+                    sum += soLuong * giaNhap;
+                } catch (NumberFormatException e) {
+                    System.err.println("Dữ liệu sai định dạng ở dòng " + i);
+                }
+            } else {
+                System.err.println("Thiếu dữ liệu ở dòng " + i);
+            }
+        }
+        tongTien.getTotalAmount().setText(("Tổng tiền: " + sum));
     }
 }

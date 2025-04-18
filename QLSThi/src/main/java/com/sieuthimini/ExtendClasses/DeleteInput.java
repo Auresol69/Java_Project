@@ -16,7 +16,6 @@ public class DeleteInput {
         inputSanPham.getMaSanPhamField().setText("");
         inputSanPham.getTenSanPhamField().setText("");
         inputSanPham.getSoluongSanPhamField().setText("");
-        inputSanPham.getGiaSanPhamField().setText("");
 
         tongTien.getGianhapField().setText("");
     }
