@@ -1,18 +1,12 @@
 package GUI.Panel;
 
-import BUS.ChiTietSanPhamBUS;
-import BUS.PhienBanSanPhamBUS;
-import BUS.DungLuongRamBUS;
-import BUS.DungLuongRomBUS;
 import BUS.KhachHangBUS;
-import BUS.MauSacBUS;
 import BUS.PhieuXuatBUS;
 import BUS.SanPhamBUS;
 import DAO.ChiTietSanPhamDAO;
 import DAO.NhanVienDAO;
 import DAO.PhieuXuatDAO;
 import DTO.ChiTietPhieuDTO;
-import DTO.ChiTietSanPhamDTO;
 import DTO.KhachHangDTO;
 import DTO.NhanVienDTO;
 import DTO.PhienBanSanPhamDTO;
@@ -23,18 +17,24 @@ import GUI.Component.ButtonCustom;
 import GUI.Component.CustomComboCheck;
 import GUI.Component.InputForm;
 import GUI.Component.Notification;
+
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import GUI.Component.PanelBorderRadius;
 import GUI.Component.SelectForm;
 import GUI.Dialog.ListKhachHang;
 import GUI.Dialog.QRCode_Dialog;
 import GUI.Dialog.SelectImei;
 import GUI.Main;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+
 import helper.Formater;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -44,19 +44,19 @@ import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import GUI.QLSieuThi;
+
 public final class TaoPhieuXuat extends JPanel {
 
     PhienBanSanPhamBUS phienBanBus = new PhienBanSanPhamBUS();
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
-    DungLuongRamBUS ramBus = new DungLuongRamBUS();
-    DungLuongRomBUS romBus = new DungLuongRomBUS();
-    MauSacBUS mausacBus = new MauSacBUS();
     PanelBorderRadius right, left;
     JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter, left_top, main, content_btn;
     JTable tablePhieuXuat, tableSanPham;
@@ -89,18 +89,17 @@ public final class TaoPhieuXuat extends JPanel {
     private CustomComboCheck cbxImei;
 
     ArrayList<ChiTietPhieuDTO> chitietphieu = new ArrayList<>();
-    ArrayList<ChiTietSanPhamDTO> chitietsanpham = new ArrayList<>();
 
     TaiKhoanDTO tk;
     private int mapb;
     private JLabel lbltongtien;
     private JTextField txtKh;
-    private Main mainChinh;
+    private QLSieuThi mainChinh;
     private ButtonCustom btnQuayLai;
     private ButtonCustom chonImei;
     private InputForm txtGiaXuat;
 
-    public TaoPhieuXuat(Main mainChinh, TaiKhoanDTO tk, String type) {
+    public TaoPhieuXuat(QLSieuThi mainChinh, TaiKhoanDTO tk, String type) {
         this.mainChinh = mainChinh;
         this.tk = tk;
         this.type = type;
