@@ -64,9 +64,8 @@ public class ChiTietQuyenDAO implements ChiTietInterface<ChiTietQuyenDTO> {
     @Override
     public ArrayList<ChiTietQuyenDTO> selectAll(String powergroupId) {
         ArrayList<ChiTietQuyenDTO> result = new ArrayList<>();
-        String sql = "SELECT * FROM powergroup_func WHERE powergroupid = ?";
+        String sql = "SELECT * FROM powergroup_func_permission WHERE powergroupid = ?";
         MySQLConnect db = new MySQLConnect();
-
         try {
             Connection con = db.getConnection();
             PreparedStatement pst = con.prepareStatement(sql);

@@ -26,7 +26,7 @@ public class TaiKhoanDAO {
                     rs.getString("username"),
                     rs.getString("password"),
                     rs.getInt("powergroupid"),
-                    rs.getBoolean("trangthai")
+                    rs.getBoolean("status")
                 );
                 list.add(tk);
             }
