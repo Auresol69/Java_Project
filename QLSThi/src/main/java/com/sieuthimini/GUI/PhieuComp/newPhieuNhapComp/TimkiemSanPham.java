@@ -148,6 +148,14 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting() && e.getSource() == table.getSelectionModel()) {
+
+            tableSanPham.getTable().getSelectionModel().removeListSelectionListener(tableSanPham);
+
+            SwingUtilities.invokeLater(() -> {
+                tableSanPham.getTable().clearSelection();
+                tableSanPham.getTable().getSelectionModel().addListSelectionListener(tableSanPham);
+            });
+
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
                 this.addSanPham.setEnabled(true);

@@ -11,7 +11,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -102,14 +101,6 @@ public class InputSanPham extends JPanel implements ActionListener {
             loaiSanPhamComboBox.addItem(new ProductTypeDTO(Integer.parseInt(row[0].toString()), row[1].toString()));
         }
 
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
-        frame.add(new InputSanPham());
-        frame.setVisible(true);
     }
 
     public JLabel getMaSanPhamLabel() {

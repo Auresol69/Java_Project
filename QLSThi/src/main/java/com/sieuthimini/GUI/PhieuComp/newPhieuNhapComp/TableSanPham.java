@@ -3,6 +3,7 @@ package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -106,10 +107,12 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting() && e.getSource() == table.getSelectionModel()) {
 
-            // BUG
             timkiemSanPham.getTable().getSelectionModel().removeListSelectionListener(timkiemSanPham);
-            timkiemSanPham.getTable().clearSelection();
-            timkiemSanPham.getTable().getSelectionModel().addListSelectionListener(timkiemSanPham);
+
+            SwingUtilities.invokeLater(() -> {
+                timkiemSanPham.getTable().clearSelection();
+                timkiemSanPham.getTable().getSelectionModel().addListSelectionListener(timkiemSanPham);
+            });
 
             inputSanPham.suaButton.setEnabled(true);
             inputSanPham.xoaButton.setEnabled(true);
@@ -162,6 +165,8 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         inputSanPham.getSuaButton().setEnabled(false);
         timkiemSanPham.getAddSanPham().setEnabled(true);
         timkiemSanPham.getNhapExcel().setEnabled(true);
+
+        new DeleteInput(inputSanPham, tongTien).Delete();
 
         updateTongTien();
     }
