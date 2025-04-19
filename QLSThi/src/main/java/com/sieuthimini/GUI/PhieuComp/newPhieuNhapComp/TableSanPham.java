@@ -8,12 +8,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import com.sieuthimini.BUS.EntryFormBUS;
+import com.sieuthimini.DTO.AccountDTO;
+import com.sieuthimini.DTO.SupplierDTO;
 import com.sieuthimini.ExtendClasses.DeleteInput;
 
 public class TableSanPham extends JPanel implements ListSelectionListener {
     JTable table = new JTable();
     DefaultTableModel model;
-    private String[] columnNames = { "masp", "tensp", "soluong", "tenloaisp", "ncc", "gianhap" };
+    private String[] columnNames = { "masp", "tensp", "soluong", "tenloaisp", "gianhap" };
     InputSanPham inputSanPham;
     TimkiemSanPham timkiemSanPham;
     TongTien tongTien;
@@ -125,9 +128,7 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
             inputSanPham.tenSanPhamField.setText(getValueAtChoosedRow(1).toString());
             inputSanPham.soluongSanPhamField.setText(getValueAtChoosedRow(2).toString());
             inputSanPham.loaiSanPhamComboBox.setSelectedItem(getValueAtChoosedRow(3));
-
-            tongTien.nhacungcapComboBox.setSelectedItem(getValueAtChoosedRow(4));
-            tongTien.gianhapField.setText(getValueAtChoosedRow(5).toString());
+            tongTien.gianhapField.setText(getValueAtChoosedRow(4).toString());
         }
     }
 
@@ -175,7 +176,7 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         int sum = 0;
         for (int i = 0; i < table.getRowCount(); i++) {
             Object valSoLuong = model.getValueAt(i, 2);
-            Object valGiaNhap = model.getValueAt(i, 5);
+            Object valGiaNhap = model.getValueAt(i, 4);
             if (valSoLuong != null && valGiaNhap != null) {
                 try {
                     int soLuong = Integer.parseInt(valSoLuong.toString());
@@ -189,5 +190,10 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
             }
         }
         tongTien.getTotalAmount().setText(("Tổng tiền: " + sum));
+    }
+
+    public void createEntryForm() {
+        new EntryFormBUS().createEntryForm((SupplierDTO) tongTien.getNhacungcapComboBox().getSelectedItem(),
+                (AccountDTO) tongTien.getManhanviennhapComboBox().getSelectedItem());
     }
 }

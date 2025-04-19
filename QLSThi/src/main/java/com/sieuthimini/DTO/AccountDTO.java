@@ -1,9 +1,9 @@
 package com.sieuthimini.DTO;
 
 public class AccountDTO {
-    private String mastaff, username, password, powergroupid, email;
+    private String username, password, email;
     private boolean status;
-    private int maaccount;
+    private int maaccount, mastaff, powergroupid;
 
     public int getMaaccount() {
         return maaccount;
@@ -13,11 +13,11 @@ public class AccountDTO {
         this.maaccount = maaccount;
     }
 
-    public String getMastaff() {
+    public int getMastaff() {
         return mastaff;
     }
 
-    public void setMastaff(String mastaff) {
+    public void setMastaff(int mastaff) {
         this.mastaff = mastaff;
     }
 
@@ -37,11 +37,11 @@ public class AccountDTO {
         this.password = password;
     }
 
-    public String getPowergroupid() {
+    public int getPowergroupid() {
         return powergroupid;
     }
 
-    public void setPowergroupid(String powergroupid) {
+    public void setPowergroupid(int powergroupid) {
         this.powergroupid = powergroupid;
     }
 
@@ -61,7 +61,7 @@ public class AccountDTO {
         this.status = status;
     }
 
-    public AccountDTO(int maaccount, String mastaff, String username, String password, String powergroupid,
+    public AccountDTO(int maaccount, int mastaff, String username, String password, int powergroupid,
             String email, boolean status) {
         this.maaccount = maaccount;
         this.mastaff = mastaff;
@@ -78,6 +78,6 @@ public class AccountDTO {
 
     @Override
     public String toString() {
-        return this.mastaff;
+        return Integer.toString(getMastaff());
     }
 }

@@ -23,11 +23,11 @@ public class DataBase {
         List<Object[]> data = new ArrayList<>();
 
         try (Connection connection = getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);) {
-            for (int i = 0; i < params.length; ++i) {
-                ps.setObject(i + 1, params[i]);
+                PreparedStatement stmt = connection.prepareStatement(sql);) {
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
             }
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             while (rs.next()) {
@@ -41,5 +41,19 @@ public class DataBase {
             e.printStackTrace();
         }
         return data;
+    }
+
+    public void insertQuery(String sql, Object... params) {
+        try (Connection connection = getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
+            }
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Insert thành công!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

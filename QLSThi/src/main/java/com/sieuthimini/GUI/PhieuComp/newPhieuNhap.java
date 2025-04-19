@@ -20,6 +20,8 @@ public class newPhieuNhap extends JPanel {
 
         input.setTableSanPham(table);
 
+        tongTien.setTableSanPham(table);
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.WEST;

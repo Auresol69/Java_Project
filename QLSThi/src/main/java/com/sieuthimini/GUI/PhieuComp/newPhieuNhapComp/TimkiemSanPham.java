@@ -13,6 +13,7 @@ import com.sieuthimini.DAO.DataBase;
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.DTO.ProductTypeDTO;
 import com.sieuthimini.ExtendClasses.DeleteInput;
+import com.sieuthimini.ExtendClasses.MessageBox;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -190,12 +191,8 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                     inputSanPham.tenSanPhamField.getText().isBlank() ||
                     inputSanPham.soluongSanPhamField.getText().isBlank() ||
                     inputSanPham.loaiSanPhamComboBox.getSelectedItem() == null ||
-                    tongTien.nhacungcapComboBox.getSelectedItem() == null ||
                     tongTien.gianhapField.getText().isBlank()) {
-                JOptionPane.showMessageDialog(null,
-                        "Vui lòng nhập đầy đủ thông tin sản phẩm!",
-                        "Thiếu thông tin",
-                        JOptionPane.WARNING_MESSAGE);
+                MessageBox.showWarning("Vui lòng nhập đầy đủ thông tin sản phẩm!");
                 return;
             } else {
                 int masp = Integer.parseInt(inputSanPham.maSanPhamField.getText());
@@ -205,8 +202,7 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                     int maloaisp = ((ProductTypeDTO) selectedItem).getMaloaisp();
                     List<Object[]> data = new ProductBUS().checkSanPham(masp, tensp, maloaisp);
                     if (data.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "There is no info about this product!", "WARNINGGG",
-                                JOptionPane.WARNING_MESSAGE);
+                        MessageBox.showWarning("Không có thông tin về sản phẩm này!!");
                     } else {
                         for (Object[] row : data) {
                             tableSanPham.model.addRow(new Object[] {
@@ -214,7 +210,6 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                                     row[1],
                                     inputSanPham.soluongSanPhamField.getText(),
                                     inputSanPham.loaiSanPhamComboBox.getSelectedItem(),
-                                    tongTien.nhacungcapComboBox.getSelectedItem(),
                                     tongTien.gianhapField.getText() });
                         }
                         new DeleteInput(inputSanPham, tongTien).Delete();

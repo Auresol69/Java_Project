@@ -3,6 +3,7 @@ package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -11,6 +12,7 @@ import com.sieuthimini.BUS.AccountBUS;
 import com.sieuthimini.BUS.SupplierBUS;
 import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.SupplierDTO;
+import com.sieuthimini.ExtendClasses.MessageBox;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -32,6 +34,7 @@ public class TongTien extends JPanel implements ActionListener {
     JComboBox<SupplierDTO> nhacungcapComboBox;
     JLabel totalAmount;
     JButton nhapHang;
+    TableSanPham tableSanPham;
 
     private void setUpLabel(JLabel label) {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -161,12 +164,28 @@ public class TongTien extends JPanel implements ActionListener {
         }
     }
 
+    public TableSanPham getTableSanPham() {
+        return tableSanPham;
+    }
+
+    public void setTableSanPham(TableSanPham tableSanPham) {
+        this.tableSanPham = tableSanPham;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nhapHang) {
-            // for (iterable_type iterable_element : iterable) {
-
-            // }
+            if (tableSanPham.getTable().getRowCount() == 0) {
+                MessageBox.showError("Không có sản phẩm để nhập!!!");
+            } else {
+                if (MessageBox.showConfirmDialog("Bạn có chắc chắn muốn nhập hàng không?",
+                        "Xác nhận nhập hàng") == JOptionPane.YES_OPTION) {
+                    // Gọi hàm nhập hàng ở đây
+                    System.out.println("Đã xác nhận nhập hàng!");
+                } else {
+                    System.out.println("Đã hủy nhập hàng.");
+                }
+            }
         }
     }
 }
