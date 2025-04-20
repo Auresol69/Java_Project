@@ -89,7 +89,7 @@ public class ChucNang extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == themButton) {
-            parent.setContentPane(new newPhieuNhap());
+            parent.setContentPane(new newPhieuNhap(this.parent));
             parent.revalidate();
             parent.repaint();
         }

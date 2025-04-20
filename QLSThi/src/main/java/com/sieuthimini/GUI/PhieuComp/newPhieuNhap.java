@@ -7,11 +7,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 public class newPhieuNhap extends JPanel {
-    public newPhieuNhap() {
+    JFrame parent;
+
+    public newPhieuNhap(JFrame parent) {
+        this.parent = parent;
+
         this.setLayout(new GridBagLayout());
 
         InputSanPham input = new InputSanPham();
-        TongTien tongTien = new TongTien();
+        TongTien tongTien = new TongTien(this.parent);
         TableSanPham table = new TableSanPham(input, tongTien);
 
         TimkiemSanPham timKiem = new TimkiemSanPham(input, table, tongTien);
@@ -49,13 +53,5 @@ public class newPhieuNhap extends JPanel {
         gbc.gridwidth = 2;
         gbc.gridheight = 1;
         this.add(table, gbc);
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Phiếu nhập");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.add(new newPhieuNhap());
-        frame.setVisible(true);
     }
 }

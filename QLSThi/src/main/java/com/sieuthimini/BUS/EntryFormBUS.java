@@ -9,25 +9,24 @@ public class EntryFormBUS {
 
     }
 
-    public boolean createEntryForm(SupplierDTO supplierDTO, AccountDTO accountDTO) {
+    public int createEntryForm(SupplierDTO supplierDTO, AccountDTO accountDTO) {
         if (supplierDTO == null || accountDTO == null) {
             System.out.println("Lỗi: Thiếu thông tin nhà cung cấp hoặc tài khoản.");
-            return false;
+            return -1;
         }
 
         if (supplierDTO.getMancc() == 0) {
             System.out.println("Lỗi: ID nhà cung cấp không được để trống.");
-            return false;
+            return -1;
         }
 
         if (accountDTO.getMaaccount() == 0) {
             System.out.println("Lỗi: Tên người dùng không được để trống.");
-            return false;
+            return -1;
         }
 
-        new EntryFormDAO().createEntryForm(supplierDTO, accountDTO);
+        return new EntryFormDAO().createEntryForm(supplierDTO, accountDTO);
 
-        return true;
     }
 
 }

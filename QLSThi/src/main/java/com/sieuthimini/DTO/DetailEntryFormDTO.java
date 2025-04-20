@@ -1,20 +1,26 @@
 package com.sieuthimini.DTO;
 
-public class DetailEntryForm {
-    private int maphieunhap, dongianhap, giaban, soluongnhap;
-    private String masp, ngayhethan;
+public class DetailEntryFormDTO {
+    private int maphieunhap, dongianhap, soluongnhap, masp;
+    private String ngayhethan;
 
-    public DetailEntryForm(int maphieunhap, int dongianhap, int giaban, int soluongnhap, String masp,
+    public DetailEntryFormDTO(int maphieunhap, int dongianhap, int soluongnhap, int masp,
             String ngayhethan) {
         this.maphieunhap = maphieunhap;
         this.dongianhap = dongianhap;
-        this.giaban = giaban;
         this.soluongnhap = soluongnhap;
         this.masp = masp;
         this.ngayhethan = ngayhethan;
     }
 
-    public DetailEntryForm() {
+    public DetailEntryFormDTO(int maphieunhap, int dongianhap, int soluongnhap, int masp) {
+        this.maphieunhap = maphieunhap;
+        this.dongianhap = dongianhap;
+        this.soluongnhap = soluongnhap;
+        this.masp = masp;
+    }
+
+    public DetailEntryFormDTO() {
     }
 
     public int getMaphieunhap() {
@@ -33,14 +39,6 @@ public class DetailEntryForm {
         this.dongianhap = dongianhap;
     }
 
-    public int getGiaban() {
-        return giaban;
-    }
-
-    public void setGiaban(int giaban) {
-        this.giaban = giaban;
-    }
-
     public int getSoluongnhap() {
         return soluongnhap;
     }
@@ -49,11 +47,11 @@ public class DetailEntryForm {
         this.soluongnhap = soluongnhap;
     }
 
-    public String getMasp() {
+    public int getMasp() {
         return masp;
     }
 
-    public void setMasp(String masp) {
+    public void setMasp(int masp) {
         this.masp = masp;
     }
 

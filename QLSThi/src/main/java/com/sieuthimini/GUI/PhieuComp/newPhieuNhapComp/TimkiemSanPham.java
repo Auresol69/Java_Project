@@ -149,27 +149,33 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting() && e.getSource() == table.getSelectionModel()) {
-
-            tableSanPham.getTable().getSelectionModel().removeListSelectionListener(tableSanPham);
-
-            SwingUtilities.invokeLater(() -> {
-                tableSanPham.getTable().clearSelection();
-                tableSanPham.getTable().getSelectionModel().addListSelectionListener(tableSanPham);
-            });
-
             int selectedRow = table.getSelectedRow();
-            if (selectedRow != -1) {
-                this.addSanPham.setEnabled(true);
-                this.nhapExcel.setEnabled(true);
-                inputSanPham.suaButton.setEnabled(false);
-                inputSanPham.xoaButton.setEnabled(false);
 
-                new DeleteInput(inputSanPham, tongTien).Delete();
+            if (selectedRow == -1 || selectedRow >= table.getRowCount())
+                return;
 
-                int modelRow = table.convertRowIndexToModel(selectedRow);
-                inputSanPham.maSanPhamField.setText(model.getValueAt(modelRow, 0).toString());
-                inputSanPham.tenSanPhamField.setText(model.getValueAt(modelRow, 1).toString());
-                setSelectedLoaiSanPham(Integer.parseInt(model.getValueAt(modelRow, 4).toString()));
+            int modelRow = table.convertRowIndexToModel(selectedRow);
+
+            if (!tableSanPham.isSanPhamIdExist(Integer.parseInt(model.getValueAt(selectedRow, 0).toString()))) {
+                tableSanPham.getTable().getSelectionModel().removeListSelectionListener(tableSanPham);
+
+                SwingUtilities.invokeLater(() -> {
+                    tableSanPham.getTable().clearSelection();
+                    tableSanPham.getTable().getSelectionModel().addListSelectionListener(tableSanPham);
+                });
+
+                if (selectedRow != -1) {
+                    this.addSanPham.setEnabled(true);
+                    this.nhapExcel.setEnabled(true);
+                    inputSanPham.suaButton.setEnabled(false);
+                    inputSanPham.xoaButton.setEnabled(false);
+
+                    new DeleteInput(inputSanPham, tongTien).Delete();
+
+                    inputSanPham.maSanPhamField.setText(model.getValueAt(modelRow, 0).toString());
+                    inputSanPham.tenSanPhamField.setText(model.getValueAt(modelRow, 1).toString());
+                    setSelectedLoaiSanPham(Integer.parseInt(model.getValueAt(modelRow, 4).toString()));
+                }
             }
         }
     }

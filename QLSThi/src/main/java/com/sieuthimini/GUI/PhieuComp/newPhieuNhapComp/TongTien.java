@@ -2,6 +2,7 @@ package com.sieuthimini.GUI.PhieuComp.newPhieuNhapComp;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -9,10 +10,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.sieuthimini.BUS.AccountBUS;
+import com.sieuthimini.BUS.DetailEntryFormBUS;
 import com.sieuthimini.BUS.SupplierBUS;
 import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.SupplierDTO;
 import com.sieuthimini.ExtendClasses.MessageBox;
+import com.sieuthimini.GUI.PhieuNhap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -35,6 +38,7 @@ public class TongTien extends JPanel implements ActionListener {
     JLabel totalAmount;
     JButton nhapHang;
     TableSanPham tableSanPham;
+    JFrame parent;
 
     private void setUpLabel(JLabel label) {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -59,7 +63,9 @@ public class TongTien extends JPanel implements ActionListener {
         this.add(Box.createRigidArea(new Dimension(0, 10)));
     }
 
-    public TongTien() {
+    public TongTien(JFrame parent) {
+        this.parent = parent;
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
@@ -181,9 +187,20 @@ public class TongTien extends JPanel implements ActionListener {
                 if (MessageBox.showConfirmDialog("Bạn có chắc chắn muốn nhập hàng không?",
                         "Xác nhận nhập hàng") == JOptionPane.YES_OPTION) {
                     // Gọi hàm nhập hàng ở đây
-                    System.out.println("Đã xác nhận nhập hàng!");
+                    int maphieunhap = tableSanPham.createEntryForm();
+                    for (int i = 0; i < tableSanPham.table.getRowCount(); i++) {
+                        new DetailEntryFormBUS().createDetailEntryForm(maphieunhap,
+                                Integer.parseInt(tableSanPham.model.getValueAt(i, 2).toString()),
+                                Integer.parseInt(tableSanPham.model.getValueAt(i, 4).toString()),
+                                Integer.parseInt(tableSanPham.model.getValueAt(i, 0).toString()));
+                    }
+                    MessageBox.showOkDialog("Đã nhập hàng.", "Thành công");
+                    parent.setContentPane(new PhieuNhap(this.parent));
+                    parent.revalidate();
+                    parent.repaint();
+
                 } else {
-                    System.out.println("Đã hủy nhập hàng.");
+                    MessageBox.showOkDialog("Đã hủy nhập hàng", "Thất bại");
                 }
             }
         }

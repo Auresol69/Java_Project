@@ -43,17 +43,23 @@ public class DataBase {
         return data;
     }
 
-    public void insertQuery(String sql, Object... params) {
-        try (Connection connection = getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+    public int insertQuery(String sql, Object... params) {
+        int generatedId = -1;
+        try (Connection connection = getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             for (int i = 0; i < params.length; i++) {
                 stmt.setObject(i + 1, params[i]);
             }
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("Insert thành công!");
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    generatedId = rs.getInt(1);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return generatedId;
     }
 }

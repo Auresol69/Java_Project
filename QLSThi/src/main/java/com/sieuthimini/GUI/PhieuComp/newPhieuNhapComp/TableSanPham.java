@@ -6,6 +6,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.sieuthimini.BUS.EntryFormBUS;
@@ -86,7 +87,7 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
 
     public int getIndexChoosedRow() {
         int selectedRow = table.getSelectedRow();
-        if (selectedRow != -1) {
+        if (selectedRow != -1 && selectedRow < table.getRowCount()) {
             int modelRow = table.convertRowIndexToModel(selectedRow);
             return modelRow;
         }
@@ -100,9 +101,10 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         return null;
     }
 
-    public void setValueAtChoosedRow(Object object, int row, int column) {
-        if (row != -1) {
-            table.setValueAt(object, row, column);
+    public void setValueAtChoosedRow(Object value, int row, int column) {
+        if (row >= 0 && column >= 0 && row < table.getRowCount() && column < table.getColumnCount()) {
+            table.setValueAt(value, row, column);
+            ((AbstractTableModel) table.getModel()).fireTableCellUpdated(row, column);
         }
     }
 
@@ -133,15 +135,20 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
     }
 
     public void updateRow() {
+        int row = getIndexChoosedRow();
+        if (row == -1)
+            return;
+
         table.getSelectionModel().removeListSelectionListener(this);
 
-        int row = getIndexChoosedRow();
         setValueAtChoosedRow(inputSanPham.getMaSanPhamField().getText(), row, 0);
         setValueAtChoosedRow(inputSanPham.getTenSanPhamField().getText(), row, 1);
         setValueAtChoosedRow(inputSanPham.getSoluongSanPhamField().getText(), row, 2);
         setValueAtChoosedRow(inputSanPham.getLoaiSanPhamComboBox().getSelectedItem(), row, 3);
-        setValueAtChoosedRow(tongTien.getNhacungcapComboBox().getSelectedItem(), row, 4);
-        setValueAtChoosedRow(tongTien.getGianhapField().getText(), row, 5);
+        setValueAtChoosedRow(tongTien.getGianhapField().getText(), row, 4);
+
+        ((AbstractTableModel) table.getModel()).fireTableRowsUpdated(row, row);
+
         table.clearSelection();
         table.getSelectionModel().addListSelectionListener(this);
 
@@ -172,6 +179,18 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         updateTongTien();
     }
 
+    public boolean isSanPhamIdExist(Object id) {
+        for (int i = 0; i < table.getRowCount(); i++) {
+            Object cellValue = model.getValueAt(i, 0);
+            if (cellValue != null && cellValue.toString().equals(id.toString())) {
+                table.setRowSelectionInterval(i, i);
+                table.scrollRectToVisible(table.getCellRect(i, 0, true));
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void updateTongTien() {
         int sum = 0;
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -192,8 +211,8 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
         tongTien.getTotalAmount().setText(("Tổng tiền: " + sum));
     }
 
-    public void createEntryForm() {
-        new EntryFormBUS().createEntryForm((SupplierDTO) tongTien.getNhacungcapComboBox().getSelectedItem(),
+    public int createEntryForm() {
+        return new EntryFormBUS().createEntryForm((SupplierDTO) tongTien.getNhacungcapComboBox().getSelectedItem(),
                 (AccountDTO) tongTien.getManhanviennhapComboBox().getSelectedItem());
     }
 }

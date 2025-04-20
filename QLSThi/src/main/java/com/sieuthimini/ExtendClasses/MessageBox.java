@@ -24,4 +24,8 @@ public class MessageBox {
         return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
     }
+
+    public static void showOkDialog(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
 }
