@@ -1,11 +1,20 @@
 package GUI.Component;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 public class IntegratedSearch extends JPanel {
 
@@ -37,7 +46,7 @@ public class IntegratedSearch extends JPanel {
 
         btnReset = new JButton("Làm mới");
         btnReset.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
-        btnReset.setIcon(new FlatSVGIcon("./icon/refresh.svg"));
+        btnReset.setIcon(new FlatSVGIcon("./IMG/reset.svg"));
         btnReset.setPreferredSize(new Dimension(125, 0));
         btnReset.addActionListener(this::btnResetActionPerformed);
         jpSearch.add(btnReset,BorderLayout.EAST);

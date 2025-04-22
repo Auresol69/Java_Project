@@ -1,11 +1,26 @@
 package GUI.Model;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class Header extends JPanel {
     private JButton exit, minimize;
@@ -43,7 +58,7 @@ public class Header extends JPanel {
         hello.setForeground(Color.white);
         hello.setOpaque(true);
         minimize = createButton("/IMG/layers.png");
-        exit = createButton("/IMG/close.png");
+        exit = createButton("/IMG/close.svg");
     
         // Cấu hình nameMarket (bên trái)
         gbc.gridx = 0;

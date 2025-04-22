@@ -1,9 +1,12 @@
 package GUI.Component;
 
-import BUS.NhomQuyenBUS;
-import java.awt.*;
+import java.awt.Color;
 import java.util.HashMap;
-import javax.swing.*;
+
+import javax.swing.JSeparator;
+import javax.swing.JToolBar;
+
+import BUS.NhomQuyenBUS;
 
 public final class MainFunction extends JToolBar {
 
@@ -27,16 +30,13 @@ public final class MainFunction extends JToolBar {
          */
 
         btn.put("create", new ButtonToolBar("THÊM", "add.svg", 1));
-        btn.put("import", new ButtonToolBar("NHẬP EXCEL", "import_excel.svg", 1));
-
+        btn.put("import", new ButtonToolBar("NHẬP EXCEL", "excel.svg", 1));
         btn.put("delete", new ButtonToolBar("XÓA", "delete.svg", 2));
-        btn.put("cancel", new ButtonToolBar("HUỶ PHIẾU", "cancel.svg", 2));
-
+        btn.put("cancel", new ButtonToolBar("HUỶ PHIẾU", "delete.svg", 2));
         btn.put("update", new ButtonToolBar("SỬA", "edit.svg", 3));
-
-        btn.put("detail", new ButtonToolBar("CHI TIẾT", "detail.svg", 4));
-        btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export_excel.svg", 4));
-        btn.put("phone", new ButtonToolBar("XEM DS", "phone.svg", 4));
+        btn.put("detail", new ButtonToolBar("CHI TIẾT", "information.svg", 4));
+        btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export.svg", 4));
+        btn.put("phone", new ButtonToolBar("XEM DS", "list.svg", 4));
     }
 
     private void initComponent(int manhomquyen, String chucnang, String[] listBtn) {
