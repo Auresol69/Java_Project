@@ -60,7 +60,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tableKhachHang = new JTable();
         scrollTableKhachHang = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại", "Ngày tham gia"};
+        String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"};
         tblModel.setColumnIdentifiers(header);
         tableKhachHang.setModel(tblModel);
         tableKhachHang.setFocusable(false);
@@ -71,7 +71,6 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         tableKhachHang.setAutoCreateRowSorter(true);
         TableSorter.configureTableColumnSorter(tableKhachHang, 0, TableSorter.INTEGER_COMPARATOR);
