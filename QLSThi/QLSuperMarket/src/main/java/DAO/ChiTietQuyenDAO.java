@@ -75,7 +75,6 @@ public class ChiTietQuyenDAO implements ChiTietInterface<ChiTietQuyenDTO> {
             while (rs.next()) {
                 int groupId = rs.getInt("powergroupid");
                 int funcId = rs.getInt("funcid");
-
                 result.add(new ChiTietQuyenDTO(groupId, funcId));
             }
 

@@ -26,7 +26,6 @@ public class ButtonToolBar extends JButton{
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.putClientProperty("JButton.buttonType", "toolBarButton");
     }
-    
     public int getPermission() {
         return this.permission;
     }

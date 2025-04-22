@@ -99,14 +99,13 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
             while (rs.next()) {
                 NhanVienDTO nv = new NhanVienDTO(
                         rs.getInt("mastaff"),
-                        rs.getString("tenstaff"),
+                        rs.getString("tennhanstaff"),
                         rs.getString("dienthoai"),
                         rs.getString("address"),
                         rs.getInt("status")
                 );
                 result.add(nv);
             }
-
             rs.close();
             pst.close();
         } catch (Exception e) {

@@ -49,9 +49,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-
 public final class TaoPhieuXuat extends JPanel {
-
     PhienBanSanPhamBUS phienBanBus = new PhienBanSanPhamBUS();
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     DungLuongRamBUS ramBus = new DungLuongRamBUS();
