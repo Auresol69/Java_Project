@@ -43,7 +43,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ListKhachHang extends JDialog implements MouseListener {
 
-    private TaoPhieuXuat taoPhieuXuat;
+    // private TaoPhieuXuat taoPhieuXuat;
     private JTable tableKhachHang;
     private JScrollPane scrollTableSanPham;
     private DefaultTableModel tblModel;
@@ -52,7 +52,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
     
     public ListKhachHang(TaoPhieuXuat taoPhieuXuat, JFrame owner, String title, boolean modal){
         super(owner, title, modal);
-        this.taoPhieuXuat=taoPhieuXuat;
+        // this.taoPhieuXuat=taoPhieuXuat;
         init();
         loadDataTalbe(search(""));
         this.setLocationRelativeTo(null);
