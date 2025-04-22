@@ -79,7 +79,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         tableTaiKhoan.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableTaiKhoan.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-
+        tableTaiKhoan.getTableHeader().setReorderingAllowed(false);
         this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);

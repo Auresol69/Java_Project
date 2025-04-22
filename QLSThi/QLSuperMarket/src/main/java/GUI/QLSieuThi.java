@@ -205,7 +205,7 @@ public class QLSieuThi extends JFrame{
         getContentPane().remove(panelCenter);
         switch(TenChucNang){
             case "Quản lý khách hàng" : 
-                
+                panelCenter = new KhachHang(this);
                 break ;
             case "Quản lý sản phẩm" : 
                 break ;

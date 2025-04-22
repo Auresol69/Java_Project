@@ -1,23 +1,12 @@
 
 package GUI;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import com.formdev.flatlaf.fonts.inter.FlatInterFont;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-
-import GUI.Component.*;
-
-import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatIntelliJLaf;
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import BUS.TaiKhoanBUS;
-import DAO.TaiKhoanDAO;
-import DTO.TaiKhoanDTO;
-import GUI.Model.QuenMatKhau;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -25,6 +14,25 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+
+import BUS.TaiKhoanBUS;
+import DTO.TaiKhoanDTO;
+import GUI.Component.InputForm;
+import GUI.Model.QuenMatKhau;
 public class LoginGUI extends JFrame implements KeyListener {
     TaiKhoanBUS tkBus = new TaiKhoanBUS();
     InputForm txtpassword,txtUsername;
@@ -33,8 +41,8 @@ public class LoginGUI extends JFrame implements KeyListener {
     Color FontColor = new Color(96, 125, 139);
     public LoginGUI() {
         init();
-        txtUsername.setText("admin");
-        txtpassword.setPass("123456");
+        txtUsername.setText("roy");
+        txtpassword.setPass("123");
     }
     public void init() {
         txtUsername = new InputForm("Tên đăng nhập");

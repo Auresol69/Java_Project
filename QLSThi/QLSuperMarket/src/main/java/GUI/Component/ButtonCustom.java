@@ -1,10 +1,13 @@
 package GUI.Component;
 
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.Cursor;
 import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 
 public class ButtonCustom extends JButton {
 
@@ -13,31 +16,43 @@ public class ButtonCustom extends JButton {
         String color = null;
         switch (type) {
             case "success":
-                color = "Actions.Blue";
-                break;
+                color = "Actions.White";
+                this.setForeground(new java.awt.Color(128, 128, 128));                break;
             case "danger":
                 color = "Actions.Red";
+                this.setForeground(new java.awt.Color(255,255,255));
+
                 break;
             case "warning":
                 color = "Actions.Yellow";
+                this.setForeground(new java.awt.Color(255,255,255));
+
                 break;
             case "excel":
                 color = "Actions.Green";
+                this.setForeground(new java.awt.Color(255,255,255));
+
                 break;
             case "return":
                 color = "Actions.Orange";
+                this.setForeground(new java.awt.Color(255,255,255));
+
                 break;
             case "ok":
                 color = "Actions.Black";
+                this.setForeground(new java.awt.Color(255,255,255));
+
                 break;
             default:
                 color = "Actions.White";
+                this.setForeground(new java.awt.Color(255,255,255));
         }
-        this.putClientProperty("JButton.buttonType", "roundRect");
+        // this.putClientProperty("JButton.buttonType", "roundRect");
         this.putClientProperty("JButton.buttonType", "borderless");
+        this.putClientProperty("JComponent.arc", 15); // hoặc 20 nếu thích tròn rõ hơn
         this.setBackground(javax.swing.UIManager.getDefaults().getColor(color));
+        this.setBorder(BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200),1,true)); // Border màu xám nhạt
         this.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, fontsize));
-        this.setForeground(new java.awt.Color(255, 255, 255));
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setPreferredSize(new Dimension(width, height));
     }
