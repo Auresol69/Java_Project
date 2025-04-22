@@ -31,8 +31,8 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 
 public class TongTien extends JPanel implements ActionListener {
-    JLabel gianhapLabel, manhanviennhapLabel, nhacungcapLabel;
-    JTextField gianhapField;
+    JLabel gianhapLabel, manhanviennhapLabel, nhacungcapLabel, loinhuanLabel;
+    JTextField gianhapField, loinhuanField;
     JComboBox<AccountDTO> manhanviennhapComboBox;
     JComboBox<SupplierDTO> nhacungcapComboBox;
     JLabel totalAmount;
@@ -74,6 +74,8 @@ public class TongTien extends JPanel implements ActionListener {
         getNhanVienComboBox();
         setUpLabel(gianhapLabel = new JLabel("Giá nhập:"));
         setUpField(gianhapField = new JTextField());
+        setUpLabel(loinhuanLabel = new JLabel("Lợi nhuận (%):"));
+        setUpField(loinhuanField = new JTextField());
         setUpLabel(nhacungcapLabel = new JLabel("Nhà cung cấp:"));
         setUpComponent(nhacungcapComboBox = new JComboBox<>());
         getNhaCungCapComboBox();
@@ -155,6 +157,22 @@ public class TongTien extends JPanel implements ActionListener {
         this.nhapHang = nhapHang;
     }
 
+    public JLabel getLoinhuanLabel() {
+        return loinhuanLabel;
+    }
+
+    public void setLoinhuanLabel(JLabel loinhuanLabel) {
+        this.loinhuanLabel = loinhuanLabel;
+    }
+
+    public JTextField getLoinhuanField() {
+        return loinhuanField;
+    }
+
+    public void setLoinhuanField(JTextField loinhuanField) {
+        this.loinhuanField = loinhuanField;
+    }
+
     // bug
     public void getNhanVienComboBox() {
         List<AccountDTO> data = new AccountBUS().getNhanVien();
@@ -181,26 +199,31 @@ public class TongTien extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nhapHang) {
-            if (tableSanPham.getTable().getRowCount() == 0) {
-                MessageBox.showError("Không có sản phẩm để nhập!!!");
+            if (getLoinhuanField().getText().isEmpty() || Integer.parseInt(getLoinhuanField().getText()) < 0
+                    || Integer.parseInt(getLoinhuanField().getText()) > 100) {
+                MessageBox.showError("Hãy nhập % lợi nhuận hợp lệ!!!");
             } else {
-                if (MessageBox.showConfirmDialog("Bạn có chắc chắn muốn nhập hàng không?",
-                        "Xác nhận nhập hàng") == JOptionPane.YES_OPTION) {
-                    // Gọi hàm nhập hàng ở đây
-                    int maphieunhap = tableSanPham.createEntryForm();
-                    for (int i = 0; i < tableSanPham.table.getRowCount(); i++) {
-                        new DetailEntryFormBUS().createDetailEntryForm(maphieunhap,
-                                Integer.parseInt(tableSanPham.model.getValueAt(i, 2).toString()),
-                                Integer.parseInt(tableSanPham.model.getValueAt(i, 4).toString()),
-                                Integer.parseInt(tableSanPham.model.getValueAt(i, 0).toString()));
-                    }
-                    MessageBox.showOkDialog("Đã nhập hàng.", "Thành công");
-                    parent.setContentPane(new PhieuNhap(this.parent));
-                    parent.revalidate();
-                    parent.repaint();
-
+                if (tableSanPham.getTable().getRowCount() == 0) {
+                    MessageBox.showError("Không có sản phẩm để nhập!!!");
                 } else {
-                    MessageBox.showOkDialog("Đã hủy nhập hàng", "Thất bại");
+                    if (MessageBox.showConfirmDialog("Bạn có chắc chắn muốn nhập hàng không?",
+                            "Xác nhận nhập hàng") == JOptionPane.YES_OPTION) {
+                        // Gọi hàm nhập hàng ở đây
+                        int maphieunhap = tableSanPham.createEntryForm();
+                        for (int i = 0; i < tableSanPham.table.getRowCount(); i++) {
+                            new DetailEntryFormBUS().createDetailEntryForm(maphieunhap,
+                                    Integer.parseInt(tableSanPham.model.getValueAt(i, 2).toString()),
+                                    Integer.parseInt(tableSanPham.model.getValueAt(i, 4).toString()),
+                                    Integer.parseInt(tableSanPham.model.getValueAt(i, 0).toString()));
+                        }
+                        MessageBox.showOkDialog("Đã nhập hàng.", "Thành công");
+                        parent.setContentPane(new PhieuNhap(this.parent));
+                        parent.revalidate();
+                        parent.repaint();
+
+                    } else {
+                        MessageBox.showOkDialog("Đã hủy nhập hàng", "Thất bại");
+                    }
                 }
             }
         }

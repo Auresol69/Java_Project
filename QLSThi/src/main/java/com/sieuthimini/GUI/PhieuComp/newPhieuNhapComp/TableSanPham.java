@@ -213,6 +213,7 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
 
     public int createEntryForm() {
         return new EntryFormBUS().createEntryForm((SupplierDTO) tongTien.getNhacungcapComboBox().getSelectedItem(),
-                (AccountDTO) tongTien.getManhanviennhapComboBox().getSelectedItem());
+                (AccountDTO) tongTien.getManhanviennhapComboBox().getSelectedItem(),
+                Integer.parseInt(tongTien.getLoinhuanField().getText()));
     }
 }

@@ -133,7 +133,7 @@ CREATE TRIGGER `after_insert_detail_entry_form` AFTER INSERT ON `detail_entry_fo
     FROM entry_form
     WHERE maphieunhap= NEW.maphieunhap;
     
-    UPDATE product SET soluong = soluong + NEW.soluongnhap, dongiasanpham = NEW.dongianhap * (1 + profit / 100) where masp = NEW.masp;
+    UPDATE product SET soluong = soluong + NEW.soluongnhap, dongiasanpham = ROUND(NEW.dongianhap * (1 + profit / 100), -2) where masp = NEW.masp;
 END
 $$
 DELIMITER ;

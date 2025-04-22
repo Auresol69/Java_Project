@@ -13,14 +13,11 @@ import com.sieuthimini.DAO.DataBase;
 public class Table extends JPanel {
 
     private String[] columnNames = {
-            "maphieunhap",
-            "ngaynhap",
-            "mancc",
-            "maaccount",
-            "masp",
-            "dongianhap",
-            "ngayhethan",
-            "soluongnhap"
+            "Mã Phiếu nhập",
+            "Nhà cung cấp",
+            "Nhân viên nhập",
+            "Ngày nhập",
+            "Tổng tiền"
     };
     JTable table;
     JScrollPane scrollPane;
@@ -29,10 +26,26 @@ public class Table extends JPanel {
         this.setLayout(new BorderLayout());
         table = new JTable();
         DataBase db = new DataBase();
-        List<Object[]> data = db.selectQuery("SELECT ef.maphieunhap, ef.ngaynhap, ef.mancc, ef.maaccount,\r\n" + //
-                "               def.masp, def.dongianhap, def.ngayhethan, def.soluongnhap\r\n" + //
-                "        FROM entry_form ef\r\n" + //
-                "        JOIN detail_entry_form def ON ef.maphieunhap = def.maphieunhap");
+        List<Object[]> data = db
+                .selectQuery("SELECT \r\n" + //
+                        "    ef.maphieunhap, \r\n" + //
+                        "    sup.tencc, \r\n" + //
+                        "    sta.tennhanstaff,\r\n" + //
+                        "    ef.ngaynhap, \r\n" + //
+                        "    SUM(def.soluongnhap * def.dongianhap) AS tong_tien_nhap\r\n" + //
+                        "FROM \r\n" + //
+                        "    entry_form ef\r\n" + //
+                        "JOIN \r\n" + //
+                        "    detail_entry_form def ON ef.maphieunhap = def.maphieunhap\r\n" + //
+                        "JOIN \r\n" + //
+                        "    supplier sup ON ef.mancc = sup.mancc\r\n" + //
+                        "JOIN \r\n" + //
+                        "\taccount acc ON ef.maaccount = acc.maaccount\r\n" + //
+                        "JOIN \r\n" + //
+                        "    staff sta ON acc.mastaff = sta.mastaff\r\n" + //
+                        "GROUP BY \r\n" + //
+                        "    ef.maphieunhap, sup.tencc, sta.tennhanstaff, ef.ngaynhap;\r\n" + //
+                        "");
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         for (Object[] row : data) {
             model.addRow(row);

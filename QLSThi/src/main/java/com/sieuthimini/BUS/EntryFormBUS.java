@@ -9,9 +9,13 @@ public class EntryFormBUS {
 
     }
 
-    public int createEntryForm(SupplierDTO supplierDTO, AccountDTO accountDTO) {
+    public int createEntryForm(SupplierDTO supplierDTO, AccountDTO accountDTO, int loinhuan) {
         if (supplierDTO == null || accountDTO == null) {
             System.out.println("Lỗi: Thiếu thông tin nhà cung cấp hoặc tài khoản.");
+            return -1;
+        }
+        if (loinhuan == 0) {
+            System.out.println("Lỗi: % Lợi nhuận không được để trống.");
             return -1;
         }
 
@@ -25,7 +29,7 @@ public class EntryFormBUS {
             return -1;
         }
 
-        return new EntryFormDAO().createEntryForm(supplierDTO, accountDTO);
+        return new EntryFormDAO().createEntryForm(supplierDTO, accountDTO, loinhuan);
 
     }
 
