@@ -186,6 +186,9 @@ ALTER TABLE bill_product ADD CONSTRAINT fk_bill_product_masp FOREIGN KEY (`masp`
 ALTER TABLE `remove_product` ADD CONSTRAINT fk_remove_product_masp FOREIGN KEY (`masp`) REFERENCES product(`masp`) ON DELETE CASCADE;
 
 ALTER TABLE account ADD CONSTRAINT fk_account_mastaff FOREIGN KEY (`mastaff`) REFERENCES staff(`mastaff`) ON DELETE CASCADE;
+ALTER TABLE `powergroup_func_permission` ADD PRIMARY KEY (`powergroupid`, `funcid`, `permissionid`);
+ALTER TABLE `bill_product` ADD PRIMARY KEY (`mabill`, `masp`);
+ALTER TABLE `detail_entry_form` ADD PRIMARY KEY (`maphieunhap`, `masp`);
 -- Trigger
 
 DELIMITER $$
@@ -273,9 +276,7 @@ INSERT INTO `powergroup` (`powergroupname`, `status`, `created_time`, `last_upda
 
 -- Bảng Account
 -- Lưu ý: Bạn cần truy xuất đúng `mastaff` và `powergroupid` đang được tạo tự động ở trên
--- nên cần JOIN lại hoặc thêm bằng mã nếu không dùng AUTO_INCREMENT cho staff và powergroup
-INSERT INTO `account` (`mastaff`, `username`, `password`, `powergroupid`, `email`, `status`) VALUES
-(1, 'roy', '123', 1, 'A@gm.com', 1);  -- Giả sử STF001 và PGR001 là id tự tăng đầu tiên
+
 
 -- Bảng ProductType
 INSERT INTO `producttype` (`tenloaisp`) VALUES
@@ -284,16 +285,19 @@ INSERT INTO `producttype` (`tenloaisp`) VALUES
 ('Mì ăn liền'),
 ('Sữa'),
 ('Bánh kẹo');
-
+INSERT INTO `customer` (`macustomer`, `name`, `phone`, `address`) VALUES
+(1, 'Nguyễn Văn A', '0912345678', 'Hà Nội'),
+(2, 'Trần Thị B', '0934567890', 'TP. Hồ Chí Minh'),
+(3, 'Lê Văn C', '0987654321', 'Đà Nẵng'),
+(4, 'Phạm Thị D', '0978123456', 'Hải Phòng');
 -- Bảng Product
 -- Lưu ý: bạn phải xác định đúng `maloaisp` và `mancc` dựa vào ID đã sinh ra từ các bảng trên
 INSERT INTO `product` (`tensp`, `soluong`, `dongiasanpham`, `maloaisp`, `mancc`, `img`) VALUES
 ('Nước ngọt Coca-Cola', 100, 8000, 1, 1, 'img/coca.png'),
-('Snack khoai tây Lay'"'"'s', 150, 12000, 2, 2, 'img/snack.png'),
+('Snack khoai tây Lay\'s', 150, 12000, 2, 2, 'img/snack.png'),
 ('Mì Hảo Hảo tôm chua cay', 200, 3500, 3, 1, 'img/haohao.png'),
 ('Sữa tươi Vinamilk 1L', 80, 28000, 4, 3, 'img/vinamilk.png'),
 ('Bánh Oreo socola', 90, 15000, 5, 4, 'img/oreo.png');
- --------------------------------------------------------------------
  INSERT INTO `supplier` (`tencc`, `diachi`, `dienthoai`, `sofax`) VALUES
 ('Suntory PepsiCo', 'Hà Nội', '0912345678', '0245678901'),
 ('Nestlé Việt Nam', 'TP. Hồ Chí Minh', '0988776655', '0281234567'),
@@ -305,7 +309,7 @@ INSERT INTO `staff` (`address`, `tennhanstaff`, `dienthoai`) VALUES
 ('Đà Nẵng', 'Nguyễn Văn A', '0944777888'),
 ('Bình Dương', 'Lê Thị B', '0933444555');
 INSERT INTO `account` (`mastaff`, `username`, `password`, `powergroupid`, `status`) VALUES
-(1, 'johndoe', 'password123', 1, 1),
+(1, 'admin', '123456', 1, 1),
 (2, 'janesmith', 'abc123', 1, 1),
 (3, 'nguyenva', 'mypassword', 1, 1),
 (4, 'lethib', 'securepass', 1, 1);
@@ -326,6 +330,10 @@ INSERT INTO `comment` (`noidung`, `ngaydang`, `masp`, `mauser`) VALUES
 ('Mì rất ngon, gia vị đậm đà!', '2025-04-15 09:00:00', 3, 2),
 ('Bánh kẹo này rất ngon và giòn!', '2025-04-15 10:00:00', 5, 3),
 ('Sữa Vinamilk tươi ngon, dễ uống!', '2025-04-15 11:00:00', 4, 4);
+INSERT INTO `payby` (`paybyname`, `address`, `details`) VALUES
+('Tiền mặt', 'Hà Nội', '{"chuyenkhoan": false, "tienmat": true}'),
+('Chuyển khoản', 'TP. Hồ Chí Minh', '{"chuyenkhoan": true, "tienmat": false}'),
+('Thẻ tín dụng', 'Đà Nẵng', '{"chuyenkhoan": true, "tienmat": false}');
 INSERT INTO `bill` (`macustomer`, `mapayby`, `ngaymua`, `tongtien`) VALUES
 (1, 1, '2025-04-15 12:00:00', 45000),
 (2, 2, '2025-04-15 12:30:00', 36000),
@@ -336,7 +344,3 @@ INSERT INTO `bill_product` (`mabill`, `masp`, `soluong`) VALUES
 (2, 3, 2),
 (3, 4, 5),
 (4, 5, 2);
-INSERT INTO `payby` (`paybyname`, `address`, `details`) VALUES
-('Tiền mặt', 'Hà Nội', '{"chuyenkhoan": false, "tienmat": true}'),
-('Chuyển khoản', 'TP. Hồ Chí Minh', '{"chuyenkhoan": true, "tienmat": false}'),
-('Thẻ tín dụng', 'Đà Nẵng', '{"chuyenkhoan": true, "tienmat": false}');

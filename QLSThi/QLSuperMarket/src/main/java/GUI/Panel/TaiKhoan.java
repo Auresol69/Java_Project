@@ -69,7 +69,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         tableTaiKhoan.setDefaultEditor(Object.class, null);
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MaNV", "Tên đăng nhập","Password","Nhóm quyền","Email", "Trạng thái"};
+        String[] header = new String[]{"MaNV", "Tên đăng nhập","Password","Nhóm quyền", "Trạng thái"};
         tblModel.setColumnIdentifiers(header);
         tableTaiKhoan.setModel(tblModel);
         tableTaiKhoan.setFocusable(false);
@@ -154,7 +154,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             String trangthaiString = taiKhoanDTO.getTrangThai() ? "Hoạt động" : "Ngưng hoạt động";
             tblModel.addRow(new Object[]{
             taiKhoanDTO.getMaStaff(),
-            taiKhoanDTO.getUsername(),
+            taiKhoanDTO.getUsername(),taiKhoanDTO.getPassword(),
             taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getPowerGroupId()).getTenNhomQuyen(),
             trangthaiString
         });

@@ -210,7 +210,7 @@ public class QLSieuThi extends JFrame{
             case "Quản lý sản phẩm" : 
                 break ;
             case "Quản lý nhân viên" : 
-                panelCenter = new NhanVienGUI();
+                panelCenter = new NhanVien(this);
                 break ;
             case "Quản lý nhà cung cấp" : 
                 break ;

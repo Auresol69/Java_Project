@@ -34,8 +34,8 @@
     public void disConnect()
     { 
         try{
-            st.close();
-            conn.close();
+            if (st != null) st.close();  // ✅ kiểm tra null trước khi close
+            if(conn!=  null) conn.close();
         }catch (SQLException E){}
     }
     
