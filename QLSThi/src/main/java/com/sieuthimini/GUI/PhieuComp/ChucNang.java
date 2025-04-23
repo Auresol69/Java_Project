@@ -83,7 +83,6 @@ public class ChucNang extends JPanel implements ActionListener {
         this.add(timKiem);
 
         setUpButton(refreshButton = new JButton(), "Làm mới", "arrows-rotate-solid.png");
-
     }
 
     @Override
@@ -92,6 +91,10 @@ public class ChucNang extends JPanel implements ActionListener {
             parent.setContentPane(new newPhieuNhap(this.parent));
             parent.revalidate();
             parent.repaint();
+        }
+        if (e.getSource() == chiTietButton) {
+            ChiTietPhieuNhap chiTietPhieuNhap = new ChiTietPhieuNhap(parent);
+            chiTietPhieuNhap.setVisible(true);
         }
     }
 }
