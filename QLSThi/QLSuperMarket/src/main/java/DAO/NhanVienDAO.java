@@ -64,7 +64,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
     }
 
     @Override
-    public int delete(String id) {
+    public int delete(int id) {
         int result = 0;
         String sql = "UPDATE staff SET status = -1 WHERE mastaff = ?";
         MySQLConnect db = new MySQLConnect();
@@ -72,7 +72,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
         try {
             Connection con = db.getConnection();
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, id);
+            pst.setInt(1, id);
 
             result = pst.executeUpdate();
             pst.close();
@@ -99,7 +99,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
             while (rs.next()) {
                 NhanVienDTO nv = new NhanVienDTO(
                         rs.getInt("mastaff"),
-                        rs.getString("tennhanstaff"),
+                        rs.getString("tenstaff"),
                         rs.getString("dienthoai"),
                         rs.getString("address"),
                         rs.getInt("status")
@@ -153,15 +153,15 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
         ArrayList<NhanVienDTO> result = new ArrayList<NhanVienDTO>();
         try {
             Connection con = (Connection) MySQLConnect.getConnection();
-            String sql = "SELECT * FROM staff WHERE trangthai = '1'";
+            String sql = "SELECT * FROM staff WHERE status = '1'";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = (ResultSet) pst.executeQuery();
             while(rs.next()){
                 int manv = rs.getInt("mastaff");
-                String hoten = rs.getString("hoten");
+                String hoten = rs.getString("tenstaff");
                 String address = rs.getString("address");
-                String sdt = rs.getString("sdt");
-                int trangthai = rs.getInt("trangthai");
+                String sdt = rs.getString("dienthoai");
+                int trangthai = rs.getInt("status");
                 NhanVienDTO nv = new NhanVienDTO(manv,hoten, sdt,address,trangthai);
                 result.add(nv);
             }

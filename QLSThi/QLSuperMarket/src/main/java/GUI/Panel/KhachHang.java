@@ -60,7 +60,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tableKhachHang = new JTable();
         scrollTableKhachHang = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại", "Ngày tham gia"};
+        String[] header = new String[]{"Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại","Ngày đăng ký"};
         tblModel.setColumnIdentifiers(header);
         tableKhachHang.setModel(tblModel);
         tableKhachHang.setFocusable(false);
@@ -71,7 +71,6 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         tableKhachHang.setAutoCreateRowSorter(true);
         TableSorter.configureTableColumnSorter(tableKhachHang, 0, TableSorter.INTEGER_COMPARATOR);
@@ -111,7 +110,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
 
         String[] action = {"create", "update", "delete", "detail", "import", "export"};
 
-        mainFunction = new MainFunction(m.user.getPowerGroupId(), "khachhang", action);
+        mainFunction = new MainFunction(m.user.getPowerGroupId(), 1, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
@@ -159,7 +158,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tblModel.setRowCount(0);
         for (DTO.KhachHangDTO khachHang : result) {
             tblModel.addRow(new Object[]{
-                khachHang.getMaKH(), khachHang.getHoten(), khachHang.getAddress(), khachHang.getSdt()
+                khachHang.getMaKH(), khachHang.getHoten(), khachHang.getAddress(), khachHang.getSdt(),khachHang.getDate()
             });
         }
     }

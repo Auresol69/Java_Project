@@ -42,7 +42,7 @@ public class TaiKhoanDAO {
         int result = 0;
         try {
             Connection con = MySQLConnect.getConnection();
-            String sql = "INSERT INTO `account`(`maaccount`, `mastaff`, `username`, `password`, `powergroupid`, `trangthai`) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `account`(`maaccount`, `mastaff`, `username`, `password`, `powergroupid`, `status`) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getMaAccount());          // maaccount (int)
             pst.setInt(2, t.getMaStaff());            // mastaff (int)
@@ -105,7 +105,7 @@ public class TaiKhoanDAO {
                     rs.getString("username"),
                     rs.getString("password"),
                     rs.getInt("powergroupid"),
-                    rs.getBoolean("trangthai")
+                    rs.getBoolean("status")
                 );
             }
             rs.close();

@@ -5,7 +5,7 @@ import DAO.TaiKhoanDAO;
 import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
 import java.util.ArrayList;
-
+import helper.BCrypt;
 public class TaiKhoanBUS {
     private TaiKhoanDAO taiKhoanDAO = new TaiKhoanDAO();
     private ArrayList<TaiKhoanDTO> dsTaiKhoan;
@@ -37,7 +37,8 @@ public class TaiKhoanBUS {
     // Kiểm tra đăng nhập
     public TaiKhoanDTO dangNhap(String username, String password) {
         TaiKhoanDTO tk = getTaiKhoanTheoUsername(username);
-        if (tk != null && tk.getPassword().equals(password)) {
+        
+        if (tk != null && BCrypt.checkpw(password, tk.getPassword()) ) {
             return tk;
         }
         return null;

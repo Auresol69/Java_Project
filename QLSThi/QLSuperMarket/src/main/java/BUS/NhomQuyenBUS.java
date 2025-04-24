@@ -26,16 +26,15 @@ public class NhomQuyenBUS {
     }
 
     public boolean add(String tenNhomQuyen, ArrayList<ChiTietQuyenDTO> ctQuyenList) {
+        int AUTO_INCREMENT = nhomquyenDAO.getAutoIncrement();
         NhomQuyenDTO nq = new NhomQuyenDTO(tenNhomQuyen);
         int generatedId = nhomquyenDAO.insert(nq);
         if (generatedId != 0) {
-            nq.setMaNhomQuyen(generatedId);
-
+            nq.setMaNhomQuyen(AUTO_INCREMENT);
             // Gán lại mã nhóm quyền cho các chi tiết quyền
             for (ChiTietQuyenDTO ct : ctQuyenList) {
-                ct.setManhomquyen(generatedId);
+                ct.setManhomquyen(AUTO_INCREMENT);
             }
-
             listNhomQuyen.add(nq);
             return addChiTietQuyen(ctQuyenList);
         }
@@ -49,7 +48,6 @@ public class NhomQuyenBUS {
             for (ChiTietQuyenDTO ct : chiTietList) {
                 ct.setManhomquyen(nhomquyen.getMaNhomQuyen());
             }
-
             removeChiTietQuyen(nhomquyen.getMaNhomQuyen());
             addChiTietQuyen(chiTietList);
             listNhomQuyen.set(index, nhomquyen);
@@ -58,7 +56,7 @@ public class NhomQuyenBUS {
     }
 
     public boolean delete(NhomQuyenDTO nq) {
-        boolean success = nhomquyenDAO.delete(Integer.toString(nq.getMaNhomQuyen())) != 0;
+        boolean success = nhomquyenDAO.delete((nq.getMaNhomQuyen())) != 0;
         if (success) {
             listNhomQuyen.remove(nq);
         }
@@ -66,7 +64,7 @@ public class NhomQuyenBUS {
     }
 
     public ArrayList<ChiTietQuyenDTO> getChiTietQuyen(int maNhomQuyen) {
-        return chitietquyenDAO.selectAll(Integer.toString(maNhomQuyen));
+        return chitietquyenDAO.selectAll((maNhomQuyen));
     }
 
     public boolean addChiTietQuyen(ArrayList<ChiTietQuyenDTO> listCT) {
@@ -74,13 +72,13 @@ public class NhomQuyenBUS {
     }
 
     public boolean removeChiTietQuyen(int maNhomQuyen) {
-        return chitietquyenDAO.delete(Integer.toString(maNhomQuyen)) != 0;
+        return chitietquyenDAO.delete((maNhomQuyen)) != 0;
     }
 
-    public boolean checkPermission(int maNhomQuyen, int maChucNang) {
+    public boolean checkPermission(int maNhomQuyen,int maFunc, int maPermission) {
         ArrayList<ChiTietQuyenDTO> ctQuyen = getChiTietQuyen(maNhomQuyen);
         for (ChiTietQuyenDTO ct : ctQuyen) {
-            if (ct.getMachucnang() == maChucNang) {
+            if (ct.getPermissionid() == maPermission && ct.getMachucnang() == maFunc) {
                 return true;
             }
         }

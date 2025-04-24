@@ -1,11 +1,28 @@
 package GUI.Model;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 public class Header extends JPanel {
     private JButton exit, minimize;
@@ -43,7 +60,7 @@ public class Header extends JPanel {
         hello.setForeground(Color.white);
         hello.setOpaque(true);
         minimize = createButton("/IMG/layers.png");
-        exit = createButton("/IMG/close.png");
+        exit = createExitButton();
     
         // Cấu hình nameMarket (bên trái)
         gbc.gridx = 0;
@@ -119,5 +136,34 @@ public class Header extends JPanel {
     
         return new ImageIcon(buffered);
     }
+    public static JButton createExitButton() {
+        FlatSVGIcon icon = new FlatSVGIcon("IMG/close.svg", 20, 20);
+        JButton exitButton = new JButton(icon);
+    
+        exitButton.setToolTipText("Thoát");
+        exitButton.setFocusable(false);
+        exitButton.setContentAreaFilled(true); // để có thể đổi màu nền
+        exitButton.setOpaque(true);
+        exitButton.setBorderPainted(false);
+        exitButton.setPreferredSize(new Dimension(50, 50));
+        exitButton.setBackground(new Color(45, 52, 54)); // màu nền mặc định
+    
+        exitButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                exitButton.setBackground(Color.RED);
+            }
+    
+            public void mouseExited(MouseEvent e) {
+                exitButton.setBackground(new Color(45, 52, 54));
+            }
+    
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+            }
+        });
+    
+        return exitButton;
+    }
+    
     
 }

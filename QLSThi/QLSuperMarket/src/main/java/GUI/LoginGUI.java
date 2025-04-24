@@ -33,7 +33,7 @@ public class LoginGUI extends JFrame implements KeyListener {
     Color FontColor = new Color(96, 125, 139);
     public LoginGUI() {
         init();
-        txtUsername.setText("admin");
+        txtUsername.setText("admin123");
         txtpassword.setPass("123456");
     }
     public void init() {
