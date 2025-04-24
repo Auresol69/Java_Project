@@ -83,9 +83,6 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
         }
         return vitri;
     }
-    
-    
-    
     public String getNameById(int manv) {
         return nhanVienDAO.selectedByID(manv).getHoten();
     }
@@ -179,7 +176,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
     }
 
     public void deleteNv(NhanVienDTO nv) {
-        NhanVienDAO.getInstance().delete(nv.getMaNV() + "");
+        NhanVienDAO.getInstance().delete(nv.getMaNV());
         TaiKhoanDAO.getInstance().deleteTaiKhoan(nv.getMaNV());
         listNv.removeIf(n -> (n.getMaNV() == nv.getMaNV()));
         loadTable();

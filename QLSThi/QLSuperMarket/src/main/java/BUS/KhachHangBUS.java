@@ -40,7 +40,7 @@ public class KhachHangBUS {
     }
 
     public boolean delete(KhachHangDTO kh) {
-        boolean check = khDAO.delete(Integer.toString(kh.getMaKH())) != 0;
+        boolean check = khDAO.delete((kh.getMaKH())) != 0;
         if (check){
             this.listKhachHang.remove(getIndexByMaDV(kh.getMaKH()));
         }
@@ -119,6 +119,4 @@ public class KhachHangBUS {
     public KhachHangDTO selectKH (int makh) {
         return khDAO.selectedByID(makh);
     }
-
-
 }

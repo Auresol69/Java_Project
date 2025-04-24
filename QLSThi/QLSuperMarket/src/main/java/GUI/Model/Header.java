@@ -22,6 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+
 public class Header extends JPanel {
     private JButton exit, minimize;
     private JLabel hello, nameMarket;
@@ -58,7 +60,7 @@ public class Header extends JPanel {
         hello.setForeground(Color.white);
         hello.setOpaque(true);
         minimize = createButton("/IMG/layers.png");
-        exit = createButton("/IMG/close.svg");
+        exit = createExitButton();
     
         // Cấu hình nameMarket (bên trái)
         gbc.gridx = 0;
@@ -134,5 +136,34 @@ public class Header extends JPanel {
     
         return new ImageIcon(buffered);
     }
+    public static JButton createExitButton() {
+        FlatSVGIcon icon = new FlatSVGIcon("IMG/close.svg", 20, 20);
+        JButton exitButton = new JButton(icon);
+    
+        exitButton.setToolTipText("Thoát");
+        exitButton.setFocusable(false);
+        exitButton.setContentAreaFilled(true); // để có thể đổi màu nền
+        exitButton.setOpaque(true);
+        exitButton.setBorderPainted(false);
+        exitButton.setPreferredSize(new Dimension(50, 50));
+        exitButton.setBackground(new Color(45, 52, 54)); // màu nền mặc định
+    
+        exitButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                exitButton.setBackground(Color.RED);
+            }
+    
+            public void mouseExited(MouseEvent e) {
+                exitButton.setBackground(new Color(45, 52, 54));
+            }
+    
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+            }
+        });
+    
+        return exitButton;
+    }
+    
     
 }

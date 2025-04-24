@@ -105,12 +105,10 @@ public class TaiKhoanDialog extends JDialog {
                         }
                     }
                     if (check == 0) {
-                        
                         String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
                         int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getMaNhomQuyen();
                         int tt = trangthai.getSelectedIndex();
                         TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
-                        TaiKhoanDAO.getInstance().insert(tk);
                         taiKhoan.taiKhoanBus.addAcc(tk);
                         taiKhoan.loadTable(taiKhoan.taiKhoanBus.getDsTaiKhoan());
                         dispose();

@@ -7,44 +7,69 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import GUI.Panel.*;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
+import org.imgscalr.Scalr;
+
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 
+import DAO.ChiTietQuyenDAO;
+import DAO.NhanVienDAO;
+import DAO.NhomQuyenDAO;
+import DTO.ChiTietQuyenDTO;
+import DTO.NhanVienDTO;
+import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Model.ChucNang;
 import GUI.Model.Header;
-import GUI.Panel.TaiKhoan;
 
 
 public class QLSieuThi extends JFrame{
+    private ArrayList<ChiTietQuyenDTO> listQuyen;
+    NhomQuyenDTO nhomQuyenDTO;
+    public NhanVienDTO nhanVienDTO;
     JPanel panelWest, panelNorth, panelSouth, panelEast, panelCenter;
     JButton exit;
     public TaiKhoanDTO user;
     private int DEFAULT_WIDTH, DEFAULT_HEIGHT;
+    public static final List<ChucNang> DANH_SACH = Arrays.asList(
+        new ChucNang(1, "Khách hàng", "../IMG/icons8-customer-48.png"),
+        new ChucNang(2, "Nhân viên", "../IMG/icons8-employee-50.png"),
+        new ChucNang(3, "Phân quyền", "../IMG/icons8-shield-48.png"),
+        new ChucNang(4, "Nhà cung cấp", "../IMG/icons8-supplier-50.png"),
+        new ChucNang(5, "Tài khoản", "../IMG/icons8-account-50.png"),
+        new ChucNang(6, "Sản phẩm", "../IMG/icons8-product-50.png"),
+        new ChucNang(7, "Thống kê", "../IMG/icons8-slice-50.png"),
+        // new ChucNang(8, "Xuất hàng", "../IMG/icons8-export-50.png"),
+        new ChucNang(9, "Sản phẩm hủy", "../IMG/icons8-trash-bin-50.png")
+    );
     public QLSieuThi(){
         init();
     }
@@ -83,36 +108,71 @@ public class QLSieuThi extends JFrame{
         this.setLayout(new BorderLayout());
         panelWest = new JPanel();
         panelWest.setPreferredSize(new Dimension(200,0));
-        
-        
         panelWest.setLayout(new BorderLayout());
         panelWest.setBackground(Color.WHITE);
-        ImageIcon avtIcon = new ImageIcon(getClass().getResource("/IMG/icons8-avatar-50.png"));
-        Image avtIMG = avtIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
+        ImageIcon avtIcon ;
+        switch (user.getPowerGroupId()) {
+            case 1:
+                avtIcon = new ImageIcon(getClass().getResource("/IMG/Employee/admin1.png"));
+                break;
+            default:
+                avtIcon = new ImageIcon(getClass().getResource("/IMG/Employee/admin1.png"));
+                break;
+        }
+        Image scaledImage = getScaledImage(avtIcon.getImage(), 200, 250);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
         // Tạo JLabel chứa ảnh
-        JLabel avt = new JLabel(avtIcon);
-        avt.setIcon(new ImageIcon(avtIMG ));
-        avt.setPreferredSize(new Dimension(200, 120));
-        avt.setHorizontalAlignment(SwingConstants.CENTER); // Căn giữa ảnh trong label
+        JLabel avt = new JLabel(scaledIcon);
+        avt.setPreferredSize(new Dimension(200, 250));
+        avt.setHorizontalAlignment(SwingConstants.CENTER);
         avt.setVerticalAlignment(SwingConstants.CENTER);
-        
-        // Thêm vào panelWest ở vị trí BorderLayout.NORTH
+        avt.setOpaque(true);
+        avt.setBackground(Color.WHITE);
+
         panelWest.setLayout(new BorderLayout());
         panelWest.add(avt, BorderLayout.NORTH);
-
         ArrayList<ChucNang> danhSachQuanLy = new ArrayList<>();
         // Thêm các mục vào danh sách
         JPanel panelLabelGroup = new JPanel();
         panelLabelGroup.setLayout(new BoxLayout(panelLabelGroup, BoxLayout.Y_AXIS));
         panelLabelGroup.setBackground(Color.WHITE);
-
-        danhSachQuanLy.add(new ChucNang(1, "Quản lý khách hàng", "../IMG/icons8-customer-48.png"));
-        danhSachQuanLy.add(new ChucNang(2, "Quản lý sản phẩm", "../IMG/icons8-product-50.png"));
-        danhSachQuanLy.add(new ChucNang(3, "Quản lý nhân viên", "../IMG/icons8-employee-50.png"));
-        danhSachQuanLy.add(new ChucNang(4, "Quản lý nhà cung cấp", "../IMG/icons8-supplier-50.png"));
-        danhSachQuanLy.add(new ChucNang(5, "Quản lý phiếu nhập", "../IMG/icons8-receipt-50.png"));
-        danhSachQuanLy.add(new ChucNang(6, "Tài Khoản", "../IMG/icons8-receipt-50.png"));
-        danhSachQuanLy.add(new ChucNang(7, "Phân Quyền", "../IMG/icons8-receipt-50.png"));
+        JScrollPane scrollPane = new JScrollPane(panelLabelGroup);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        // scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(220,DEFAULT_HEIGHT - 1000));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Xóa viền
+        panelLabelGroup.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            }
+        
+            @Override
+            public void mouseExited(MouseEvent e) {
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+            }
+        });
+        this.nhomQuyenDTO = NhomQuyenDAO.getInstance().selectedByID((user.getPowerGroupId()));
+        this.nhanVienDTO = NhanVienDAO.getInstance().selectedByID((user.getMaStaff()));
+        listQuyen = ChiTietQuyenDAO.getInstance().selectAll((user.getPowerGroupId()));    
+        for (ChucNang cn : DANH_SACH) {
+            if (checkRole(cn.getMaChucNang())) {
+                danhSachQuanLy.add(cn);
+            } else {
+                System.out.println("Không có quyền: " + cn.getTenChucNang());
+            }
+        }
+        // danhSachQuanLy.add(new ChucNang(1, "Quản lý khách hàng", "../IMG/icons8-customer-48.png"));
+        // danhSachQuanLy.add(new ChucNang(2, "Quản lý nhân viên", "../IMG/icons8-employee-50.png"));
+        // danhSachQuanLy.add(new ChucNang(3, "Quản lý nhóm quyền", "../IMG/icons8-permission-50.png")); // Cập nhật ảnh nếu cần
+        // danhSachQuanLy.add(new ChucNang(4, "Quản lý nhà cung cấp", "../IMG/icons8-supplier-50.png"));
+        // danhSachQuanLy.add(new ChucNang(5, "Quản lý tài khoản", "../IMG/icons8-account-50.png")); // Cập nhật ảnh nếu cần
+        // danhSachQuanLy.add(new ChucNang(6, "Quản lý sản phẩm", "../IMG/icons8-product-50.png"));
+        // danhSachQuanLy.add(new ChucNang(7, "Quản lý thống kê", "../IMG/icons8-statistics-50.png")); // Cập nhật ảnh nếu cần
+        // danhSachQuanLy.add(new ChucNang(8, "Quản lý xuất hàng", "../IMG/icons8-export-50.png")); // Cập nhật ảnh nếu cần
+        // danhSachQuanLy.add(new ChucNang(9, "Quản lý sản phẩm hủy", "../IMG/icons8-delete-bin-50.png")); // Cập nhật ảnh nếu cần
         JLabel[] labels = new JLabel[danhSachQuanLy.size()];
         for (int i = 0; i < danhSachQuanLy.size(); i++) {
             String stringImg = danhSachQuanLy.get(i).geticon();
@@ -143,7 +203,7 @@ public class QLSieuThi extends JFrame{
             }
             });
         }
-        panelWest.add(panelLabelGroup, BorderLayout.CENTER);
+        panelWest.add(scrollPane, BorderLayout.CENTER);
         JLabel lblDangXuat = new JLabel("Đăng Xuất");
         ImageIcon icon = new ImageIcon(getClass().getResource("../IMG/logout.png"));
         Image imLogut = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH); // scale ảnh 30x30
@@ -204,23 +264,23 @@ public class QLSieuThi extends JFrame{
     private void switchPanel(String TenChucNang){
         getContentPane().remove(panelCenter);
         switch(TenChucNang){
-            case "Quản lý khách hàng" : 
-                panelCenter = new KhachHang(this);
+            case "Khách hàng" : 
+            panelCenter = new KhachHang(this);
                 break ;
-            case "Quản lý sản phẩm" : 
+            case "Sản phẩm" : 
                 break ;
-            case "Quản lý nhân viên" : 
+            case "Nhân viên" : 
                 panelCenter = new NhanVien(this);
                 break ;
-            case "Quản lý nhà cung cấp" : 
+            case "Nhà cung cấp" : 
                 break ;
             case "Quản lý phiếu nhập" : 
                 break ;
-            case "Tài Khoản" :
+            case "Tài khoản" :
                 panelCenter = new TaiKhoan(this); 
                 break ;
-            case "Phân Quyền" :
-                panelCenter = new TaiKhoan(this); 
+            case "Phân quyền" :
+                panelCenter = new PhanQuyen(this); 
                 break ;
         }; 
         getContentPane().add(panelCenter, BorderLayout.CENTER);
@@ -237,12 +297,29 @@ public class QLSieuThi extends JFrame{
         ClickedLabel.setBackground(null); // trả về màu nền mặc định
         ClickedLabel.setForeground(null); // trả về màu chữ mặc định
     }   
-    public static void main (String []args){
-        new QLSieuThi();
-    }
     public void dangXuat() {
         // Ví dụ: quay về form đăng nhập
         this.dispose(); // đóng form hiện tại
         new LoginGUI().setVisible(true); // mở lại form đăng nhập
+    }
+    public Image getScaledImage(Image srcImg, int width, int height) {
+        if (srcImg instanceof BufferedImage) {
+            return Scalr.resize((BufferedImage) srcImg, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, width, height);
+        } else {
+            // Chuyển đổi sang BufferedImage trước
+            BufferedImage bimage = new BufferedImage(srcImg.getWidth(null), srcImg.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            bimage.getGraphics().drawImage(srcImg, 0, 0, null);
+            return Scalr.resize(bimage, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, width, height);
+        }
+    }
+    public boolean checkRole (int s){
+        boolean check = false;
+        for (int i = 0 ; i < listQuyen.size(); i++){
+            if (s == listQuyen.get(i).getMachucnang()){
+                check = true;
+                return check;
+            }
+        }
+        return check;
     }
 }
