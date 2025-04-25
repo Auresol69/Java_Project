@@ -3,7 +3,9 @@ package com.sieuthimini.DTO;
 public class EntryFormDTO {
     private String ngaynhap;
 
-    private int maaccount, maphieunhap, mancc, loinhuan;
+    private int maaccount, maphieunhap, mancc;
+
+    private float loinhuan;
 
     public int getMaaccount() {
         return maaccount;
@@ -21,11 +23,11 @@ public class EntryFormDTO {
         this.mancc = mancc;
     }
 
-    public int getLoinhuan() {
+    public float getLoinhuan() {
         return loinhuan;
     }
 
-    public void setLoinhuan(int loinhuan) {
+    public void setLoinhuan(float loinhuan) {
         this.loinhuan = loinhuan;
     }
 
@@ -45,7 +47,7 @@ public class EntryFormDTO {
         this.ngaynhap = ngaynhap;
     }
 
-    public EntryFormDTO(int maaccount, int mancc, int maphieunhap, String ngaynhap, int loinhuan) {
+    public EntryFormDTO(int maaccount, int mancc, int maphieunhap, String ngaynhap, float loinhuan) {
         this.maaccount = maaccount;
         this.mancc = mancc;
         this.maphieunhap = maphieunhap;
@@ -56,7 +58,7 @@ public class EntryFormDTO {
     public EntryFormDTO() {
     }
 
-    public EntryFormDTO(int mancc, int maaccount, int loinhuan) {
+    public EntryFormDTO(int mancc, int maaccount, float loinhuan) {
         this.mancc = mancc;
         this.maaccount = maaccount;
         this.loinhuan = loinhuan;

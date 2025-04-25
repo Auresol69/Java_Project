@@ -1,5 +1,8 @@
 package com.sieuthimini.DAO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sieuthimini.DTO.DetailEntryFormDTO;
 
 public class DetailEntryFormDAO {
@@ -11,5 +14,22 @@ public class DetailEntryFormDAO {
         db.insertQuery("INSERT INTO detail_entry_form(maphieunhap,masp,dongianhap,soluongnhap) VALUES (?,?,?,?)",
                 detailEntryFormDTO.getMaphieunhap(), detailEntryFormDTO.getMasp(), detailEntryFormDTO.getDongianhap(),
                 detailEntryFormDTO.getSoluongnhap());
+    }
+
+    public ArrayList<DetailEntryFormDTO> getDetailEntryFormByID(int id) {
+        List<Object[]> data = db.selectQuery("SELECT * FROM detail_entry_form WHERE maphieunhap = ?",
+                id);
+
+        ArrayList<DetailEntryFormDTO> detailEntryFormDTOs = new ArrayList<>();
+
+        for (Object[] objects : data) {
+            // System.out.println(Arrays.toString(objects)); DEBUG
+
+            detailEntryFormDTOs.add(new DetailEntryFormDTO(Integer.parseInt(objects[0].toString()),
+                    Integer.parseInt(objects[2].toString()), Integer.parseInt(objects[4].toString()),
+                    Integer.parseInt(objects[1].toString())));
+        }
+
+        return detailEntryFormDTOs;
     }
 }

@@ -1,5 +1,7 @@
 package com.sieuthimini.DAO;
 
+import java.util.List;
+
 import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.EntryFormDTO;
 import com.sieuthimini.DTO.SupplierDTO;
@@ -13,5 +15,13 @@ public class EntryFormDAO {
                 entryFormDTO.getMancc(),
                 entryFormDTO.getMaaccount(),
                 entryFormDTO.getLoinhuan());
+    }
+
+    public Object[] getEntryFormByID(int id) {
+
+        List<Object[]> data = db.selectQuery("SELECT * FROM entry_form WHERE maphieunhap = ?", id);
+        if (data.isEmpty())
+            return null;
+        return data.get(0);
     }
 }

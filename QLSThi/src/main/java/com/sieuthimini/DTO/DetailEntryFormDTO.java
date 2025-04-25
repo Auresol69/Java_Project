@@ -1,5 +1,7 @@
 package com.sieuthimini.DTO;
 
+import com.sieuthimini.BUS.ProductBUS;
+
 public class DetailEntryFormDTO {
     private int maphieunhap, dongianhap, soluongnhap, masp;
     private String ngayhethan;
@@ -61,5 +63,9 @@ public class DetailEntryFormDTO {
 
     public void setNgayhethan(String ngayhethan) {
         this.ngayhethan = ngayhethan;
+    }
+
+    public String getTenSanPham() {
+        return new ProductBUS().getTenSanPham(masp).getTensp();
     }
 }

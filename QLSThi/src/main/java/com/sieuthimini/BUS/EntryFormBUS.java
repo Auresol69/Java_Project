@@ -2,6 +2,7 @@ package com.sieuthimini.BUS;
 
 import com.sieuthimini.DAO.EntryFormDAO;
 import com.sieuthimini.DTO.AccountDTO;
+import com.sieuthimini.DTO.EntryFormDTO;
 import com.sieuthimini.DTO.SupplierDTO;
 
 public class EntryFormBUS {
@@ -31,6 +32,16 @@ public class EntryFormBUS {
 
         return new EntryFormDAO().createEntryForm(supplierDTO, accountDTO, loinhuan);
 
+    }
+
+    public EntryFormDTO getEntryFormByID(int id) {
+        if (id == -1)
+            return null;
+        Object[] data = new EntryFormDAO().getEntryFormByID(id);
+        return new EntryFormDTO(Integer.parseInt(data[3].toString()),
+                Integer.parseInt(data[2].toString()),
+                Integer.parseInt(data[0].toString()),
+                data[1].toString(), Float.parseFloat(data[4].toString()));
     }
 
 }

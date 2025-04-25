@@ -1,6 +1,7 @@
 package com.sieuthimini.GUI.PhieuComp;
 
 import com.sieuthimini.ExtendClasses.GetImagePNG;
+import com.sieuthimini.ExtendClasses.MessageBox;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,6 +26,7 @@ public class ChucNang extends JPanel implements ActionListener {
     JTextField timKiem;
     JButton refreshButton;
     JFrame parent;
+    Table table;
 
     private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
@@ -93,8 +95,20 @@ public class ChucNang extends JPanel implements ActionListener {
             parent.repaint();
         }
         if (e.getSource() == chiTietButton) {
-            ChiTietPhieuNhap chiTietPhieuNhap = new ChiTietPhieuNhap(parent);
-            chiTietPhieuNhap.setVisible(true);
+            if (table.getTable().getSelectedRow() == -1) {
+                MessageBox.showError("Vui lòng chọn 1 phiếu nhập!!!");
+            } else {
+                ChiTietPhieuNhap chiTietPhieuNhap = new ChiTietPhieuNhap(parent, table.getTable());
+                chiTietPhieuNhap.setVisible(true);
+            }
         }
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 }

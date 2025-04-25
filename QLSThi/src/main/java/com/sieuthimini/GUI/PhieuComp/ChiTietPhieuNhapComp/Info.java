@@ -19,9 +19,13 @@ public class Info extends JPanel {
         timeLabel = new JLabel("Thời gian");
 
         maphieuField = new JTextField();
+        maphieuField.setEditable(false);
         staffField = new JTextField();
+        staffField.setEditable(false);
         supplierField = new JTextField();
+        supplierField.setEditable(false);
         timeField = new JTextField();
+        timeField.setEditable(false);
 
         this.add(maphieuLabel);
         this.add(staffLabel);
@@ -31,5 +35,37 @@ public class Info extends JPanel {
         this.add(staffField);
         this.add(supplierField);
         this.add(timeField);
+    }
+
+    public JTextField getMaphieuField() {
+        return maphieuField;
+    }
+
+    public void setMaphieuField(JTextField maphieuField) {
+        this.maphieuField = maphieuField;
+    }
+
+    public JTextField getStaffField() {
+        return staffField;
+    }
+
+    public void setStaffField(JTextField staffField) {
+        this.staffField = staffField;
+    }
+
+    public JTextField getSupplierField() {
+        return supplierField;
+    }
+
+    public void setSupplierField(JTextField supplierField) {
+        this.supplierField = supplierField;
+    }
+
+    public JTextField getTimeField() {
+        return timeField;
+    }
+
+    public void setTimeField(JTextField timeField) {
+        this.timeField = timeField;
     }
 }

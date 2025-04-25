@@ -10,6 +10,14 @@ public class ProductDAO {
                 masp, tensp, maloaisp);
     }
 
+    public Object[] getTenSanPham(int id) {
+        DataBase db = new DataBase();
+        List<Object[]> data = db.selectQuery("SELECT * FROM product WHERE masp = ?", id);
+        if (data.isEmpty()) {
+            return null;
+        }
+        return data.get(0);
+    }
     // public void insertProduct(Object[] row) {
     // DataBase db = new DataBase();
     // db.executeQuery("INSERT INTO product (...) VALUES (?, ?, ...)", row);
