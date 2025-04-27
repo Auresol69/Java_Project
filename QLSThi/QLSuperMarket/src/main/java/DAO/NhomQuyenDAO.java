@@ -23,7 +23,6 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
             Connection con = db.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, t.getTenNhomQuyen());
-
             result = ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -36,16 +35,14 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
     }
 
     @Override
-    public int delete(String t) {
+    public int delete(int t) {
         int result = 0;
         String sql = "UPDATE powergroup SET status = 0 WHERE powergroupid = ?";
         MySQLConnect db = new MySQLConnect();
-
         try {
             Connection con = db.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, t);
-
+            ps.setInt(1, t);
             result = ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -97,7 +94,6 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
 
                 result.add(new NhomQuyenDTO(id, name));
             }
-
             rs.close();
             ps.close();
         } catch (SQLException ex) {
@@ -143,26 +139,33 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
     public int getAutoIncrement() {
         int result = -1;
         String sql = "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES " +
-                    "WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME = 'powergroup'";
-        MySQLConnect db = new MySQLConnect();
-
+                     "WHERE TABLE_NAME = 'powergroup' AND TABLE_SCHEMA = DATABASE()";
+        Connection con = MySQLConnect.getConnection();
+    
+        if (con == null) {
+            System.err.println("❌ Không thể kết nối đến cơ sở dữ liệu.");
+            return result;
+        }
+    
         try {
-            Connection con = db.getConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-
+    
             if (rs.next()) {
                 result = rs.getInt("AUTO_INCREMENT");
+                System.out.println("✅ AUTO_INCREMENT hiện tại là: " + result);
+            } else {
+                System.err.println("⚠️ Không tìm thấy bảng powergroup trong schema hiện tại.");
             }
-
+    
             rs.close();
             pst.close();
+            con.close(); // đóng kết nối sau khi dùng xong
         } catch (SQLException ex) {
-            ex.printStackTrace(); // hoặc log ra nếu muốn đẹp hơn
-        } finally {
-            db.disConnect();
+            ex.printStackTrace();
         }
-
+    
         return result;
     }
+    
 }

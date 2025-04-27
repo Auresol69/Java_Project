@@ -68,7 +68,7 @@ public final class NhanVien extends JPanel {
         contentCenter.add(functionBar, BorderLayout.NORTH);
 
         String[] action = {"create", "update", "delete", "detail", "import", "export"};
-        mainFunction = new MainFunction((m.user.getPowerGroupId()), "nhanvien", action);
+        mainFunction = new MainFunction((m.user.getPowerGroupId()), 2, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(nvBus);
         }
@@ -90,7 +90,7 @@ public final class NhanVien extends JPanel {
         scrollTableSanPham = new JScrollPane();
         tableNhanVien = new JTable();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV", "Họ tên", "SDT", "Địa chỉ"};
+        String[] header = new String[]{"Mã Nhân Viên", "Họ tên", "SĐT", "Địa chỉ","Trạng Thái"};
 
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setModel(tblModel);
@@ -102,13 +102,10 @@ public final class NhanVien extends JPanel {
         tableNhanVien.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tableNhanVien.getTableHeader().setReorderingAllowed(false);
+        tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         scrollTableSanPham.setViewportView(tableNhanVien);
         main.add(scrollTableSanPham);
     }
-
-    
-
     public NhanVien(QLSieuThi m) {
         this.m = m;
         initComponent();
@@ -119,17 +116,15 @@ public final class NhanVien extends JPanel {
     public int getRow() {
         return tableNhanVien.getSelectedRow();
     }
-
     public DTO.NhanVienDTO getNhanVien() {
         return listnv.get(tableNhanVien.getSelectedRow());
     }
-
     public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
         listnv = list;
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : listnv) {
             tblModel.addRow(new Object[]{
-                nhanVien.getMaNV(), nhanVien.getHoten(), nhanVien.getSdt(), nhanVien.getAddress()
+                nhanVien.getMaNV(), nhanVien.getHoten(), nhanVien.getSdt(), nhanVien.getAddress(),nhanVien.getStatus() == 1 ? "Đang làm việc" : "Đã nghỉ việc"
             });
         }
     }

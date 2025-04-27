@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import DTO.KhachHangDTO;
 public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
 
@@ -37,7 +39,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
     }
 
     @Override
-    public int delete(String t) {
+    public int delete(int t) {
         int result = 0;
         String sql = "UPDATE customer SET status = 0 WHERE macustomer = ?";
         MySQLConnect db = new MySQLConnect();
@@ -45,7 +47,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
         try {
             Connection con = db.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, t);
+            ps.setInt(1, t);
 
             result = ps.executeUpdate();
             ps.close();
@@ -99,8 +101,8 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 String address = rs.getString("address");
                 String phone = rs.getString("phone");
                 String name = rs.getString("name");
-
-                result.add(new KhachHangDTO(macustomer, address, phone, name));
+                Date ngaydangky = rs.getDate("ngaythamgia");
+                result.add(new KhachHangDTO(macustomer, address, phone, name, ngaydangky));
             }
 
             rs.close();
@@ -150,7 +152,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
     public int getAutoIncrement() {
         int result = -1;
         String sql = "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES " +
-                    "WHERE TABLE_SCHEMA = 'quanlikhohang' AND TABLE_NAME = 'customer'";
+                    "WHERE TABLE_SCHEMA = 'sieuthi_mini' AND TABLE_NAME = 'customer'";
         MySQLConnect db = new MySQLConnect();
 
         try {

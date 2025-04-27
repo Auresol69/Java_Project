@@ -113,7 +113,6 @@ public class ListNhanVien extends JDialog implements MouseListener {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-    
     public int getRow(){
         return tableNhanVien.getSelectedRow();
     }
@@ -123,7 +122,7 @@ public class ListNhanVien extends JDialog implements MouseListener {
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : listnv) {
             tblModel.addRow(new Object[]{
-                nhanVien.getMaNV(),nhanVien.getHoten(),nhanVien.getSdt(),nhanVien.getAddress()
+                nhanVien.getMaNV(),nhanVien.getHoten(),nhanVien.getAddress(),nhanVien.getSdt(), nhanVien.getStatus() == 1 ? "Đang hoạt động" :"Ngưng hoạt động",
             });
         }
     }

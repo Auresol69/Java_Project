@@ -15,7 +15,7 @@ public final class MainFunction extends JToolBar {
     public HashMap<String, ButtonToolBar> btn = new HashMap<>();
     private final NhomQuyenBUS nhomquyenBus = new NhomQuyenBUS();
 
-    public MainFunction(int manhomquyen, String chucnang, String[] listBtn) {
+    public MainFunction(int manhomquyen, int chucnang, String[] listBtn) {
         initData();
         initComponent(manhomquyen, chucnang, listBtn);
     }
@@ -29,24 +29,24 @@ public final class MainFunction extends JToolBar {
          * 4 - XEM (detail/export/phone)
          */
 
-        btn.put("create", new ButtonToolBar("THÊM", "add.svg", 1));
-        btn.put("import", new ButtonToolBar("NHẬP EXCEL", "excel.svg", 1));
-        btn.put("delete", new ButtonToolBar("XÓA", "delete.svg", 2));
-        btn.put("cancel", new ButtonToolBar("HUỶ PHIẾU", "delete.svg", 2));
+        btn.put("create", new ButtonToolBar("THÊM", "add.svg", 2));
+        btn.put("import", new ButtonToolBar("NHẬP EXCEL", "excel.svg", 2));
+        btn.put("delete", new ButtonToolBar("XÓA", "delete.svg", 4));
+        btn.put("cancel", new ButtonToolBar("HUỶ PHIẾU", "delete.svg", 4));
         btn.put("update", new ButtonToolBar("SỬA", "edit.svg", 3));
-        btn.put("detail", new ButtonToolBar("CHI TIẾT", "information.svg", 4));
-        btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export.svg", 4));
-        btn.put("phone", new ButtonToolBar("XEM DS", "list.svg", 4));
+        btn.put("detail", new ButtonToolBar("CHI TIẾT", "information.svg", 1));
+        btn.put("export", new ButtonToolBar("XUẤT EXCEL", "export.svg", 1));
+        btn.put("phone", new ButtonToolBar("XEM DS", "list.svg", 1));
     }
 
-    private void initComponent(int manhomquyen, String chucnang, String[] listBtn) {
+    private void initComponent(int manhomquyen, int chucnang, String[] listBtn) {
         this.setBackground(Color.WHITE);
         this.setRollover(true);
         initData();
         for (String btnKey : listBtn) {
             ButtonToolBar button = btn.get(btnKey);
             this.add(button);
-            if (!nhomquyenBus.checkPermission(manhomquyen, button.getPermission())) {
+            if (!nhomquyenBus.checkPermission(manhomquyen,chucnang, button.getPermission())) {
                 button.setEnabled(false);
             }
         }

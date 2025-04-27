@@ -8,17 +8,32 @@ public class KhachHangDTO {
     private String hoten;
     private String sdt;
     private String address;
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public KhachHangDTO() {
     }
 
-    public KhachHangDTO (int maKH, String address, String sdt, String hoten){
+    public KhachHangDTO (int maKH,String hoten, String sdt, String address,  Date date){
+        this.maKH = maKH;
+        this.address = address;
+        this.sdt = sdt;
+        this.hoten = hoten;
+        this.date = date;
+    }
+    public KhachHangDTO (int maKH,String hoten, String sdt, String address){
         this.maKH = maKH;
         this.address = address;
         this.sdt = sdt;
         this.hoten = hoten;
     }
-
     public int getMaKH() {
         return maKH;
     }
