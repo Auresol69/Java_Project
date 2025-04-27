@@ -43,5 +43,4 @@ public class EntryFormBUS {
                 Integer.parseInt(data[0].toString()),
                 data[1].toString(), Float.parseFloat(data[4].toString()));
     }
-
 }

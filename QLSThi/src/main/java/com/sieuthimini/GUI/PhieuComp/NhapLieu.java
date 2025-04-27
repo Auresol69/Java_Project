@@ -3,6 +3,9 @@ package com.sieuthimini.GUI.PhieuComp;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,10 +20,11 @@ import com.toedter.calendar.JDateChooser;
 
 public abstract class NhapLieu extends JPanel {
 
-    JLabel suplierLabel, staffLabel, fromDateLabel, toDateLabel, fromMoneyLabel, toMoneyLabel;
+    JLabel supplierLabel, staffLabel, fromDateLabel, toDateLabel, fromMoneyLabel, toMoneyLabel;
     JTextField fromMoneyField, toMoneyField;
     JDateChooser fromDateChooser, toDateChooser;
-    JComboBox<String> suplierComboBox, staffComboBox;
+    JComboBox<String> supplierComboBox, staffComboBox;
+    private Timer searchTimer;
 
     private void setUpLabel(JLabel label) {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -47,8 +51,8 @@ public abstract class NhapLieu extends JPanel {
         this.setBackground(Color.white);
         this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        setUpLabel(suplierLabel = new JLabel(text));
-        setUpComponent(suplierComboBox = new JComboBox<>());
+        setUpLabel(supplierLabel = new JLabel(text));
+        setUpComponent(supplierComboBox = new JComboBox<>());
         setUpLabel(staffLabel = new JLabel("Nhân viên nhập:"));
         setUpComponent(staffComboBox = new JComboBox<>());
         setUpLabel(fromDateLabel = new JLabel("Từ ngày:"));
@@ -56,8 +60,93 @@ public abstract class NhapLieu extends JPanel {
         setUpLabel(toDateLabel = new JLabel("Đến ngày:"));
         setUpComponent(toDateChooser = new JDateChooser());
         setUpLabel(fromMoneyLabel = new JLabel("Từ giá trị:"));
-        setUpField(toMoneyField = new JTextField());
+        setUpField(fromMoneyField = new JTextField());
         setUpLabel(toMoneyLabel = new JLabel("Đến giá trị:"));
         setUpField(toMoneyField = new JTextField());
+
+        searchTimer = new Timer(300, e -> search());
+        searchTimer.setRepeats(false);
+
+        fromDateChooser.addPropertyChangeListener("date", evt -> {
+            if (searchTimer.isRunning())
+                searchTimer.restart();
+            else
+                searchTimer.start();
+        });
+
+        toDateChooser.addPropertyChangeListener("date", evt -> {
+            if (searchTimer.isRunning())
+                searchTimer.restart();
+            else
+                searchTimer.start();
+        });
+
+        supplierComboBox.addActionListener(e -> {
+            if (searchTimer.isRunning())
+                searchTimer.restart();
+            else
+                searchTimer.start();
+        });
+
+        staffComboBox.addActionListener(e -> {
+            if (searchTimer.isRunning())
+                searchTimer.restart();
+            else
+                searchTimer.start();
+        });
+
+        toMoneyField.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            private void restartSearchTimer() {
+                if (searchTimer.isRunning())
+                    searchTimer.restart();
+                else
+                    searchTimer.start();
+            }
+        });
+
+        fromMoneyField.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            private void restartSearchTimer() {
+                if (searchTimer.isRunning())
+                    searchTimer.restart();
+                else
+                    searchTimer.start();
+            }
+        });
+    }
+
+    private void search() {
+
     }
 }
