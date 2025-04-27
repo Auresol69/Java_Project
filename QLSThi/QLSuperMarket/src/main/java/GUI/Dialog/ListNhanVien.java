@@ -1,10 +1,5 @@
 package GUI.Dialog;
 
-import DAO.NhanVienDAO;
-import DTO.NhanVienDTO;
-import GUI.Component.ButtonCustom;
-import GUI.Panel.TaiKhoan;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,18 +11,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+
+import DAO.NhanVienDAO;
+import DTO.NhanVienDTO;
+import GUI.Component.ButtonCustom;
+import GUI.Panel.TaiKhoan;
 
 /**
  *
@@ -99,7 +101,7 @@ public class ListNhanVien extends JDialog implements MouseListener {
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV","Họ tên","Giới tính","Ngày Sinh","SDT","Email"};
+        String[] header = new String[]{"MNV","Họ tên","SDT","Email"};
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setDefaultRenderer(Object.class, centerRenderer);
         tableNhanVien.setFocusable(false);
