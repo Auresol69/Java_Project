@@ -2,6 +2,7 @@ package com.sieuthimini.GUI.PhieuComp;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
@@ -16,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.sieuthimini.BUS.EntryFormBUS;
+import com.sieuthimini.DTO.EntryFormDTO;
 import com.toedter.calendar.JDateChooser;
 
 public abstract class NhapLieu extends JPanel {
@@ -25,6 +28,8 @@ public abstract class NhapLieu extends JPanel {
     JDateChooser fromDateChooser, toDateChooser;
     JComboBox<String> supplierComboBox, staffComboBox;
     private Timer searchTimer;
+
+    private Table table;
 
     private void setUpLabel(JLabel label) {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -144,9 +149,23 @@ public abstract class NhapLieu extends JPanel {
                     searchTimer.start();
             }
         });
+
+    }
+
+    public void triggerSearch() {
+        search();
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 
     private void search() {
-
+        List<EntryFormDTO> results = new EntryFormBUS().searchEntryForm(null, null, fromDateChooser, toDateChooser);
+        table.hienThiEntryForm(results);
     }
 }

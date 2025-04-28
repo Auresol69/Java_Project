@@ -1,9 +1,14 @@
 package com.sieuthimini.BUS;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sieuthimini.DAO.EntryFormDAO;
 import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.EntryFormDTO;
 import com.sieuthimini.DTO.SupplierDTO;
+import com.sieuthimini.ExtendClasses.MessageBox;
+import com.toedter.calendar.JDateChooser;
 
 public class EntryFormBUS {
     public EntryFormBUS() {
@@ -42,5 +47,17 @@ public class EntryFormBUS {
                 Integer.parseInt(data[2].toString()),
                 Integer.parseInt(data[0].toString()),
                 data[1].toString(), Float.parseFloat(data[4].toString()));
+    }
+
+    public List<EntryFormDTO> searchEntryForm(AccountDTO account, SupplierDTO supplier, JDateChooser fromDate,
+            JDateChooser toDate) {
+
+        if (fromDate.getDate() != null && toDate.getDate() != null)
+            if (fromDate.getDate().after(toDate.getDate())) {
+                MessageBox.showError("Thời gian bắt đầu không được lớn hơn thời gian kết thúc.");
+                return new ArrayList<>();
+            }
+
+        return new EntryFormDAO().searchEntryForm(account, supplier, fromDate, toDate);
     }
 }

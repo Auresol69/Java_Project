@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.EntryFormDTO;
-import com.sieuthimini.DTO.StaffDTO;
 import com.sieuthimini.DTO.SupplierDTO;
 import com.toedter.calendar.JDateChooser;
 
@@ -29,35 +28,52 @@ public class EntryFormDAO {
         return data.get(0);
     }
 
-    public List<EntryFormDTO> searchEntryForm(StaffDTO staff, SupplierDTO supplier, JDateChooser fromDate,
-            JDateChooser toDate, String fromMoney, String toMoney) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        List<Object> myArrays = new ArrayList<>();
+    public List<EntryFormDTO> searchEntryForm(AccountDTO accountDTO, SupplierDTO supplier, JDateChooser fromDate,
+            JDateChooser toDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        List<Object> params = new ArrayList<>();
         List<EntryFormDTO> result = new ArrayList<>();
-        String sql = "SELECT * FROM entry_form WHERE 1=1";
 
-        if (staff != null) {
-            sql += "AND maaccount = ?";
-            myArrays.add(staff.getMastaff());
+        StringBuilder sql = new StringBuilder(
+                "SELECT ef.maphieunhap, ef.maaccount, ef.mancc, ef.ngaynhap, " +
+                        "COALESCE(SUM(def.soluongnhap * def.dongianhap), 0) AS tong_tien_nhap " +
+                        "FROM entry_form ef " +
+                        "LEFT JOIN detail_entry_form def ON ef.maphieunhap = def.maphieunhap " +
+                        "WHERE 1=1 ");
+
+        if (accountDTO != null) {
+            sql.append("AND ef.maaccount = ? ");
+            params.add(accountDTO.getMaaccount());
         }
         if (supplier != null) {
-            sql += "AND supplier = ?";
-            myArrays.add(supplier.getMancc());
+            sql.append("AND ef.mancc = ? ");
+            params.add(supplier.getMancc());
         }
-        if (fromDate != null) {
-            String fromDateStr = sdf.format(fromDate.getDate());
-            sql += "AND ngaynhap >= ?";
-            myArrays.add(fromDateStr);
+        if (fromDate != null && fromDate.getDate() != null) {
+            sql.append("AND DATE(ef.ngaynhap) >= ? ");
+            params.add(sdf.format(fromDate.getDate()));
         }
-        if (toDate != null) {
-            String toDateStr = sdf.format(toDate.getDate());
-            sql += "AND ngaynhap <= ?";
-            myArrays.add(toDateStr);
+        if (toDate != null && toDate.getDate() != null) {
+            sql.append("AND DATE(ef.ngaynhap) <= ? ");
+            params.add(sdf.format(toDate.getDate()));
         }
-        Object[] arr = myArrays.toArray();
 
-        List<Object[]> rawData = db.selectQuery(sql, arr);
+        sql.append("GROUP BY ef.maphieunhap, ef.maaccount, ef.mancc, ef.ngaynhap ");
+        sql.append("ORDER BY ef.ngaynhap DESC");
+
+        List<Object[]> rawData = db.selectQuery(sql.toString(), params.toArray());
+
+        for (Object[] row : rawData) {
+            int maphieunhap = (row[0] != null) ? Integer.parseInt(row[0].toString()) : 0;
+            int maaccount = (row[1] != null) ? Integer.parseInt(row[1].toString()) : 0;
+            int mancc = (row[2] != null) ? Integer.parseInt(row[2].toString()) : 0;
+            String ngaynhap = (row[3] != null) ? row[3].toString() : "";
+            double tongTienNhap = (row[4] != null) ? Double.parseDouble(row[4].toString()) : 0.0;
+
+            result.add(new EntryFormDTO(maphieunhap, maaccount, mancc, ngaynhap, 0f, tongTienNhap));
+        }
 
         return result;
     }
+
 }

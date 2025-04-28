@@ -15,5 +15,8 @@ public class PhieuNhap extends Phieu {
         thaoTac = new Nhap();
         table = new Table();
         super.addComponent();
+
+        ((Nhap) thaoTac).triggerSearch();
+
     }
 }

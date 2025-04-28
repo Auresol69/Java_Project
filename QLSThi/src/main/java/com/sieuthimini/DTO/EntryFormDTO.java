@@ -7,6 +7,16 @@ public class EntryFormDTO {
 
     private float loinhuan;
 
+    private double tongtien;
+
+    public double getTongtien() {
+        return tongtien;
+    }
+
+    public void setTongtien(double tongtien) {
+        this.tongtien = tongtien;
+    }
+
     public int getMaaccount() {
         return maaccount;
     }
@@ -53,6 +63,15 @@ public class EntryFormDTO {
         this.maphieunhap = maphieunhap;
         this.ngaynhap = ngaynhap;
         this.loinhuan = loinhuan;
+    }
+
+    public EntryFormDTO(int maaccount, int maphieunhap, int mancc, String ngaynhap, float loinhuan, double tongtien) {
+        this.ngaynhap = ngaynhap;
+        this.maaccount = maaccount;
+        this.maphieunhap = maphieunhap;
+        this.mancc = mancc;
+        this.loinhuan = loinhuan;
+        this.tongtien = tongtien;
     }
 
     public EntryFormDTO() {

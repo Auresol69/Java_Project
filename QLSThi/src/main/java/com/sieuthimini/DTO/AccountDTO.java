@@ -1,5 +1,7 @@
 package com.sieuthimini.DTO;
 
+import com.sieuthimini.BUS.StaffBUS;
+
 public class AccountDTO {
     private String username, password, email;
     private boolean status;
@@ -76,8 +78,12 @@ public class AccountDTO {
 
     }
 
+    public String getTenNhanVien(int id) {
+        return new StaffBUS().getStaff(id);
+    }
+
     @Override
     public String toString() {
-        return Integer.toString(getMastaff());
+        return (getMastaff() + "-" + getTenNhanVien(this.mastaff));
     }
 }
