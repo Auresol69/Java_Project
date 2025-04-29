@@ -19,7 +19,8 @@ public class Table extends JPanel {
             "Nhà cung cấp",
             "Nhân viên nhập",
             "Ngày nhập",
-            "Tổng tiền"
+            "Tổng tiền",
+            "Trạng thái"
     };
     JTable table;
     JScrollPane scrollPane;
@@ -80,7 +81,7 @@ public class Table extends JPanel {
             model.setRowCount(0);
             for (EntryFormDTO ef : entryFormDTOs) {
                 model.addRow(new Object[] { ef.getMaphieunhap(), ef.getMancc(), ef.getMaaccount(), ef.getNgaynhap(),
-                        ef.getTongtien() });
+                        ef.getTongtien(), ef.getTrangThai() });
             }
         }
     }

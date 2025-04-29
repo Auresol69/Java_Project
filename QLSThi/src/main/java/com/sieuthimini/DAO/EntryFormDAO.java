@@ -35,7 +35,7 @@ public class EntryFormDAO {
         List<EntryFormDTO> result = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder(
-                "SELECT ef.maphieunhap, ef.maaccount, ef.mancc, ef.ngaynhap, " +
+                "SELECT ef.maphieunhap, ef.maaccount, ef.mancc, ef.ngaynhap, ef.status, " +
                         "COALESCE(SUM(def.soluongnhap * def.dongianhap), 0) AS tong_tien_nhap " +
                         "FROM entry_form ef " +
                         "LEFT JOIN detail_entry_form def ON ef.maphieunhap = def.maphieunhap " +
@@ -58,7 +58,7 @@ public class EntryFormDAO {
             params.add(sdf.format(toDate.getDate()));
         }
 
-        sql.append("GROUP BY ef.maphieunhap, ef.maaccount, ef.mancc, ef.ngaynhap ");
+        sql.append("GROUP BY ef.maphieunhap, ef.maaccount, ef.mancc, ef.ngaynhap, ef.status ");
         sql.append("ORDER BY ef.ngaynhap DESC");
 
         List<Object[]> rawData = db.selectQuery(sql.toString(), params.toArray());
@@ -68,12 +68,18 @@ public class EntryFormDAO {
             int maaccount = (row[1] != null) ? Integer.parseInt(row[1].toString()) : 0;
             int mancc = (row[2] != null) ? Integer.parseInt(row[2].toString()) : 0;
             String ngaynhap = (row[3] != null) ? row[3].toString() : "";
-            double tongTienNhap = (row[4] != null) ? Double.parseDouble(row[4].toString()) : 0.0;
+            boolean status = (row[4] != null) ? Boolean.parseBoolean(row[4].toString()) : true;
+            double tongTienNhap = (row[5] != null) ? Double.parseDouble(row[5].toString()) : 0.0;
 
-            result.add(new EntryFormDTO(maaccount, maphieunhap, mancc, ngaynhap, 0f, tongTienNhap));
+            result.add(new EntryFormDTO(maaccount, maphieunhap, mancc, ngaynhap, 0f, tongTienNhap, status));
         }
 
         return result;
     }
 
+    public boolean huyEntryForm(EntryFormDTO entryFormDTO) {
+        int rowsAffected = db.updateQuery("UPDATE entry_form SET status = 0 WHERE maphieunhap = ?",
+                entryFormDTO.getMaphieunhap());
+        return rowsAffected > 0;
+    }
 }

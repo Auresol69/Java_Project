@@ -9,6 +9,8 @@ public class EntryFormDTO {
 
     private double tongtien;
 
+    private boolean status;
+
     public double getTongtien() {
         return tongtien;
     }
@@ -65,13 +67,15 @@ public class EntryFormDTO {
         this.loinhuan = loinhuan;
     }
 
-    public EntryFormDTO(int maaccount, int maphieunhap, int mancc, String ngaynhap, float loinhuan, double tongtien) {
+    public EntryFormDTO(int maaccount, int maphieunhap, int mancc, String ngaynhap, float loinhuan, double tongtien,
+            boolean status) {
         this.ngaynhap = ngaynhap;
         this.maaccount = maaccount;
         this.maphieunhap = maphieunhap;
         this.mancc = mancc;
         this.loinhuan = loinhuan;
         this.tongtien = tongtien;
+        this.status = status;
     }
 
     public EntryFormDTO() {
@@ -81,5 +85,17 @@ public class EntryFormDTO {
         this.mancc = mancc;
         this.maaccount = maaccount;
         this.loinhuan = loinhuan;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getTrangThai() {
+        return (this.status) ? "Hoạt động" : "Tạm Dừng";
     }
 }

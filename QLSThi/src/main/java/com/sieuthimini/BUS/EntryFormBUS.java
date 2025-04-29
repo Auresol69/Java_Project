@@ -3,6 +3,8 @@ package com.sieuthimini.BUS;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.sieuthimini.DAO.EntryFormDAO;
 import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.EntryFormDTO;
@@ -59,5 +61,23 @@ public class EntryFormBUS {
             }
 
         return new EntryFormDAO().searchEntryForm(account, supplier, fromDate, toDate);
+    }
+
+    public void huyEntryForm(EntryFormDTO entryFormDTO) {
+        if (entryFormDTO == null) {
+            MessageBox.showError("Hãy chọn 1 phiếu nhập để hủy.");
+            return;
+        }
+        if (MessageBox.showConfirmDialog("Bạn có chắc chắn muốn hủy phiếu nhập?",
+                "Xác nhận hủy phiếu nhập") == JOptionPane.YES_OPTION) {
+            boolean success = new EntryFormDAO().huyEntryForm(entryFormDTO);
+            if (success) {
+                MessageBox.showOkDialog("Hủy phiếu nhập thành công.", "Thành công");
+            } else {
+                MessageBox.showError("Không tìm thấy phiếu nhập để hủy.");
+            }
+        } else {
+            MessageBox.showOkDialog("Đã cancel hủy phiếu nhập", "Thất bại");
+        }
     }
 }

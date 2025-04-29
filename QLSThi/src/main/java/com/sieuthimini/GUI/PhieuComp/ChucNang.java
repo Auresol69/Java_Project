@@ -1,5 +1,7 @@
 package com.sieuthimini.GUI.PhieuComp;
 
+import com.sieuthimini.BUS.EntryFormBUS;
+import com.sieuthimini.DTO.EntryFormDTO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
 import com.sieuthimini.ExtendClasses.MessageBox;
 
@@ -104,6 +106,20 @@ public class ChucNang extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == refreshButton) {
+            nhapLieu.resetFilter();
+        }
+        if (e.getSource() == huyButton) {
+            int selectedRow = table.getTable().getSelectedRow();
+            if (selectedRow == -1) {
+                MessageBox.showError("Vui lòng chọn phiếu nhập để hủy.");
+                return;
+            }
+
+            int maphieunhap = Integer.parseInt(table.getTable().getValueAt(selectedRow, 0).toString());
+
+            EntryFormBUS bus = new EntryFormBUS();
+            EntryFormDTO dto = bus.getEntryFormByID(maphieunhap);
+            bus.huyEntryForm(dto);
             nhapLieu.resetFilter();
         }
     }

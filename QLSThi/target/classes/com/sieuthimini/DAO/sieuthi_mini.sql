@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2025 at 09:44 AM
+-- Generation Time: Apr 29, 2025 at 08:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -122,6 +122,14 @@ CREATE TABLE `detail_entry_form` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `detail_entry_form`
+--
+
+INSERT INTO `detail_entry_form` (`maphieunhap`, `masp`, `dongianhap`, `ngayhethan`, `soluongnhap`) VALUES
+(1, 1, 1000, NULL, 1),
+(2, 2, 2000, NULL, 2);
+
+--
 -- Triggers `detail_entry_form`
 --
 DELIMITER $$
@@ -146,11 +154,88 @@ DELIMITER ;
 
 CREATE TABLE `entry_form` (
   `maphieunhap` int(20) NOT NULL,
-  `ngaynhap` datetime(6) DEFAULT current_timestamp(6),
+  `ngaynhap` datetime DEFAULT current_timestamp(),
   `mancc` int(20) NOT NULL,
   `maaccount` int(20) NOT NULL,
-  `loinhuan` decimal(5,2) DEFAULT 0.00
+  `loinhuan` decimal(5,2) DEFAULT 0.00,
+  `status` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `entry_form`
+--
+
+INSERT INTO `entry_form` (`maphieunhap`, `ngaynhap`, `mancc`, `maaccount`, `loinhuan`, `status`) VALUES
+(1, '2025-04-30 01:14:40', 1, 1, 10.00, 0),
+(2, '2025-04-30 01:14:51', 1, 1, 25.00, 0);
+
+--
+-- Triggers `entry_form`
+--
+DELIMITER $$
+CREATE TRIGGER `after_update_entry_form` AFTER UPDATE ON `entry_form` FOR EACH ROW BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE masp_input INT;
+    DECLARE soluong_input INT;
+    DECLARE current_stock INT;
+    DECLARE out_of_stock BOOLEAN DEFAULT FALSE;
+
+    DECLARE cur CURSOR FOR
+        SELECT masp, soluongnhap
+        FROM detail_entry_form
+        WHERE maphieunhap = NEW.maphieunhap;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Chỉ xử lý khi chuyển trạng thái từ 1 -> 0 (hủy phiếu)
+    IF OLD.status = 1 AND NEW.status = 0 THEN
+        OPEN cur;
+
+        read_loop: LOOP
+            FETCH cur INTO masp_input, soluong_input;
+            IF done THEN
+                LEAVE read_loop;
+            END IF;
+
+            -- Kiểm tra tồn kho hiện tại
+            SELECT soluong INTO current_stock
+            FROM product
+            WHERE masp = masp_input;
+
+            -- Nếu không đủ hàng thì đánh dấu lỗi
+            IF current_stock < soluong_input THEN
+                SET out_of_stock = TRUE;
+            END IF;
+        END LOOP;
+
+        CLOSE cur;
+
+        -- Nếu có lỗi tồn kho thì báo lỗi
+        IF out_of_stock THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Không đủ hàng trong kho để hủy phiếu nhập.';
+        ELSE
+            -- Nếu đủ tồn kho, tiến hành trừ kho
+            SET done = FALSE; -- Reset lại biến done để duyệt lại
+            OPEN cur;
+
+            read_loop_update:LOOP
+                FETCH cur INTO masp_input, soluong_input;
+                IF done THEN
+                    LEAVE read_loop_update;
+                END IF;
+
+                UPDATE product
+                SET soluong = soluong - soluong_input
+                WHERE masp = masp_input;
+            END LOOP;
+
+            CLOSE cur;
+        END IF;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -241,11 +326,11 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`masp`, `tensp`, `soluong`, `dongiasanpham`, `maloaisp`, `mancc`, `img`) VALUES
-(1, 'Nước ngọt Coca-Cola', 106, 8000, 1, 1, 'img/coca.png'),
-(2, 'Snack khoai tây Lay\'s', 155, 12000, 2, 2, 'img/snack.png'),
-(3, 'Mì Hảo Hảo tôm chua cay', 207, 3500, 3, 1, 'img/haohao.png'),
-(4, 'Sữa tươi Vinamilk 1L', 80, 28000, 4, 3, 'img/vinamilk.png'),
-(5, 'Bánh Oreo socola', 90, 15000, 5, 4, 'img/oreo.png');
+(1, 'Nước ngọt Coca-Cola', 0, 1100, 1, 1, 'img/coca.png'),
+(2, 'Snack khoai tây Lay\'s', 0, 2500, 2, 2, 'img/snack.png'),
+(3, 'Mì Hảo Hảo tôm chua cay', 0, 3400, 3, 1, 'img/haohao.png'),
+(4, 'Sữa tươi Vinamilk 1L', 0, 2700, 4, 3, 'img/vinamilk.png'),
+(5, 'Bánh Oreo socola', 0, 15000, 5, 4, 'img/oreo.png');
 
 -- --------------------------------------------------------
 
@@ -411,7 +496,7 @@ ALTER TABLE `powergroup`
 -- Indexes for table `powergroup_func_permission`
 --
 ALTER TABLE `powergroup_func_permission`
-  ADD KEY `fk_powergroup_func_permission_powergroup` (`powergroupid`),
+  ADD PRIMARY KEY (`powergroupid`,`funcid`,`permissionid`),
   ADD KEY `fk_powergroup_func_permission_func` (`funcid`),
   ADD KEY `fk_powergroup_func_permission_permission` (`permissionid`);
 
@@ -479,7 +564,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `entry_form`
 --
 ALTER TABLE `entry_form`
-  MODIFY `maphieunhap` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `maphieunhap` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `func`
