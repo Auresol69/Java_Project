@@ -2,6 +2,7 @@ package com.sieuthimini.GUI.PhieuComp;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -17,8 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.sieuthimini.BUS.AccountBUS;
 import com.sieuthimini.BUS.EntryFormBUS;
+import com.sieuthimini.BUS.SupplierBUS;
+import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.EntryFormDTO;
+import com.sieuthimini.DTO.SupplierDTO;
 import com.toedter.calendar.JDateChooser;
 
 public abstract class NhapLieu extends JPanel {
@@ -26,7 +31,8 @@ public abstract class NhapLieu extends JPanel {
     JLabel supplierLabel, staffLabel, fromDateLabel, toDateLabel, fromMoneyLabel, toMoneyLabel;
     JTextField fromMoneyField, toMoneyField;
     JDateChooser fromDateChooser, toDateChooser;
-    JComboBox<String> supplierComboBox, staffComboBox;
+    JComboBox<SupplierDTO> supplierComboBox;
+    JComboBox<AccountDTO> staffComboBox;
     private Timer searchTimer;
 
     private Table table;
@@ -40,7 +46,6 @@ public abstract class NhapLieu extends JPanel {
 
     private void setUpField(JTextField field) {
         field.setColumns(20);
-        field.setFocusable(false);
         this.add(field);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
     }
@@ -49,6 +54,15 @@ public abstract class NhapLieu extends JPanel {
         comp.setFocusable(false);
         this.add(comp);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
+    }
+
+    private void setUpComboBox() {
+        List<AccountDTO> accountDTOs = new AccountBUS().getNhanVien();
+        for (AccountDTO accountDTO : accountDTOs)
+            staffComboBox.addItem(accountDTO);
+        List<SupplierDTO> supplierDTOs = new SupplierBUS().getNhaCungCap();
+        for (SupplierDTO supplierDTO : supplierDTOs)
+            supplierComboBox.addItem(supplierDTO);
     }
 
     public NhapLieu(String text) {
@@ -60,6 +74,7 @@ public abstract class NhapLieu extends JPanel {
         setUpComponent(supplierComboBox = new JComboBox<>());
         setUpLabel(staffLabel = new JLabel("Nhân viên nhập:"));
         setUpComponent(staffComboBox = new JComboBox<>());
+        setUpComboBox();
         setUpLabel(fromDateLabel = new JLabel("Từ ngày:"));
         setUpComponent(fromDateChooser = new JDateChooser());
         setUpLabel(toDateLabel = new JLabel("Đến ngày:"));
@@ -149,7 +164,6 @@ public abstract class NhapLieu extends JPanel {
                     searchTimer.start();
             }
         });
-
     }
 
     public void triggerSearch() {
@@ -165,7 +179,36 @@ public abstract class NhapLieu extends JPanel {
     }
 
     private void search() {
-        List<EntryFormDTO> results = new EntryFormBUS().searchEntryForm(null, null, fromDateChooser, toDateChooser);
-        table.hienThiEntryForm(results);
+        List<EntryFormDTO> results = new EntryFormBUS().searchEntryForm((AccountDTO) staffComboBox.getSelectedItem(),
+                (SupplierDTO) supplierComboBox.getSelectedItem(),
+                fromDateChooser, toDateChooser);
+
+        double fromMoney = 0;
+        double toMoney = Double.MAX_VALUE;
+
+        try {
+            if (!fromMoneyField.getText().isEmpty()) {
+                fromMoney = Double.parseDouble(fromMoneyField.getText());
+            }
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!toMoneyField.getText().isEmpty()) {
+                toMoney = Double.parseDouble(toMoneyField.getText());
+            }
+        } catch (NumberFormatException e) {
+        }
+
+        List<EntryFormDTO> filteredResults = new ArrayList<>();
+
+        for (EntryFormDTO entryFormDTO : results) {
+            if (entryFormDTO.getTongtien() >= fromMoney && entryFormDTO.getTongtien() <= toMoney) {
+                filteredResults.add(entryFormDTO);
+            }
+        }
+
+        table.hienThiEntryForm(filteredResults);
+
     }
 }

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import com.sieuthimini.DTO.EntryFormDTO;
 
@@ -29,7 +30,17 @@ public class Table extends JPanel {
         table = new JTable();
 
         model = new DefaultTableModel(columnNames, 0);
+
         table.setModel(model);
+
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+
+        sorter.setComparator(4, (o1, o2) -> {
+            Double d1 = (o1 instanceof Number) ? ((Number) o1).doubleValue() : Double.parseDouble(o1.toString());
+            Double d2 = (o2 instanceof Number) ? ((Number) o2).doubleValue() : Double.parseDouble(o2.toString());
+            return d1.compareTo(d2);
+        });
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 

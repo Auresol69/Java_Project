@@ -7,7 +7,7 @@ import java.util.List;
 public class DataBase {
     private final String URL = "jdbc:mysql://localhost:3306/sieuthimini";
     private final String USER = "root";
-    private final String PASSWORD = "";
+    private final String PASSWORD = "123";
 
     public Connection getConnection() {
         try {

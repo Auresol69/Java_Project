@@ -70,7 +70,7 @@ public class EntryFormDAO {
             String ngaynhap = (row[3] != null) ? row[3].toString() : "";
             double tongTienNhap = (row[4] != null) ? Double.parseDouble(row[4].toString()) : 0.0;
 
-            result.add(new EntryFormDTO(maphieunhap, maaccount, mancc, ngaynhap, 0f, tongTienNhap));
+            result.add(new EntryFormDTO(maaccount, maphieunhap, mancc, ngaynhap, 0f, tongTienNhap));
         }
 
         return result;

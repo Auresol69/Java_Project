@@ -27,6 +27,7 @@ public class ChucNang extends JPanel implements ActionListener {
     JButton refreshButton;
     JFrame parent;
     Table table;
+    NhapLieu nhapLieu;
 
     private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
@@ -102,6 +103,9 @@ public class ChucNang extends JPanel implements ActionListener {
                 chiTietPhieuNhap.setVisible(true);
             }
         }
+        if (e.getSource() == refreshButton) {
+
+        }
     }
 
     public Table getTable() {
@@ -110,5 +114,13 @@ public class ChucNang extends JPanel implements ActionListener {
 
     public void setTable(Table table) {
         this.table = table;
+    }
+
+    public NhapLieu getNhapLieu() {
+        return nhapLieu;
+    }
+
+    public void setNhapLieu(NhapLieu nhapLieu) {
+        this.nhapLieu = nhapLieu;
     }
 }

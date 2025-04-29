@@ -58,6 +58,6 @@ public class SupplierDTO {
 
     @Override
     public String toString() {
-        return this.getTencc();
+        return this.getMancc() + "-" + this.getTencc();
     }
 }
