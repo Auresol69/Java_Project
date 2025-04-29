@@ -104,7 +104,7 @@ public class ChucNang extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == refreshButton) {
-
+            nhapLieu.resetFilter();
         }
     }
 

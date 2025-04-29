@@ -60,9 +60,11 @@ public abstract class NhapLieu extends JPanel {
         List<AccountDTO> accountDTOs = new AccountBUS().getNhanVien();
         for (AccountDTO accountDTO : accountDTOs)
             staffComboBox.addItem(accountDTO);
+        staffComboBox.setSelectedIndex(-1);
         List<SupplierDTO> supplierDTOs = new SupplierBUS().getNhaCungCap();
         for (SupplierDTO supplierDTO : supplierDTOs)
             supplierComboBox.addItem(supplierDTO);
+        supplierComboBox.setSelectedIndex(-1);
     }
 
     public NhapLieu(String text) {
@@ -72,9 +74,12 @@ public abstract class NhapLieu extends JPanel {
 
         setUpLabel(supplierLabel = new JLabel(text));
         setUpComponent(supplierComboBox = new JComboBox<>());
+
         setUpLabel(staffLabel = new JLabel("Nhân viên nhập:"));
         setUpComponent(staffComboBox = new JComboBox<>());
+
         setUpComboBox();
+
         setUpLabel(fromDateLabel = new JLabel("Từ ngày:"));
         setUpComponent(fromDateChooser = new JDateChooser());
         setUpLabel(toDateLabel = new JLabel("Đến ngày:"));
@@ -210,5 +215,15 @@ public abstract class NhapLieu extends JPanel {
 
         table.hienThiEntryForm(filteredResults);
 
+    }
+
+    public void resetFilter() {
+        supplierComboBox.setSelectedIndex(-1);
+        staffComboBox.setSelectedIndex(-1);
+        fromDateChooser.setDate(null);
+        toDateChooser.setDate(null);
+        fromMoneyField.setText("");
+        toMoneyField.setText("");
+        search();
     }
 }
