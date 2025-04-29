@@ -273,6 +273,7 @@ public class QLSieuThi extends JFrame{
                 panelCenter = new NhanVien(this);
                 break ;
             case "Nhà cung cấp" : 
+            panelCenter = new NhaCungCap(this);
                 break ;
             case "Quản lý phiếu nhập" : 
                 break ;

@@ -102,7 +102,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
                 String phone = rs.getString("phone");
                 String name = rs.getString("name");
                 Date ngaydangky = rs.getDate("ngaythamgia");
-                result.add(new KhachHangDTO(macustomer, address, phone, name, ngaydangky));
+                result.add(new KhachHangDTO(macustomer,name,phone , address,ngaydangky));
             }
 
             rs.close();
