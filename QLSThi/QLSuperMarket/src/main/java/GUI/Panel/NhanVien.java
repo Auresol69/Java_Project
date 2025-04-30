@@ -73,7 +73,7 @@ public final class NhanVien extends JPanel {
             mainFunction.btn.get(ac).addActionListener(nvBus);
         }
         functionBar.add(mainFunction);
-        search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên" , "Mã Nhân Viên"});
         functionBar.add(search);
         search.btnReset.addActionListener(nvBus);
         search.cbxChoose.addActionListener(nvBus);

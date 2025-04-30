@@ -121,7 +121,7 @@ public class LoginGUI extends JFrame implements KeyListener {
                 qmk.setVisible(true);
             }
         });
-        pnlMain.add(lbl7);
+        // pnlMain.add(lbl7);
 
         pnlMain.add(pnlLogIn);
 
