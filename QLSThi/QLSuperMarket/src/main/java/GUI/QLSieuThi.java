@@ -141,20 +141,9 @@ public class QLSieuThi extends JFrame{
         JScrollPane scrollPane = new JScrollPane(panelLabelGroup);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        // scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(220,DEFAULT_HEIGHT - 1000));
         scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Xóa viền
-        panelLabelGroup.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            }
-        
-            @Override
-            public void mouseExited(MouseEvent e) {
-                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-            }
-        });
+        scrollPane.getVerticalScrollBar().setUnitIncrement(5);
         this.nhomQuyenDTO = NhomQuyenDAO.getInstance().selectedByID((user.getPowerGroupId()));
         this.nhanVienDTO = NhanVienDAO.getInstance().selectedByID((user.getMaStaff()));
         listQuyen = ChiTietQuyenDAO.getInstance().selectAll((user.getPowerGroupId()));    
@@ -165,15 +154,6 @@ public class QLSieuThi extends JFrame{
                 System.out.println("Không có quyền: " + cn.getTenChucNang());
             }
         }
-        // danhSachQuanLy.add(new ChucNang(1, "Quản lý khách hàng", "../IMG/icons8-customer-48.png"));
-        // danhSachQuanLy.add(new ChucNang(2, "Quản lý nhân viên", "../IMG/icons8-employee-50.png"));
-        // danhSachQuanLy.add(new ChucNang(3, "Quản lý nhóm quyền", "../IMG/icons8-permission-50.png")); // Cập nhật ảnh nếu cần
-        // danhSachQuanLy.add(new ChucNang(4, "Quản lý nhà cung cấp", "../IMG/icons8-supplier-50.png"));
-        // danhSachQuanLy.add(new ChucNang(5, "Quản lý tài khoản", "../IMG/icons8-account-50.png")); // Cập nhật ảnh nếu cần
-        // danhSachQuanLy.add(new ChucNang(6, "Quản lý sản phẩm", "../IMG/icons8-product-50.png"));
-        // danhSachQuanLy.add(new ChucNang(7, "Quản lý thống kê", "../IMG/icons8-statistics-50.png")); // Cập nhật ảnh nếu cần
-        // danhSachQuanLy.add(new ChucNang(8, "Quản lý xuất hàng", "../IMG/icons8-export-50.png")); // Cập nhật ảnh nếu cần
-        // danhSachQuanLy.add(new ChucNang(9, "Quản lý sản phẩm hủy", "../IMG/icons8-delete-bin-50.png")); // Cập nhật ảnh nếu cần
         JLabel[] labels = new JLabel[danhSachQuanLy.size()];
         for (int i = 0; i < danhSachQuanLy.size(); i++) {
             String stringImg = danhSachQuanLy.get(i).geticon();

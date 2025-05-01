@@ -86,7 +86,6 @@ public class QuenMatKhau extends JFrame {
                 jf.setSize(500, 400);
                 jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 jf.setVisible(true);
-
                 // Tạo đối tượng QuenMatKhau và hiển thị
                 QuenMatKhau qmk = new QuenMatKhau(jf, true);
                 qmk.setVisible(true);
