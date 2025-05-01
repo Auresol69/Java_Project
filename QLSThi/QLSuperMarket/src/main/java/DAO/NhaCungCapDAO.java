@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import DAO.MySQLConnect;
 import DTO.NhaCungCapDTO;
 public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
     public static NhaCungCapDAO getInstance(){

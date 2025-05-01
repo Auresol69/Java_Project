@@ -29,6 +29,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
 
             result = ps.executeUpdate();
             ps.close();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
@@ -51,6 +52,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangDTO> {
 
             result = ps.executeUpdate();
             ps.close();
+            con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {

@@ -40,6 +40,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 
+
 import DAO.ChiTietQuyenDAO;
 import DAO.NhanVienDAO;
 import DAO.NhomQuyenDAO;
@@ -246,7 +247,7 @@ public class QLSieuThi extends JFrame{
         panelNorth.setPreferredSize(new Dimension(0, 50));
         JPanel header ;
         if (user != null){
-            header = new Header(this, DEFAULT_WIDTH, user.getUsername());
+            header = new Header(this, DEFAULT_WIDTH, this.nhanVienDTO.getHoten());
         } else {
             header = new Header(this, DEFAULT_WIDTH);
         }
@@ -265,7 +266,7 @@ public class QLSieuThi extends JFrame{
         getContentPane().remove(panelCenter);
         switch(TenChucNang){
             case "Khách hàng" : 
-            panelCenter = new KhachHang(this);
+                panelCenter = new KhachHang(this);
                 break ;
             case "Sản phẩm" : 
                 break ;
@@ -273,7 +274,7 @@ public class QLSieuThi extends JFrame{
                 panelCenter = new NhanVien(this);
                 break ;
             case "Nhà cung cấp" : 
-            panelCenter = new NhaCungCap(this);
+                panelCenter = new NhaCungCap(this);
                 break ;
             case "Quản lý phiếu nhập" : 
                 break ;
