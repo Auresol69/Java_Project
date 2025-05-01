@@ -3,6 +3,7 @@ package com.sieuthimini.DAO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.sieuthimini.DTO.AccountDTO;
 import com.sieuthimini.DTO.EntryFormDTO;
@@ -29,7 +30,7 @@ public class EntryFormDAO {
     }
 
     public List<EntryFormDTO> searchEntryForm(AccountDTO accountDTO, SupplierDTO supplier, JDateChooser fromDate,
-            JDateChooser toDate) {
+            JDateChooser toDate, String key, String value) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<Object> params = new ArrayList<>();
         List<EntryFormDTO> result = new ArrayList<>();
@@ -56,6 +57,17 @@ public class EntryFormDAO {
         if (toDate != null && toDate.getDate() != null) {
             sql.append("AND DATE(ef.ngaynhap) <= ? ");
             params.add(sdf.format(toDate.getDate()));
+        }
+        Map<String, String> columnMap = Map.of(
+                "mã phiếu", "maphieunhap",
+                "nhân viên", "maaccount",
+                "nhà cung cấp", "mancc");
+        if (key != null && value != null && !key.equals("tất cả") && !value.equals("Nhập nội dung...")) {
+            String column = columnMap.get(key);
+            if (column != null) {
+                sql.append(" AND ").append("ef.").append(column).append(" LIKE ? ");
+                params.add("%" + value + "%");
+            }
         }
 
         sql.append("GROUP BY ef.maphieunhap, ef.maaccount, ef.mancc, ef.ngaynhap, ef.status ");

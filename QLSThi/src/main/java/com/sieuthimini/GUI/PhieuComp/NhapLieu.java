@@ -34,7 +34,7 @@ public abstract class NhapLieu extends JPanel {
     JComboBox<SupplierDTO> supplierComboBox;
     JComboBox<AccountDTO> staffComboBox;
     private Timer searchTimer;
-
+    ChucNang chucNang;
     private Table table;
 
     private void setUpLabel(JLabel label) {
@@ -183,10 +183,27 @@ public abstract class NhapLieu extends JPanel {
         this.table = table;
     }
 
+    public Timer getSearchTimer() {
+        return searchTimer;
+    }
+
+    public void setSearchTimer(Timer searchTimer) {
+        this.searchTimer = searchTimer;
+    }
+
+    public ChucNang getChucNang() {
+        return chucNang;
+    }
+
+    public void setChucNang(ChucNang chucNang) {
+        this.chucNang = chucNang;
+    }
+
     private void search() {
         List<EntryFormDTO> results = new EntryFormBUS().searchEntryForm((AccountDTO) staffComboBox.getSelectedItem(),
                 (SupplierDTO) supplierComboBox.getSelectedItem(),
-                fromDateChooser, toDateChooser);
+                fromDateChooser, toDateChooser, chucNang.getColumnSort().getSelectedItem().toString(),
+                chucNang.getTimKiem().getText());
 
         double fromMoney = 0;
         double toMoney = Double.MAX_VALUE;

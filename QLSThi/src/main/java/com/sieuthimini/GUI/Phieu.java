@@ -20,6 +20,8 @@ public abstract class Phieu extends JPanel {
 
         chucNang.setNhapLieu(thaoTac);
 
+        thaoTac.setChucNang(chucNang);
+
         this.add(chucNang, BorderLayout.NORTH);
         this.add(thaoTac, BorderLayout.WEST);
         this.add(table);

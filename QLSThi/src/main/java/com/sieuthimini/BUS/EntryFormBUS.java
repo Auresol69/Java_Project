@@ -52,7 +52,7 @@ public class EntryFormBUS {
     }
 
     public List<EntryFormDTO> searchEntryForm(AccountDTO account, SupplierDTO supplier, JDateChooser fromDate,
-            JDateChooser toDate) {
+            JDateChooser toDate, String key, String value) {
 
         if (fromDate.getDate() != null && toDate.getDate() != null)
             if (fromDate.getDate().after(toDate.getDate())) {
@@ -60,7 +60,7 @@ public class EntryFormBUS {
                 return new ArrayList<>();
             }
 
-        return new EntryFormDAO().searchEntryForm(account, supplier, fromDate, toDate);
+        return new EntryFormDAO().searchEntryForm(account, supplier, fromDate, toDate, key, value);
     }
 
     public void huyEntryForm(EntryFormDTO entryFormDTO) {

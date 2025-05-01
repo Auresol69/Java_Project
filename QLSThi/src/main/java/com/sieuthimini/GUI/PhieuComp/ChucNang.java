@@ -18,6 +18,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -65,9 +67,15 @@ public class ChucNang extends JPanel implements ActionListener {
         columnSort.addActionListener(this);
         this.add(columnSort);
 
+        columnSort.addActionListener(e -> {
+            if (nhapLieu.getSearchTimer().isRunning())
+                nhapLieu.getSearchTimer().restart();
+            else
+                nhapLieu.getSearchTimer().start();
+        });
+
         timKiem = new JTextField("Nhập nội dung...");
         timKiem.setForeground(Color.GRAY);
-
         timKiem.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -86,6 +94,32 @@ public class ChucNang extends JPanel implements ActionListener {
             }
         });
         this.add(timKiem);
+        timKiem.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                restartSearchTimer();
+
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                restartSearchTimer();
+            }
+
+            private void restartSearchTimer() {
+                if (nhapLieu.getSearchTimer().isRunning())
+                    nhapLieu.getSearchTimer().restart();
+                else
+                    nhapLieu.getSearchTimer().start();
+            }
+
+        });
 
         setUpButton(refreshButton = new JButton(), "Làm mới", "arrows-rotate-solid.png");
     }
@@ -138,5 +172,21 @@ public class ChucNang extends JPanel implements ActionListener {
 
     public void setNhapLieu(NhapLieu nhapLieu) {
         this.nhapLieu = nhapLieu;
+    }
+
+    public JComboBox<String> getColumnSort() {
+        return columnSort;
+    }
+
+    public void setColumnSort(JComboBox<String> columnSort) {
+        this.columnSort = columnSort;
+    }
+
+    public JTextField getTimKiem() {
+        return timKiem;
+    }
+
+    public void setTimKiem(JTextField timKiem) {
+        this.timKiem = timKiem;
     }
 }
