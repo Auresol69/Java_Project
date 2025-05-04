@@ -71,7 +71,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-
+        tableKhachHang.getTableHeader().setReorderingAllowed(false);  
         tableKhachHang.setAutoCreateRowSorter(true);
         TableSorter.configureTableColumnSorter(tableKhachHang, 0, TableSorter.INTEGER_COMPARATOR);
 
