@@ -24,8 +24,7 @@ public class TimkiemSanPhamDAO {
                     Integer.parseInt(row[2].toString()),
                     Integer.parseInt(row[3].toString()),
                     Integer.parseInt(row[4].toString()),
-                    Integer.parseInt(row[5].toString()),
-                    row[6].toString()));
+                    row[5].toString()));
         }
         return result;
     }

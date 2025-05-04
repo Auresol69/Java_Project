@@ -2,10 +2,14 @@ package com.sieuthimini.GUI.InHoaDonComp;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.sieuthimini.BUS.ProductBUS;
+import com.sieuthimini.DTO.ProductDTO;
+import com.sieuthimini.GUI.InHoaDonComp.SanPhamComp.Order;
 
 public class SanPham extends JPanel {
     public SanPham() {
@@ -13,10 +17,11 @@ public class SanPham extends JPanel {
 
         JPanel productPanel = new JPanel(new GridLayout(0, 2, 10, 10));
 
+        List<ProductDTO> list = new ProductBUS().getProducts();
+
         // Thêm các sản phẩm (ví dụ là nút)
-        for (int i = 1; i <= 11; i++) {
-            JButton sp = new JButton("Sản phẩm " + i);
-            productPanel.add(sp);
+        for (ProductDTO productDTO : list) {
+            productPanel.add(new Order(productDTO));
         }
 
         JScrollPane scrollPane = new JScrollPane(productPanel);

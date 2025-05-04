@@ -30,7 +30,7 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
     TableSanPham tableSanPham;
     TongTien tongTien;
 
-    private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "mancc" };
+    private String[] columnNames = { "masp", "tensp", "soluong", "dongiasanpham", "maloaisp", "image" };
     private DefaultTableModel model;
 
     public TimkiemSanPham(InputSanPham inputSanPham, TableSanPham tableSanPham, TongTien tongTien) {
@@ -131,8 +131,7 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                     sp.getTensp(),
                     sp.getSoluong(),
                     sp.getDongiasanpham(),
-                    sp.getMaloaisp(),
-                    sp.getMancc() });
+                    sp.getMaloaisp() });
         }
     }
 

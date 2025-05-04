@@ -1,5 +1,6 @@
 package com.sieuthimini.BUS;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sieuthimini.DAO.ProductDAO;
@@ -22,8 +23,19 @@ public class ProductBUS {
         ProductDTO productDTO = new ProductDTO(Integer.parseInt(data[0].toString()), data[1].toString(),
                 Integer.parseInt(data[2].toString()),
                 Integer.parseInt(data[3].toString()), Integer.parseInt(data[4].toString()),
-                Integer.parseInt(data[5].toString()),
-                data[6].toString());
+                data[5].toString());
         return productDTO;
+    }
+
+    public List<ProductDTO> getProducts() {
+        ArrayList<ProductDTO> productDTOs = new ArrayList<>();
+        List<Object[]> data = productDAO.getProducts();
+        for (Object[] objects : data) {
+            productDTOs.add(new ProductDTO(Integer.parseInt(objects[0].toString()), objects[1].toString(),
+                    Integer.parseInt(objects[2].toString()),
+                    Integer.parseInt(objects[3].toString()),
+                    Integer.parseInt(objects[4].toString()), objects[5].toString()));
+        }
+        return productDTOs;
     }
 }

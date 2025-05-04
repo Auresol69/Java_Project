@@ -47,21 +47,39 @@ public class DataBase {
 
     public int insertQuery(String sql, Object... params) {
         int generatedId = -1;
+        ResultSet rs = null;
+
         try (Connection connection = getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Gán giá trị cho PreparedStatement
             for (int i = 0; i < params.length; i++) {
                 stmt.setObject(i + 1, params[i]);
             }
+
+            // Thực hiện câu lệnh INSERT
             int rowsInserted = stmt.executeUpdate();
+
+            // Nếu có dòng được chèn, lấy khóa sinh ra
             if (rowsInserted > 0) {
-                ResultSet rs = stmt.getGeneratedKeys();
+                rs = stmt.getGeneratedKeys();
                 if (rs.next()) {
-                    generatedId = rs.getInt(1);
+                    generatedId = rs.getInt(1); // Lấy khóa chính tự động sinh ra
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Có thể cải tiến bằng cách log lỗi hoặc thông báo chi tiết hơn
+        } finally {
+            // Đảm bảo đóng ResultSet để tránh rò rỉ tài nguyên
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
         return generatedId;
     }
 

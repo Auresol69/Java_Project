@@ -14,8 +14,9 @@ public class AccountBUS {
             accounts.add(
                     new AccountDTO(Integer.parseInt(object[0].toString()), Integer.parseInt(object[1].toString()),
                             object[2].toString(),
-                            object[3].toString(), Integer.parseInt(object[4].toString()), object[5].toString(),
-                            Boolean.parseBoolean(object[6].toString())));
+                            object[3].toString(), Integer.parseInt(object[4].toString()),
+                            object[6] == null ? "Non email" : object[6].toString(),
+                            Boolean.parseBoolean(object[5].toString())));
         }
         return accounts;
     }

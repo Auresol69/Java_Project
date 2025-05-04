@@ -1,9 +1,13 @@
 package com.sieuthimini.DTO;
 
+import com.sieuthimini.BUS.ProductBUS;
+import com.sieuthimini.BUS.ProductTypeBUS;
+import com.sieuthimini.BUS.SupplierBUS;
+
 public class ProductDTO {
     private String tensp, img;
     private Integer soluong, dongiasanpham;
-    private int masp, maloaisp, mancc;
+    private int masp, maloaisp;
 
     public int getMasp() {
         return masp;
@@ -19,14 +23,6 @@ public class ProductDTO {
 
     public void setMaloaisp(int maloaisp) {
         this.maloaisp = maloaisp;
-    }
-
-    public int getMancc() {
-        return mancc;
-    }
-
-    public void setMancc(int mancc) {
-        this.mancc = mancc;
     }
 
     public String getTensp() {
@@ -62,10 +58,9 @@ public class ProductDTO {
     }
 
     public ProductDTO(int masp, String tensp, Integer soluong,
-            Integer dongiasanpham, int maloaisp, int mancc, String img) {
+            Integer dongiasanpham, int maloaisp, String img) {
         this.masp = masp;
         this.maloaisp = maloaisp;
-        this.mancc = mancc;
         this.tensp = tensp;
         this.img = img;
         this.soluong = soluong;
@@ -73,5 +68,9 @@ public class ProductDTO {
     }
 
     public ProductDTO() {
+    }
+
+    public String getTenLoaiSanPham() {
+        return new ProductTypeBUS().getTenLoaiSanPham(this.masp);
     }
 }
