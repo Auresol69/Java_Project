@@ -2,6 +2,7 @@ package com.sieuthimini.GUI.PhieuComp;
 
 import com.sieuthimini.BUS.EntryFormBUS;
 import com.sieuthimini.DTO.EntryFormDTO;
+import com.sieuthimini.ExtendClasses.ExcelExporter;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
 import com.sieuthimini.ExtendClasses.MessageBox;
 
@@ -41,12 +42,8 @@ public class ChucNang extends JPanel implements ActionListener {
         }
         button.setPreferredSize(new Dimension(120, 120));
         button.setFocusable(false);
-        if (!button.equals(refreshButton)) {
-            button.setHorizontalTextPosition(JButton.CENTER);
-            button.setVerticalTextPosition(JButton.BOTTOM);
-        } else {
-            button.setHorizontalTextPosition(JButton.RIGHT);
-        }
+        button.setHorizontalTextPosition(JButton.CENTER);
+        button.setVerticalTextPosition(JButton.BOTTOM);
         button.addActionListener(this);
         this.add(button);
     }
@@ -76,6 +73,7 @@ public class ChucNang extends JPanel implements ActionListener {
 
         timKiem = new JTextField("Nhập nội dung...");
         timKiem.setForeground(Color.GRAY);
+        timKiem.setSize(200, timKiem.getHeight());
         timKiem.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -140,6 +138,8 @@ public class ChucNang extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == refreshButton) {
+            timKiem.setText("");
+            columnSort.setSelectedIndex(0);
             nhapLieu.resetFilter();
         }
         if (e.getSource() == huyButton) {
@@ -155,6 +155,9 @@ public class ChucNang extends JPanel implements ActionListener {
             EntryFormDTO dto = bus.getEntryFormByID(maphieunhap);
             bus.huyEntryForm(dto);
             nhapLieu.resetFilter();
+        }
+        if (e.getSource() == xuatExcelButton) {
+            ExcelExporter.exportJTableToExcel(table.getTable());
         }
     }
 

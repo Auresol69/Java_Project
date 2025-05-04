@@ -30,6 +30,6 @@ public abstract class Phieu extends JPanel {
     public Phieu() {
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.setLayout(new BorderLayout(10, 10));
-        this.setBackground(new Color(213, 236, 246));
+        this.setBackground(Color.gray);
     }
 }
