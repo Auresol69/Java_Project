@@ -103,6 +103,7 @@ public final class NhanVien extends JPanel {
         tableNhanVien.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         tableNhanVien.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        tableNhanVien.getTableHeader().setReorderingAllowed(false); 
         scrollTableSanPham.setViewportView(tableNhanVien);
         main.add(scrollTableSanPham);
     }

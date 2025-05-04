@@ -4,15 +4,6 @@
  */
 package GUI.Dialog;
 
-import DAO.KhachHangDAO;
-import DAO.NhanVienDAO;
-import DTO.KhachHangDTO;
-import DTO.KhachHangDTO;
-import GUI.Component.ButtonCustom;
-import GUI.Panel.KhachHang;
-import GUI.Panel.TaiKhoan;
-import GUI.Panel.TaoPhieuXuat;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -24,12 +15,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -37,13 +28,20 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+
+import DAO.KhachHangDAO;
+import DTO.KhachHangDTO;
+import GUI.Component.ButtonCustom;
+import GUI.Panel.TaoPhieuXuat;
+
 /**
  *
  * @author robot
  */
 public class ListKhachHang extends JDialog implements MouseListener {
 
-    // private TaoPhieuXuat taoPhieuXuat;
+    private TaoPhieuXuat taoPhieuXuat;
     private JTable tableKhachHang;
     private JScrollPane scrollTableSanPham;
     private DefaultTableModel tblModel;
@@ -52,7 +50,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
     
     public ListKhachHang(TaoPhieuXuat taoPhieuXuat, JFrame owner, String title, boolean modal){
         super(owner, title, modal);
-        // this.taoPhieuXuat=taoPhieuXuat;
+        this.taoPhieuXuat=taoPhieuXuat;
         init();
         loadDataTalbe(search(""));
         this.setLocationRelativeTo(null);
@@ -111,7 +109,7 @@ public class ListKhachHang extends JDialog implements MouseListener {
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã KH","Họ tên","Địa chỉ","Số điện thoại","Ngày tham gia"};
+        String[] header = new String[]{"Mã KH","Họ tên","Địa chỉ","Số điện thoại"};
         tblModel.setColumnIdentifiers(header);
         tableKhachHang.setDefaultRenderer(Object.class, centerRenderer);
         tableKhachHang.setModel(tblModel);
@@ -122,7 +120,6 @@ public class ListKhachHang extends JDialog implements MouseListener {
         tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         jPanelTable.add(scrollTableSanPham);
         this.add(jPanelTable,BorderLayout.CENTER);
         
