@@ -1,21 +1,22 @@
 package com.sieuthimini;
 
 import javax.swing.JFrame;
+
+import com.sieuthimini.GUI.InHoaDon;
 import com.sieuthimini.GUI.Phieu;
 import com.sieuthimini.GUI.PhieuNhap;
-import com.sieuthimini.GUI.PhieuXuat;
 
 public class Main extends JFrame {
 
     Phieu phieuNhap = new PhieuNhap(this);
-    Phieu phieuXuat = new PhieuXuat(this);
+    InHoaDon inHoaDon = new InHoaDon();
 
     public Main() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("SanPham");
         this.setLocationRelativeTo(null);
 
-        this.add(phieuNhap);
+        this.add(inHoaDon);
 
         this.pack();
         this.setVisible(true);

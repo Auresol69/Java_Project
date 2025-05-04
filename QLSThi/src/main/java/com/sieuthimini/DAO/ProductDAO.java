@@ -18,6 +18,12 @@ public class ProductDAO {
         }
         return data.get(0);
     }
+
+    public List<Object[]> getProducts() {
+        DataBase db = new DataBase();
+        return db.selectQuery("SELECT * FROM product");
+    }
+
     // public void insertProduct(Object[] row) {
     // DataBase db = new DataBase();
     // db.executeQuery("INSERT INTO product (...) VALUES (?, ?, ...)", row);

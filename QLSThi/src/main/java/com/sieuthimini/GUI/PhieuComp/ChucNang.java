@@ -36,11 +36,11 @@ public class ChucNang extends JPanel implements ActionListener {
 
     private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
-        ImageIcon icon = new ImageIcon(new GetImagePNG().getImage(imgName));
+        ImageIcon icon = new ImageIcon(new GetImagePNG().getImage(imgName, 45));
         if (icon != null) {
             button.setIcon(icon);
         }
-        button.setPreferredSize(new Dimension(120, 120));
+        button.setPreferredSize(new Dimension(100, 100));
         button.setFocusable(false);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
