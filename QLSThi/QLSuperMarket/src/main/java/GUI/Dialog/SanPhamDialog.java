@@ -82,7 +82,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         pnlButtom = new JPanel(new FlowLayout());
         pnlButtom.setBorder(new EmptyBorder(10, 0, 10, 0));
         pnlButtom.setBackground(Color.white);
-        btnThem = new ButtonCustom("Thêm khách hàng", "success", 14);
+        btnThem = new ButtonCustom("Thêm sản phẩm ", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
 
