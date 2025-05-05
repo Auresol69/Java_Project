@@ -11,7 +11,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import com.sieuthimini.DAO.ProductDAO;
 import com.sieuthimini.DTO.ProductDTO;
+import com.sieuthimini.ExtendClasses.MessageBox;
 
 public class Table extends JPanel {
     JLabel tongLabel;
@@ -65,17 +67,84 @@ public class Table extends JPanel {
 
                 Integer existingSoLuong = (Integer) model.getValueAt(i, 2);
                 Integer newSoLuong = existingSoLuong + soLuong;
-                model.setValueAt(newSoLuong, i, 2);
+                if (newSoLuong <= productDTO.getSoluong()) {
+                    model.setValueAt(newSoLuong, i, 2);
 
-                Integer newTongCong = donGia * newSoLuong;
-                model.setValueAt(newTongCong, i, 4);
+                    Integer newTongCong = donGia * newSoLuong;
+                    model.setValueAt(newTongCong, i, 4);
+                } else {
+                    MessageBox.showError("Vượt quá số lượng trong kho");
+                }
+
                 return;
             }
         }
 
         // If product ID not found, add new row
-        model.addRow(new Object[] { productDTO.getMasp(), productDTO.getTensp(), soLuong, productDTO.getDongiasanpham(),
-                tongCong });
+        if (soLuong <= productDTO.getSoluong()) {
+            model.addRow(
+                    new Object[] { productDTO.getMasp(), productDTO.getTensp(), soLuong, productDTO.getDongiasanpham(),
+                            tongCong });
+        } else {
+            MessageBox.showError("Vượt quá số lượng trong kho");
+        }
     }
 
+    public JLabel getTongLabel() {
+        return tongLabel;
+    }
+
+    public void setTongLabel(JLabel tongLabel) {
+        this.tongLabel = tongLabel;
+    }
+
+    public JButton getHuyDonButton() {
+        return huyDonButton;
+    }
+
+    public void setHuyDonButton(JButton huyDonButton) {
+        this.huyDonButton = huyDonButton;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public String[] getColumnNames() {
+        return columnNames;
+    }
+
+    public void setColumnNames(String[] columnNames) {
+        this.columnNames = columnNames;
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public void setScrollPane(JScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+    public void setModel(DefaultTableModel model) {
+        this.model = model;
+    }
+
+    public void updateSoLuong(int soluong, int rowSelected) {
+        ProductDTO productDTO = new ProductDAO()
+                .getProductById(Integer.parseInt(model.getValueAt(rowSelected, 0).toString()));
+        if (soluong <= productDTO.getSoluong()) {
+            model.setValueAt(soluong, rowSelected, 2);
+        } else {
+            MessageBox.showError("Vượt quá số lượng trong kho");
+        }
+    }
 }

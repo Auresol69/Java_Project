@@ -16,6 +16,7 @@ import com.sieuthimini.DAO.ProductDAO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
 import com.sieuthimini.ExtendClasses.MessageBox;
 import com.sieuthimini.ExtendClasses.QRScanner;
+import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.Detail;
 
 public class ChucNang extends JPanel implements ActionListener {
 
@@ -78,6 +79,14 @@ public class ChucNang extends JPanel implements ActionListener {
                 } catch (NumberFormatException e1) {
                     JOptionPane.showMessageDialog(null, "Mã QR không hợp lệ: không phải số nguyên!");
                 }
+            }
+        }
+        if (e.getSource() == hienThiSanPhamButton) {
+            if (table.getTable().getSelectedRow() != -1) {
+                int id = Integer.parseInt(table.getModel().getValueAt(table.getTable().getSelectedRow(), 0).toString());
+                new Detail(parent, new ProductDAO().getProductById(id), table);
+            } else {
+                MessageBox.showError("Vui lòng chọn 1 sản phẩm");
             }
         }
         if (e.getSource() == tienMatButton) {
