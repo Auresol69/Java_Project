@@ -22,7 +22,7 @@ public class ChucNang extends JPanel implements ActionListener {
         if (icon != null) {
             button.setIcon(icon);
         }
-        button.setPreferredSize(new Dimension(120, 120));
+        button.setPreferredSize(new Dimension(80, 60));
         button.setFocusable(false);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
@@ -37,7 +37,15 @@ public class ChucNang extends JPanel implements ActionListener {
         JPanel chucNangPanel = new JPanel(new GridLayout(0, 3, 5, 5));
 
         setUpButton(inHoaDonButton = new JButton(), "In hóa đơn", "cart-plus-solid.png");
+        setUpButton(tienMatButton = new JButton(), "Tiền mặt", "");
+        setUpButton(chuỵenKhoanButton = new JButton(), "Chuyển khoản", "");
+        setUpButton(hienThiSanPhamButton = new JButton(), "Hiển thị sản phẩm", "");
+        setUpButton(quetMaButton = new JButton(), "Quét mã", "");
         chucNangPanel.add(inHoaDonButton);
+        chucNangPanel.add(tienMatButton);
+        chucNangPanel.add(chuỵenKhoanButton);
+        chucNangPanel.add(hienThiSanPhamButton);
+        chucNangPanel.add(quetMaButton);
         this.add(chucNangPanel);
     }
 

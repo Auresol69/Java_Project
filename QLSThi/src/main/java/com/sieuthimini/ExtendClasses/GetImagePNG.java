@@ -8,7 +8,7 @@ public class GetImagePNG {
 
     public Image getImage(String imageName, int scale) {
         if (imageName == null || imageName.trim().isEmpty()) {
-            System.err.println("Tên ảnh không hợp lệ.");
+            // System.err.println("Tên ảnh không hợp lệ.");
             return getDefaultImage(scale);
         }
 
@@ -30,7 +30,7 @@ public class GetImagePNG {
     private Image getDefaultImage(int scale) {
         URL defaultURL = getClass().getResource("/img/default.png");
         if (defaultURL == null) {
-            System.err.println("Ảnh mặc định cũng không tồn tại!");
+            System.err.println("Ảnh mặc định không tồn tại!");
             return null;
         }
         return scaleImage(defaultURL, scale);

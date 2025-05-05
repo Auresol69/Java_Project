@@ -1,8 +1,6 @@
 package com.sieuthimini.DTO;
 
-import com.sieuthimini.BUS.ProductBUS;
 import com.sieuthimini.BUS.ProductTypeBUS;
-import com.sieuthimini.BUS.SupplierBUS;
 
 public class ProductDTO {
     private String tensp, img;

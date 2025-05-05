@@ -15,12 +15,14 @@ import javax.swing.JTextField;
 
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
+import com.sieuthimini.GUI.InHoaDonComp.Table;
 
 public class Order extends JPanel implements ActionListener {
     private JButton giamButton, tangButton, orderButton;
     private JTextField soluongField;
     ImageIcon icon;
     ProductDTO productDTO;
+    private Table table;
 
     private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
@@ -39,8 +41,9 @@ public class Order extends JPanel implements ActionListener {
         button.addActionListener(this);
     }
 
-    public Order(ProductDTO productDTO) {
+    public Order(ProductDTO productDTO, Table table) {
         this.productDTO = productDTO;
+        this.table = table;
 
         this.setLayout(new BorderLayout());
         this.add(new JLabel(icon = new ImageIcon(new GetImagePNG().getImage(productDTO.getImg(), 60))),
@@ -57,11 +60,14 @@ public class Order extends JPanel implements ActionListener {
         giamButton = new JButton();
         setUpButton(giamButton, "-", "");
         panel2.add(giamButton);
-        soluongField = new JTextField();
+
+        soluongField = new JTextField("1", 5);
         panel2.add(soluongField);
+
         tangButton = new JButton();
         setUpButton(tangButton, "+", "");
         panel2.add(tangButton);
+
         orderButton = new JButton();
         setUpButton(orderButton, "", "cart-plus-solid.png");
         panel2.add(orderButton);
@@ -70,6 +76,21 @@ public class Order extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == giamButton) {
+            if (!soluongField.getText().isEmpty() && Integer.parseInt(soluongField.getText().toString()) >= 2) {
+                Integer tmp = Integer.parseInt(soluongField.getText()) - 1;
+                soluongField.setText(tmp.toString());
+            }
+        }
+        if (e.getSource() == tangButton) {
+            if (!soluongField.getText().isEmpty()) {
+                Integer tmp = Integer.parseInt(soluongField.getText()) + 1;
+                soluongField.setText(tmp.toString());
+            }
+        }
+        if (e.getSource() == orderButton) {
+            table.addSanPham(productDTO, Integer.parseInt(soluongField.getText()));
+            soluongField.setText("1");
+        }
     }
 }

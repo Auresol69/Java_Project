@@ -12,7 +12,12 @@ import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.GUI.InHoaDonComp.SanPhamComp.Order;
 
 public class SanPham extends JPanel {
-    public SanPham() {
+
+    private Table table;
+
+    public SanPham(Table table) {
+        this.table = table;
+
         this.setLayout(new BorderLayout());
 
         JPanel productPanel = new JPanel(new GridLayout(0, 2, 10, 10));
@@ -21,11 +26,20 @@ public class SanPham extends JPanel {
 
         // Thêm các sản phẩm (ví dụ là nút)
         for (ProductDTO productDTO : list) {
-            productPanel.add(new Order(productDTO));
+            productPanel.add(new Order(productDTO, table));
         }
 
         JScrollPane scrollPane = new JScrollPane(productPanel);
 
         this.add(scrollPane);
     }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
+    }
+
 }

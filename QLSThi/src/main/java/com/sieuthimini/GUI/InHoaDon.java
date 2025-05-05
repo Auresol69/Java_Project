@@ -4,12 +4,14 @@ import javax.swing.*;
 
 import com.sieuthimini.GUI.InHoaDonComp.ChucNang;
 import com.sieuthimini.GUI.InHoaDonComp.SanPham;
+import com.sieuthimini.GUI.InHoaDonComp.Table;
 
 import java.awt.*;
 
 public class InHoaDon extends JPanel {
-    SanPham sanPham = new SanPham();
     ChucNang chucNang = new ChucNang();
+    Table table = new Table();
+    SanPham sanPham = new SanPham(table);
 
     public void addComponent() {
         GridBagConstraints gbc = new GridBagConstraints();
@@ -34,8 +36,7 @@ public class InHoaDon extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         this.add(chucNang, gbc);
 
-        JPanel panel3 = new JPanel();
-        panel3.setBackground(Color.BLUE);
+        table.setBackground(Color.BLUE);
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -43,7 +44,7 @@ public class InHoaDon extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        this.add(panel3, gbc);
+        this.add(table, gbc);
 
     }
 
@@ -52,5 +53,6 @@ public class InHoaDon extends JPanel {
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.gray);
         addComponent();
+
     }
 }
