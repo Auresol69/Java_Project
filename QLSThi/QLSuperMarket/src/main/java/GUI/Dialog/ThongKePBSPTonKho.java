@@ -52,7 +52,7 @@ public final class ThongKePBSPTonKho extends JDialog{
         table = new JTable();
         scrollTable = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã phiên bản", "RAM", "ROM", "Màu sắc", "Tồn đầu kỳ", "Nhập trong kỳ", "Xuất trong kỳ", "Tồn cuối kỳ"};
+        String[] header = new String[]{"Mã Sản Phẩm","Tên Sản Phẩm", "Nhập Trong Kỳ", "Tồn Đầu Kỳ", "Xuất Trong Kỳ", "Tồn Cuối Kỳ"};
         tblModel.setColumnIdentifiers(header);
 
         table.setModel(tblModel);
@@ -76,7 +76,7 @@ public final class ThongKePBSPTonKho extends JDialog{
         tblModel.setRowCount(0);
         for (ThongKeTonKhoDTO ctsp : result) {
             tblModel.addRow(new Object[]{
-                ctsp.getMasp(), ctsp.getTensanpham(),ctsp.getNhaptrongky(), ctsp.getTondauky(), ctsp.getToncuoiky(), ctsp.getXuattrongky(),
+                ctsp.getMasp(), ctsp.getTensanpham(),ctsp.getNhaptrongky(), ctsp.getTondauky(), ctsp.getXuattrongky(), ctsp.getToncuoiky(), 
             });
         }
     }

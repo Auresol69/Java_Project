@@ -200,7 +200,7 @@ public final class ThongKeTonKho extends JPanel implements ActionListener, KeyLi
         for (int i : list.keySet()) {
             int[] soluong = thongkeBUS.getSoluong(list.get(i));
             tblModel.addRow(new Object[]{
-                index + 1, i, list.get(i).get(0).getTensanpham(), soluong[0], soluong[1], soluong[2], soluong[3]
+                index, i, list.get(i).get(0).getTensanpham(), soluong[0], soluong[1], soluong[2], soluong[3]
             });
             index++;
         }
