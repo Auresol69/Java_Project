@@ -62,7 +62,7 @@ public class Table extends JPanel {
         for (int i = 0; i < model.getRowCount(); i++) {
             Object idObj = model.getValueAt(i, 0);
             if (idObj != null && idObj.equals(productDTO.getMasp())) {
-                // Update quantity and total price for existing product
+
                 Integer existingSoLuong = (Integer) model.getValueAt(i, 2);
                 Integer newSoLuong = existingSoLuong + soLuong;
                 model.setValueAt(newSoLuong, i, 2);

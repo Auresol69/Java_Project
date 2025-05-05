@@ -9,11 +9,15 @@ import com.sieuthimini.GUI.InHoaDonComp.Table;
 import java.awt.*;
 
 public class InHoaDon extends JPanel {
-    ChucNang chucNang = new ChucNang();
+
+    JFrame parent;
     Table table = new Table();
     SanPham sanPham = new SanPham(table);
+    ChucNang chucNang;
 
     public void addComponent() {
+        chucNang = new ChucNang(table, parent);
+
         GridBagConstraints gbc = new GridBagConstraints();
 
         sanPham.setBackground(Color.RED);
@@ -48,7 +52,8 @@ public class InHoaDon extends JPanel {
 
     }
 
-    public InHoaDon() {
+    public InHoaDon(JFrame parent) {
+        this.parent = parent;
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.gray);

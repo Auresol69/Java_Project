@@ -9,14 +9,14 @@ import com.sieuthimini.GUI.PhieuNhap;
 public class Main extends JFrame {
 
     Phieu phieuNhap = new PhieuNhap(this);
-    InHoaDon inHoaDon = new InHoaDon();
+    InHoaDon inHoaDon = new InHoaDon(this);
 
     public Main() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("SanPham");
         this.setLocationRelativeTo(null);
 
-        this.add(inHoaDon);
+        this.add(phieuNhap);
 
         this.pack();
         this.setVisible(true);

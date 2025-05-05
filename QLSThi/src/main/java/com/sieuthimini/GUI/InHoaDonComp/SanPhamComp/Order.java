@@ -28,7 +28,7 @@ public class Order extends JPanel implements ActionListener {
         button.setText(text);
 
         if (!imgName.isEmpty()) {
-            ImageIcon icon = new ImageIcon(new GetImagePNG().getImage(imgName, 60));
+            ImageIcon icon = new ImageIcon(new GetImagePNG().getImage(imgName, 1));
             if (icon != null) {
                 button.setIcon(icon);
             }

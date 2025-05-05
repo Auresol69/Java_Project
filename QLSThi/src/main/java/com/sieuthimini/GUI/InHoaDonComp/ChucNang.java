@@ -8,13 +8,21 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.sieuthimini.DAO.ProductDAO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
+import com.sieuthimini.ExtendClasses.MessageBox;
+import com.sieuthimini.ExtendClasses.QRScanner;
 
 public class ChucNang extends JPanel implements ActionListener {
 
     private JButton inHoaDonButton, tienMatButton, chuỵenKhoanButton, hienThiSanPhamButton, quetMaButton;
+
+    Table table;
+    JFrame parent;
 
     private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
@@ -31,7 +39,10 @@ public class ChucNang extends JPanel implements ActionListener {
         this.add(button);
     }
 
-    public ChucNang() {
+    public ChucNang(Table table, JFrame parent) {
+        this.table = table;
+        this.parent = parent;
+
         this.setLayout(new BorderLayout());
 
         JPanel chucNangPanel = new JPanel(new GridLayout(0, 3, 5, 5));
@@ -51,6 +62,26 @@ public class ChucNang extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == quetMaButton) {
+            String index = QRScanner.read(parent, "Quét mã QR sản phẩm");
 
+            if (index == null) {
+                MessageBox.showError("Quét QR không thành công!");
+            } else {
+                System.out.println(index);
+
+                try {
+                    int id = Integer.parseInt(index);
+
+                    table.addSanPham(new ProductDAO().getProductById(id),
+                            1);
+                } catch (NumberFormatException e1) {
+                    JOptionPane.showMessageDialog(null, "Mã QR không hợp lệ: không phải số nguyên!");
+                }
+            }
+        }
+        if (e.getSource() == tienMatButton) {
+
+        }
     }
 }
