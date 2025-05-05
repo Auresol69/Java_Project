@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class ThongKeDAO {
 
     public static ThongKeDAO getInstance() {
@@ -37,7 +36,7 @@ public class ThongKeDAO {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String sql = """
                          WITH nhap AS (
                            SELECT masp, SUM(soluongnhap) AS sl_nhap
@@ -54,7 +53,7 @@ public class ThongKeDAO {
                            GROUP BY masp
                          ),
                          nhap_dau AS (
-                           SELECT detail_entry_form.masp, SUM(ctphieunhap.soluongnhap) AS sl_nhap_dau
+                           SELECT detail_entry_form.masp, SUM(detail_entry_form.soluongnhap) AS sl_nhap_dau
                            FROM entry_form
                            JOIN detail_entry_form ON entry_form.maphieunhap = detail_entry_form.maphieunhap
                            WHERE entry_form.ngaynhap < ?
@@ -71,7 +70,7 @@ public class ThongKeDAO {
                             SELECT
                                 sp.masp,
                                 COALESCE(nhap_dau.sl_nhap_dau, 0) - COALESCE(xuat_dau.sl_xuat_dau, 0) AS soluongdauky
-                            FROM sanpham sp
+                            FROM product sp
                             LEFT JOIN nhap_dau ON sp.masp = nhap_dau.masp
                             LEFT JOIN xuat_dau ON sp.masp = xuat_dau.masp
                         ),
@@ -86,7 +85,7 @@ public class ThongKeDAO {
                             FROM dau_ky
                             LEFT JOIN nhap ON dau_ky.masp = nhap.masp
                             LEFT JOIN xuat ON dau_ky.masp = xuat.masp
-                            JOIN sanpham sp ON sp.masp = dau_ky.masp
+                            JOIN product sp ON sp.masp = dau_ky.masp
                         )
                         SELECT * FROM temp_table
                         WHERE tensp LIKE ? OR masp LIKE ?
@@ -121,7 +120,7 @@ public class ThongKeDAO {
     public ArrayList<ThongKeDoanhThuDTO> getDoanhThuTheoTungNam(int year_start, int year_end) {
         ArrayList<ThongKeDoanhThuDTO> result = new ArrayList<>();
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String sqlSetStartYear = "SET @start_year = ?;";
             String sqlSetEndYear = "SET @end_year = ?;";
             String sqlSelect = """
@@ -135,7 +134,7 @@ public class ThongKeDAO {
                         SELECT 
                         years.year AS nam,
                         COALESCE(SUM(CASE WHEN YEAR(entry_form.ngaynhap) = years.year THEN detail_entry_form.dongianhap ELSE 0 END), 0) AS chiphi,
-                        COALESCE(SUM(CASE WHEN YEAR(bill.ngaymua) = years.year THEN bill_product.dongia ELSE 0 END), 0) AS doanhthu
+                        COALESCE(SUM(CASE WHEN YEAR(bill.ngaymua) = years.year THEN bill_product.dongiasanpham ELSE 0 END), 0) AS doanhthu
                         FROM years
                         LEFT JOIN entry_form ON YEAR(entry_form.ngaynhap) = years.year
                         LEFT JOIN detail_entry_form ON entry_form.maphieunhap = detail_entry_form.maphieunhap
@@ -177,7 +176,7 @@ public class ThongKeDAO {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String sql = """
                           WITH kh AS (
                          SELECT customer.macustomer, customer.name , COUNT(bill.mabill ) AS tongsophieu, SUM(bill.tongtien) AS tongsotien
@@ -195,8 +194,8 @@ public class ThongKeDAO {
 
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                int makh = rs.getInt("makh");
-                String tenkh = rs.getString("tenkhachhang");
+                int makh = rs.getInt("macustomer");
+                String tenkh = rs.getString("name");
                 int soluong = rs.getInt("soluong");
                 long tongtien = rs.getInt("total");
                 ThongKeKhachHangDTO x = new ThongKeKhachHangDTO(makh, tenkh, soluong, tongtien);
@@ -218,7 +217,7 @@ public class ThongKeDAO {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String sql = """
                           WITH ncc AS (
                             SELECT 
@@ -244,11 +243,10 @@ public class ThongKeDAO {
             pst.setTimestamp(2, new Timestamp(calendar.getTimeInMillis()));
             pst.setString(3, "%" + text + "%");
             pst.setString(4, "%" + text + "%");
-
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                int mancc = rs.getInt("manhacungcap");
-                String tenncc = rs.getString("tennhacungcap");
+                int mancc = rs.getInt("mancc");
+                String tenncc = rs.getString("tencc");
                 int soluong = rs.getInt("soluong");
                 long tongtien = rs.getInt("total");
                 ThongKeNhaCungCapDTO x = new ThongKeNhaCungCapDTO(mancc, tenncc, soluong, tongtien);
@@ -263,7 +261,7 @@ public class ThongKeDAO {
     public ArrayList<ThongKeTheoThangDTO> getThongKeTheoThang(int nam) {
         ArrayList<ThongKeTheoThangDTO> result = new ArrayList<>();
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String sql = "SELECT months.month AS thang, \n"
             + "       COALESCE(SUM(detail_entry_form.dongianhap * detail_entry_form.soluongnhap), 0) AS chiphi,\n"
             + "       COALESCE(SUM(bill_product.dongiasanpham * bill_product.soluong), 0) AS doanhthu\n"
@@ -274,12 +272,13 @@ public class ThongKeDAO {
             + "     ) AS months\n"
             + "LEFT JOIN entry_form ON MONTH(entry_form.ngaynhap) = months.month AND YEAR(entry_form.ngaynhap) = ? \n"
             + "LEFT JOIN detail_entry_form ON entry_form.maphieunhap = detail_entry_form.maphieunhap\n"
-            + "LEFT JOIN bill ON MONTH(bill.ngayban) = months.month AND YEAR(bill.ngayban) = ? \n"
+            + "LEFT JOIN bill ON MONTH(bill.ngaymua) = months.month AND YEAR(bill.ngaymua) = ? \n"
             + "LEFT JOIN bill_product ON bill.mabill = bill_product.mabill\n"
             + "GROUP BY months.month\n"
             + "ORDER BY months.month;";
                 PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, nam);
+                pst.setInt(1, nam);
+                pst.setInt(2, nam);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 int thang = rs.getInt("thang");
@@ -299,11 +298,11 @@ public class ThongKeDAO {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         try {
             String ngayString = nam + "-" + thang + "-" + "01";
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String sql = "SELECT \n"
         + "  dates.date AS ngay, \n"
         + "  COALESCE(SUM(detail_entry_form.dongianhap * detail_entry_form.soluongnhap), 0) AS chiphi, \n"
-        + "  COALESCE(SUM(bill_product.dongiasanpham * bill_product.soluongban), 0) AS doanhthu\n"
+        + "  COALESCE(SUM(bill_product.dongiasanpham * bill_product.soluong), 0) AS doanhthu\n"
         + "FROM (\n"
         + "  SELECT DATE('" + ngayString + "') + INTERVAL c.number DAY AS date\n"
         + "  FROM (\n"
@@ -319,7 +318,7 @@ public class ThongKeDAO {
         + ") AS dates\n"
         + "LEFT JOIN entry_form ON DATE(entry_form.ngaynhap) = dates.date\n"
         + "LEFT JOIN detail_entry_form ON entry_form.maphieunhap = detail_entry_form.maphieunhap\n"
-        + "LEFT JOIN bill ON DATE(bill.ngayban) = dates.date\n"
+        + "LEFT JOIN bill ON DATE(bill.ngaymua) = dates.date\n"
         + "LEFT JOIN bill_product ON bill.mabill = bill_product.mabill\n"
         + "GROUP BY dates.date\n"
         + "ORDER BY dates.date;";
@@ -342,7 +341,7 @@ public class ThongKeDAO {
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKe7NgayGanNhat() {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String sql = """
                          WITH RECURSIVE dates(date) AS (
                             SELECT DATE_SUB(CURDATE(), INTERVAL 7 DAY)
@@ -353,10 +352,10 @@ public class ThongKeDAO {
                             )
                             SELECT 
                             dates.date AS ngay,
-                            COALESCE(SUM(bill_product.dongiasanpham * bill_product.soluongban), 0) AS doanhthu,
+                            COALESCE(SUM(bill_product.dongiasanpham * bill_product.soluong), 0) AS doanhthu,
                             COALESCE(SUM(detail_entry_form.dongianhap * detail_entry_form.soluongnhap), 0) AS chiphi
                             FROM dates
-                            LEFT JOIN bill ON DATE(bill.ngayban) = dates.date
+                            LEFT JOIN bill ON DATE(bill.ngaymua) = dates.date
                             LEFT JOIN bill_product ON bill.mabill = bill_product.mabill
                             LEFT JOIN entry_form ON DATE(entry_form.ngaynhap) = dates.date
                             LEFT JOIN detail_entry_form ON entry_form.maphieunhap = detail_entry_form.maphieunhap
@@ -381,14 +380,14 @@ public class ThongKeDAO {
     public ArrayList<ThongKeTungNgayTrongThangDTO> getThongKeTuNgayDenNgay(String star, String end) {
         ArrayList<ThongKeTungNgayTrongThangDTO> result = new ArrayList<>();
         try {
-            Connection con = JDBCUtil.getConnection();
+            Connection con = MySQLConnect.getConnection();
             String setStar = "SET @start_date = '" + star + "'";
             String setEnd = "SET @end_date = '" + end + "'  ;";
             String sqlSelect = 
                 "SELECT \n" +
                 "  dates.date AS ngay, \n" +
                 "  COALESCE(SUM(detail_entry_form.dongianhap * detail_entry_form.soluongnhap), 0) AS chiphi, \n" +
-                "  COALESCE(SUM(bill_product.dongiasanpham * bill_product.soluongban), 0) AS doanhthu\n" +
+                "  COALESCE(SUM(bill_product.dongiasanpham * bill_product.soluong), 0) AS doanhthu\n" +
                 "FROM (\n" +
                 "  SELECT DATE_ADD(? , INTERVAL c.number DAY) AS date\n" + // dùng ? cho @start_date
                 "  FROM (\n" +
@@ -410,7 +409,7 @@ public class ThongKeDAO {
                 ") AS dates\n" +
                 "LEFT JOIN entry_form ON DATE(entry_form.ngaynhap) = dates.date\n" +
                 "LEFT JOIN detail_entry_form ON entry_form.maphieunhap = detail_entry_form.maphieunhap\n" +
-                "LEFT JOIN bill ON DATE(bill.ngayban) = dates.date\n" +
+                "LEFT JOIN bill ON DATE(bill.ngaymua) = dates.date\n" +
                 "LEFT JOIN bill_product ON bill.mabill = bill_product.mabill\n" +
                 "GROUP BY dates.date\n" +
                 "ORDER BY dates.date;";
@@ -418,7 +417,9 @@ public class ThongKeDAO {
             PreparedStatement pstStart = con.prepareStatement(setStar);
             PreparedStatement pstEnd = con.prepareStatement(setEnd);
             PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
-
+            pstSelect.setString(1,setStar );
+            pstSelect.setString(2,setStar );
+            pstSelect.setString(3, setEnd);
             pstStart.execute();
             pstEnd.execute();
             ResultSet rs = pstSelect.executeQuery();

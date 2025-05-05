@@ -82,9 +82,8 @@ public class NhomQuyenDAO implements DAOinterface<NhomQuyenDTO> {
         ArrayList<NhomQuyenDTO> result = new ArrayList<>();
         String sql = "SELECT * FROM powergroup WHERE status = 1";
         MySQLConnect db = new MySQLConnect();
-
         try {
-            Connection con = db.getConnection();
+            Connection con = MySQLConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 

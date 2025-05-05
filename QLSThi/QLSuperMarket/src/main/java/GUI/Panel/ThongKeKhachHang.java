@@ -54,6 +54,7 @@ public class ThongKeKhachHang extends JPanel implements ActionListener, KeyListe
         list = thongkebus.getAllKhachHang();
         initComponent();
         loadDataTable(list);
+        System.out.println(list);
     }
 
     public void initComponent() {

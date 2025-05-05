@@ -76,8 +76,7 @@ public final class ThongKePBSPTonKho extends JDialog{
         tblModel.setRowCount(0);
         for (ThongKeTonKhoDTO ctsp : result) {
             tblModel.addRow(new Object[]{
-                ctsp.getMaphienbansp(), ctsp.getRam(), ctsp.getRom(), ctsp.getMausac(), ctsp.getTondauky(),
-                ctsp.getNhaptrongky(),ctsp.getXuattrongky(),ctsp.getToncuoiky()
+                ctsp.getMasp(), ctsp.getTensanpham(),ctsp.getNhaptrongky(), ctsp.getTondauky(), ctsp.getToncuoiky(), ctsp.getXuattrongky(),
             });
         }
     }

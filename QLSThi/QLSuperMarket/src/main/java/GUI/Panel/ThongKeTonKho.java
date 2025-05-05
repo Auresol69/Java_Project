@@ -148,7 +148,7 @@ public final class ThongKeTonKho extends JPanel implements ActionListener, KeyLi
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm");
             } else {
                 int masp = (int) tblTonKho.getModel().getValueAt(tblTonKho.getSelectedRow(), 1);
-                ThongKePBSPTonKho sppp = new ThongKePBSPTonKho((JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), "Chi tiết tồn kho từng cấu hình", true, listSp.get(masp));
+                ThongKePBSPTonKho sppp = new ThongKePBSPTonKho((JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), "Chi tiết tồn kho từng sản phẩm", true, listSp.get(masp));
             }
         }
     }

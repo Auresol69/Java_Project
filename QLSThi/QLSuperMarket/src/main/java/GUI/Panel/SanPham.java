@@ -104,7 +104,7 @@ public class SanPham extends JPanel implements ActionListener, ItemListener {
 
         String[] action = {"create", "update", "delete", "detail", "import", "export"};
 
-        mainFunction = new MainFunction(m.user.getPowerGroupId(), 1, action);
+        mainFunction = new MainFunction(m.user.getPowerGroupId(), 6, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
@@ -226,8 +226,8 @@ public class SanPham extends JPanel implements ActionListener, ItemListener {
                     int dongia = excelRow.getCell(2).getRowIndex();
                     int maloaisp = excelRow.getCell(3).getRowIndex();
                     
-                    if (Validation.isEmpty(tensp) || Validation.isEmpty(soluong)
-                            || Validation.isEmpty(dongia) || Validation.isEmpty(maloaisp)) {
+                    if (Validation.isEmpty(tensp) || Validation.isEmpty(String.valueOf(soluong))
+                            || Validation.isEmpty(String.valueOf(dongia)) || Validation.isEmpty(String.valueOf(maloaisp))) {
                         check = 0;
                     }
                     if (check == 1) {

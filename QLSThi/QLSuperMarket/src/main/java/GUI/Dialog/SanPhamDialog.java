@@ -134,7 +134,7 @@ public class SanPhamDialog extends JDialog implements MouseListener {
     //     return Soluong.getText();
     // }
     private void setLoaiSP(int soluong2) {
-        this.loaiSp.setText(soluong2);}
+        this.loaiSp.setText(String.valueOf(soluong2));}
     // public void setSoLuong(int value) {
     //     this.Soluong.setText(value);
     // }
