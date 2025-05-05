@@ -25,6 +25,7 @@ public class ImageChooserForm extends JPanel implements ActionListener {
         // Nút chọn ảnh
         btnChooseImage = new JButton("Chọn ảnh");
         btnChooseImage.addActionListener(this);
+        btnChooseImage.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Thêm các thành phần vào form
         this.add(lblImage);
