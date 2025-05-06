@@ -66,7 +66,7 @@ public class TaiKhoanDialog extends JDialog {
         username.setText(tk.getUsername());
         password.setPass(tk.getPassword());
         maNhomQuyen.setSelectedItem(NhomQuyenDAO.getInstance().selectedByID(tk.getPowerGroupId()).getTenNhomQuyen());
-        trangthai.setSelectedIndex(tk.getTrangThai() ? 0 : 1);
+        trangthai.setSelectedIndex(tk.getTrangThai() ? 1 : 0);
         setLocationRelativeTo(null);
         setVisible(true);
     }

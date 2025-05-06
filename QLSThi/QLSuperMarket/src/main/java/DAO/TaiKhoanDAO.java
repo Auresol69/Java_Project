@@ -1,10 +1,14 @@
 package DAO;
 
-import DTO.TaiKhoanDTO;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import DTO.TaiKhoanDTO;
 
 public class TaiKhoanDAO {
     MySQLConnect db = new MySQLConnect();
@@ -64,7 +68,7 @@ public class TaiKhoanDAO {
         int result = 0;
         try {
             Connection con = MySQLConnect.getConnection();
-            String sql = "UPDATE account SET mastaff = ?, password = ?, powergroupid = ?, trangthai = ? WHERE maaccount = ?";
+            String sql = "UPDATE account SET mastaff = ?, password = ?, powergroupid = ?, status = ? WHERE maaccount = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getMaStaff());
             pst.setString(2, t.getPassword());
@@ -82,7 +86,7 @@ public class TaiKhoanDAO {
 
     // Xóa tài khoản theo mã
     public boolean deleteTaiKhoan(int maAccount) {
-        String sql = "DELETE FROM account WHERE maaccount = " + maAccount;
+        String sql = "UPDATE status = 0 FROM account WHERE maaccount = " + maAccount;
         try {
             db.executeUpdate(sql);
             return true;
