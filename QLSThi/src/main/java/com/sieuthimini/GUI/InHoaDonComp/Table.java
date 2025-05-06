@@ -2,6 +2,8 @@ package com.sieuthimini.GUI.InHoaDonComp;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,7 +20,7 @@ import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.ExtendClasses.MessageBox;
 import com.sieuthimini.DAO.DataBase;
 
-public class Table extends JPanel {
+public class Table extends JPanel implements ActionListener {
     JLabel tongLabel;
     JButton huyDonButton;
     JTable table;
@@ -62,7 +64,17 @@ public class Table extends JPanel {
         JPanel bottom = new JPanel(new FlowLayout());
         bottom.add(tongLabel = new JLabel("Tổng cộng: 0"));
         bottom.add(huyDonButton = new JButton("Hủy đơn"));
+        huyDonButton.addActionListener(this);
         this.add(bottom, BorderLayout.SOUTH);
+    }
+
+    public void deleteSelectedRow() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            com.sieuthimini.ExtendClasses.MessageBox.showError("Vui lòng chọn một dòng để xóa.");
+            return;
+        }
+        model.removeRow(table.convertRowIndexToModel(selectedRow));
     }
 
     private void loadCustomers() {
@@ -185,6 +197,17 @@ public class Table extends JPanel {
 
     public void setComboBox(JComboBox<CustomerDTO> comboBox) {
         this.comboBox = comboBox;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == huyDonButton) {
+            if (table.getModel().getRowCount() >= 1)
+                model.setRowCount(0);
+            else {
+                MessageBox.showError("Không có sản phẩm để xóa");
+            }
+        }
     }
 
 }

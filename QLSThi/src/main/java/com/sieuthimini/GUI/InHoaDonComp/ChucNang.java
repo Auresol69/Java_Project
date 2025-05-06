@@ -25,7 +25,7 @@ import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.TienMat;
 
 public class ChucNang extends JPanel implements ActionListener {
 
-    private JButton inHoaDonButton, tienMatButton, chuỵenKhoanButton, hienThiSanPhamButton, quetMaButton;
+    private JButton inHoaDonButton, tienMatButton, chuỵenKhoanButton, hienThiSanPhamButton, quetMaButton, huyButton;
 
     Table table;
     JFrame parent;
@@ -60,11 +60,13 @@ public class ChucNang extends JPanel implements ActionListener {
         setUpButton(chuỵenKhoanButton = new JButton(), "Chuyển khoản", "");
         setUpButton(hienThiSanPhamButton = new JButton(), "Hiển thị sản phẩm", "");
         setUpButton(quetMaButton = new JButton(), "Quét mã", "");
+        setUpButton(huyButton = new JButton(), "Hủy sản phẩm", "");
         chucNangPanel.add(inHoaDonButton);
         chucNangPanel.add(tienMatButton);
         chucNangPanel.add(chuỵenKhoanButton);
         chucNangPanel.add(hienThiSanPhamButton);
         chucNangPanel.add(quetMaButton);
+        chucNangPanel.add(huyButton);
         this.add(chucNangPanel);
 
         // Add listener to comboBox selection changes to update maCustomer
@@ -155,6 +157,14 @@ public class ChucNang extends JPanel implements ActionListener {
                 maPayBy = null;
                 maCustomer = null;
             }
+        }
+        if (e.getSource() == huyButton) {
+            int selectedRow = table.getTable().getSelectedRow();
+            if (selectedRow == -1) {
+                MessageBox.showError("Vui lòng chọn dòng để xóa.");
+                return;
+            }
+            table.deleteSelectedRow();
         }
     }
 
