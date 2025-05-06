@@ -13,7 +13,6 @@ public class SeriesSize {
     public double getY() {
         return y;
     }
-
     public void setY(double y) {
         this.y = y;
     }

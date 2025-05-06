@@ -64,7 +64,7 @@ public class TaiKhoanDAO {
         int result = 0;
         try {
             Connection con = MySQLConnect.getConnection();
-            String sql = "UPDATE account SET mastaff = ?, password = ?, powergroupid = ?, trangthai = ? WHERE maaccount = ?";
+            String sql = "UPDATE account SET mastaff = ?, password = ?, powergroupid = ?, status = ? WHERE maaccount = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getMaStaff());
             pst.setString(2, t.getPassword());
@@ -81,10 +81,24 @@ public class TaiKhoanDAO {
     }
 
     // Xóa tài khoản theo mã
-    public boolean deleteTaiKhoan(int maAccount) {
-        String sql = "DELETE FROM account WHERE maaccount = " + maAccount;
-        try {
-            db.executeUpdate(sql);
+    public boolean deleteTaiKhoan(int staff) {
+        String sql = "UPDATE account SET status = 0 WHERE maaccount = ?";
+        try (Connection con = MySQLConnect.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setInt(1, staff);
+            pst.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean deleteTaiKhoanTheoMaStaff(int staff) {
+        String sql = "UPDATE account SET status = 0 WHERE mastaff = ?";
+        try (Connection con = MySQLConnect.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setInt(1, staff);
+            pst.executeUpdate();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

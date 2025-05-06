@@ -65,7 +65,7 @@ public class NhaCungCapBUS {
         switch (type) {
             case "Tất cả" -> {
                 for (NhaCungCapDTO i : listNcc) {
-                    if (Integer.toString(i.getMancc()).contains(txt) || i.getTenncc().contains(txt) || i.getDiachi().contains(txt) || i.getSofax().contains(txt) || i.getSdt().contains(txt)) {
+                    if (Integer.toString(i.getMancc()).contains(txt) || i.getTenncc().contains(txt) || i.getDiachi().contains(txt)  || i.getSdt().contains(txt) || i.getSofax().contains(txt)) {
                         result.add(i);
                     }
                 }
@@ -98,7 +98,7 @@ public class NhaCungCapBUS {
                     }
                 }
             }
-            case "Email" -> {
+            case "Số Fax" -> {
                 for (NhaCungCapDTO i : listNcc) {
                     if (i.getSofax().toLowerCase().contains(txt)) {
                         result.add(i);

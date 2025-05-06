@@ -155,6 +155,8 @@ public class KhachHangDialog extends JDialog implements MouseListener {
         if (e.getSource() == btnThem && Validation()) {
                 int id=KhachHangDAO.getInstance().getAutoIncrement();
                 jpKH.khachhangBUS.add(new DTO.KhachHangDTO(id, tenKH.getText(),sdtKH.getText(), diachiKH.getText()));
+                jpKH.khachhangBUS = new KhachHangBUS();
+                jpKH.listkh = jpKH.khachhangBUS.getAll();
                 jpKH.loadDataTable(jpKH.listkh);
                 dispose();
 
@@ -162,6 +164,8 @@ public class KhachHangDialog extends JDialog implements MouseListener {
             dispose();
         } else if (e.getSource() == btnCapNhat && Validation()) {
             jpKH.khachhangBUS.update(new KhachHangDTO(kh.getMaKH(), tenKH.getText(), sdtKH.getText(), diachiKH.getText()));
+            jpKH.khachhangBUS = new KhachHangBUS();
+            jpKH.listkh = jpKH.khachhangBUS.getAll();
             jpKH.loadDataTable(jpKH.listkh);
             dispose();
         }

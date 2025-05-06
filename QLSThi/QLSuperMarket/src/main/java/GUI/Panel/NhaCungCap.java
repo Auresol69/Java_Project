@@ -59,7 +59,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         tableNhaCungCap = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã NCC", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại","Số Fax"};
+        String[] header = new String[]{"Mã NCC", "Tên Nhà Cung Cấp", "Địa Chỉ", "Số Điện Thoại","Số Fax"};
         tblModel.setColumnIdentifiers(header);
         tableNhaCungCap.setModel(tblModel);
         tableNhaCungCap.setFocusable(false);
@@ -119,7 +119,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số Điện Thoại", "Số Fax"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại", "Số Fax"});
         search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override

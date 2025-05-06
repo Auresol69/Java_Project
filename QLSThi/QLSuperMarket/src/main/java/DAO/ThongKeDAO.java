@@ -80,7 +80,7 @@ public class ThongKeDAO {
                                 sp.tensp,
                                 dau_ky.soluongdauky,
                                 COALESCE(nhap.sl_nhap, 0) AS soluongnhap,
-                                COALESCE(xuat.sl_xuat, 0) AS soluongxuat,
+                                COALESCE(xuat.sl_xuat, 0) AS soluongxuat,   
                                 (dau_ky.soluongdauky + COALESCE(nhap.sl_nhap, 0) - COALESCE(xuat.sl_xuat, 0)) AS soluongcuoiky
                             FROM dau_ky
                             LEFT JOIN nhap ON dau_ky.masp = nhap.masp
@@ -133,7 +133,7 @@ public class ThongKeDAO {
                         )
                         SELECT 
                         years.year AS nam,
-                        COALESCE(SUM(CASE WHEN YEAR(entry_form.ngaynhap) = years.year THEN detail_entry_form.dongianhap ELSE 0 END), 0) AS chiphi,
+                        COALESCE(SUM(CASE WHEN YEAR(entry_form.ngaynhap) = years.year THEN detail_entry_form.dongianhap * detail_entry_form.soluongnhap ELSE 0 END), 0) AS chiphi,
                         COALESCE(SUM(CASE WHEN YEAR(bill.ngaymua) = years.year THEN bill_product.dongiasanpham ELSE 0 END), 0) AS doanhthu
                         FROM years
                         LEFT JOIN entry_form ON YEAR(entry_form.ngaynhap) = years.year
