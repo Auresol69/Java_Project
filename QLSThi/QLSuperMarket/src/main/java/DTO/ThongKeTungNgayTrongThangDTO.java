@@ -49,16 +49,6 @@ public class ThongKeTungNgayTrongThangDTO{
     }
 
     @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.ngay);
-        hash = 29 * hash + this.chiphi;
-        hash = 29 * hash + this.doanhthu;
-        hash = 29 * hash + this.loinhuan;
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

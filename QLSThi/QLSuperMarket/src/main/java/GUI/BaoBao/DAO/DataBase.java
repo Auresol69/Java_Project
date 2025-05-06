@@ -1,15 +1,21 @@
 package GUI.BaoBao.DAO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import GUI.BaoBao.ExtendClasses.MessageBox;
 
 public class DataBase {
-    private final String URL = "jdbc:mysql://localhost:3306/sieuthi_mini";
+    private final String URL = "jdbc:mysql://localhost:3307/sieuthi_mini";
     private final String USER = "root";
-    private final String PASSWORD = "123";
+    private final String PASSWORD = "";
 
     public Connection getConnection() {
         try {
