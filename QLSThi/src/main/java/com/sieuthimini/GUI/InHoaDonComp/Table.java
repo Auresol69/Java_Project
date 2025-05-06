@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,16 +14,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import com.sieuthimini.DAO.ProductDAO;
-import com.sieuthimini.DTO.CustomerDTO;
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.ExtendClasses.MessageBox;
-import com.sieuthimini.DAO.DataBase;
 
 public class Table extends JPanel implements ActionListener {
     JLabel tongLabel;
     JButton huyDonButton;
     JTable table;
-    public JComboBox<CustomerDTO> comboBox;
 
     private String[] columnNames = {
             "ID",
@@ -40,10 +36,7 @@ public class Table extends JPanel implements ActionListener {
         this.setLayout(new BorderLayout());
         JPanel panelTop = new JPanel(new FlowLayout());
         panelTop.add(new JLabel("Hóa đơn"));
-        panelTop.add(comboBox = new JComboBox<>());
         this.add(panelTop, BorderLayout.NORTH);
-
-        loadCustomers();
 
         table = new JTable();
         model = new DefaultTableModel(columnNames, 0);
@@ -77,28 +70,6 @@ public class Table extends JPanel implements ActionListener {
         model.removeRow(table.convertRowIndexToModel(selectedRow));
     }
 
-    private void loadCustomers() {
-        comboBox.removeAllItems();
-        comboBox.addItem(null);
-
-        try {
-            String sql = "SELECT * FROM customer";
-            DataBase db = new DataBase();
-            java.util.List<Object[]> results = db.selectQuery(sql);
-
-            for (Object[] row : results) {
-                Integer id = (Integer) row[0];
-                String name = (String) row[1];
-                String phone = (String) row[2];
-                String address = (String) row[3];
-                CustomerDTO customer = new CustomerDTO(id, name, phone, address);
-                comboBox.addItem(customer);
-            }
-        } catch (Exception e) {
-            MessageBox.showError("Lỗi khi tải danh sách khách hàng: " + e.getMessage());
-        }
-    }
-
     public void addSanPham(ProductDTO productDTO, Integer soLuong) {
         Integer donGia = productDTO.getDongiasanpham();
         Integer tongCong = donGia * soLuong;
@@ -118,7 +89,7 @@ public class Table extends JPanel implements ActionListener {
                 } else {
                     MessageBox.showError("Vượt quá số lượng trong kho");
                 }
-
+                setTong();
                 return;
             }
         }
@@ -128,9 +99,18 @@ public class Table extends JPanel implements ActionListener {
             model.addRow(
                     new Object[] { productDTO.getMasp(), productDTO.getTensp(), soLuong, productDTO.getDongiasanpham(),
                             tongCong });
+            setTong();
         } else {
             MessageBox.showError("Vượt quá số lượng trong kho");
         }
+    }
+
+    public void setTong() {
+        Integer tong = 0;
+        for (int i = 0; i < table.getRowCount(); i++) {
+            tong += Integer.parseInt(table.getValueAt(i, 4).toString());
+        }
+        tongLabel.setText("Tổng cộng: " + tong.toString());
     }
 
     public JLabel getTongLabel() {
@@ -189,14 +169,6 @@ public class Table extends JPanel implements ActionListener {
         } else {
             MessageBox.showError("Vượt quá số lượng trong kho");
         }
-    }
-
-    public JComboBox<CustomerDTO> getComboBox() {
-        return comboBox;
-    }
-
-    public void setComboBox(JComboBox<CustomerDTO> comboBox) {
-        this.comboBox = comboBox;
     }
 
     @Override

@@ -11,6 +11,10 @@ import javax.swing.JFrame;
 
 import java.awt.image.BufferedImage;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import java.net.URL;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -56,6 +60,20 @@ public class QRScanner {
 
                 try {
                     Result result = new MultiFormatReader().decode(bitmap); // Giải mã nhị phân
+                    // Toolkit.getDefaultToolkit().beep(); // Tạo tiếng beep sau khi decode thành
+                    // công (Không chạy ? :v, chắc phải chia thread hoặc delay)
+                    // Alternative beep using sound clip
+                    try { // Đã add thêm sound
+                        URL soundURL = QRScanner.class.getResource("/sound/beep.wav");
+                        if (soundURL != null) {
+                            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL);
+                            Clip clip = AudioSystem.getClip();
+                            clip.open(audioInputStream);
+                            clip.start();
+                        }
+                    } catch (Exception e) {
+                        // Bỏ qua nếu không phát tiếng
+                    }
                     text.set(result.getText());
                     break;
                 } catch (Exception ignored) {

@@ -53,7 +53,7 @@ public class TienMat extends JDialog implements ActionListener {
 
         JPanel panel1 = new JPanel(new FlowLayout());
         panel1.add(new JLabel("Tổng tiền: "));
-        panel1.add(tongField = new JTextField(tongTien.toString()));
+        panel1.add(tongField = new JTextField(tongTien.toString(), 15));
         panel1.add(new JLabel(" (VNĐ)"));
         tongField.setEditable(false);
         panel.add(panel1);
@@ -68,7 +68,7 @@ public class TienMat extends JDialog implements ActionListener {
         panel3.add(new JLabel("Hoàn lại: "));
         panel3.add(hoanField = new JTextField(15));
         panel3.add(new JLabel(" (VNĐ)"));
-        tongField.setEditable(false);
+        hoanField.setEditable(false);
         panel.add(panel3);
 
         this.add(panel, BorderLayout.CENTER);
@@ -86,6 +86,7 @@ public class TienMat extends JDialog implements ActionListener {
                     nhanField.setText(tongTien.toString());
                 }
             }
+
         });
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -95,6 +96,15 @@ public class TienMat extends JDialog implements ActionListener {
         panel.add(buttonPanel);
 
         button.addActionListener(this);
+
+        nhanField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!Character.isDigit(c) && c != '\b') {
+                    evt.consume();
+                }
+            }
+        });
 
         this.pack();
         this.setLocationRelativeTo(parent);
@@ -111,6 +121,8 @@ public class TienMat extends JDialog implements ActionListener {
                 if (mapayBy != null && mapayBy != -1) {
                     chucNang.setMaPayBy(mapayBy);
                     MessageBox.showInfo("Thanh toán tiền mặt thành công");
+                    chucNang.getTienMatButton().setEnabled(false);
+                    chucNang.getChuyenKhoanButton().setEnabled(false);
                 } else {
                     MessageBox.showError("Thanh toán thất bại");
                 }

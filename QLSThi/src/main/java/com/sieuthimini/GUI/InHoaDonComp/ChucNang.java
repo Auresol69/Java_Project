@@ -2,6 +2,7 @@ package com.sieuthimini.GUI.InHoaDonComp;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,32 +10,36 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.sieuthimini.BUS.PayByBUS;
 import com.sieuthimini.DAO.BillDAO;
 import com.sieuthimini.DAO.BillProductDAO;
 import com.sieuthimini.DAO.ProductDAO;
-import com.sieuthimini.DTO.CustomerDTO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
 import com.sieuthimini.ExtendClasses.MessageBox;
 import com.sieuthimini.ExtendClasses.QRScanner;
 import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.Detail;
 import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.TienMat;
+import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.UserChooser;
 
 public class ChucNang extends JPanel implements ActionListener {
 
-    private JButton inHoaDonButton, tienMatButton, chuỵenKhoanButton, hienThiSanPhamButton, quetMaButton, huyButton;
+    private JButton inHoaDonButton, tienMatButton, chuyenKhoanButton, hienThiSanPhamButton, quetMaButton, huyButton,
+            userButton;
 
     Table table;
     JFrame parent;
+    JTextField customerField;
     private Integer maPayBy = null;
     private Integer maCustomer = null;
 
     private void setUpButton(JButton button, String text, String imgName) {
         button.setText(text);
-        ImageIcon icon = new ImageIcon(new GetImagePNG().getImage(imgName, 60));
+        ImageIcon icon = new ImageIcon(new GetImagePNG().getImage(imgName, 30));
         if (icon != null) {
             button.setIcon(icon);
         }
@@ -55,31 +60,33 @@ public class ChucNang extends JPanel implements ActionListener {
 
         JPanel chucNangPanel = new JPanel(new GridLayout(0, 3, 5, 5));
 
-        setUpButton(inHoaDonButton = new JButton(), "In hóa đơn", "cart-plus-solid.png");
-        setUpButton(tienMatButton = new JButton(), "Tiền mặt", "");
-        setUpButton(chuỵenKhoanButton = new JButton(), "Chuyển khoản", "");
-        setUpButton(hienThiSanPhamButton = new JButton(), "Hiển thị sản phẩm", "");
-        setUpButton(quetMaButton = new JButton(), "Quét mã", "");
-        setUpButton(huyButton = new JButton(), "Hủy sản phẩm", "");
+        setUpButton(inHoaDonButton = new JButton(), "In hóa đơn", "receipt-solid.png");
+        setUpButton(tienMatButton = new JButton(), "Tiền mặt", "money-bill-1-solid.png");
+        setUpButton(chuyenKhoanButton = new JButton(), "Chuyển khoản", "building-columns-solid.png");
+        setUpButton(hienThiSanPhamButton = new JButton(), "Hiển thị sản phẩm", "eye-solid.png");
+        setUpButton(quetMaButton = new JButton(), "Quét mã", "qrcode-solid.png");
+        setUpButton(userButton = new JButton(), "Người mua", "user-solid.png");
+        setUpButton(huyButton = new JButton(), "Hủy sản phẩm", "trash-solid.png");
         chucNangPanel.add(inHoaDonButton);
         chucNangPanel.add(tienMatButton);
-        chucNangPanel.add(chuỵenKhoanButton);
+        chucNangPanel.add(chuyenKhoanButton);
         chucNangPanel.add(hienThiSanPhamButton);
         chucNangPanel.add(quetMaButton);
+        chucNangPanel.add(userButton);
         chucNangPanel.add(huyButton);
+
+        JPanel customerPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        customerPanel.add(new JLabel("Người mua:"));
+        chucNangPanel.add(customerPanel, BorderLayout.EAST);
+
+        JPanel customerFieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        customerFieldPanel.add(customerField = new JTextField("Chưa có", 10));
+        chucNangPanel.add(customerFieldPanel, BorderLayout.WEST);
+        customerField.setEditable(false);
+        customerField.setFocusable(false);
+
         this.add(chucNangPanel);
 
-        // Add listener to comboBox selection changes to update maCustomer
-        this.table.getComboBox().addItemListener(e -> {
-            if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-                CustomerDTO selectedCustomer = (CustomerDTO) e.getItem();
-                if (selectedCustomer != null) {
-                    maCustomer = selectedCustomer.getMacustomer();
-                } else {
-                    maCustomer = null;
-                }
-            }
-        });
     }
 
     @Override
@@ -116,13 +123,11 @@ public class ChucNang extends JPanel implements ActionListener {
                     tongTien += Integer.parseInt(table.getModel().getValueAt(i, 4).toString());
                 }
                 new TienMat(parent, this, tongTien);
-                tienMatButton.setEnabled(false);
-                chuỵenKhoanButton.setEnabled(false);
             } else {
                 MessageBox.showError("Giỏ hàng đang trống");
             }
         }
-        if (e.getSource() == chuỵenKhoanButton) {
+        if (e.getSource() == chuyenKhoanButton) {
             String index = QRScanner.read(parent, "Quét mã QR chuyển khoản");
 
             if (index == null) {
@@ -130,6 +135,10 @@ public class ChucNang extends JPanel implements ActionListener {
             } else {
 
                 maPayBy = new PayByBUS().createPayBy("Chuyển khoản", index);
+                MessageBox.showInfo("Chuyển khoản thành công");
+
+                chuyenKhoanButton.setEnabled(false);
+                tienMatButton.setEnabled(false);
             }
         }
         if (e.getSource() == inHoaDonButton) {
@@ -137,8 +146,11 @@ public class ChucNang extends JPanel implements ActionListener {
                 MessageBox.showError("Vui lòng chọn phương thức thanh toán");
             } else if (maCustomer == null || maCustomer == -1) {
                 MessageBox.showError("Vui lòng chọn khách hàng");
+
+            } else if (table.getModel().getRowCount() < 1) {
+                MessageBox.showError("Giỏ hàng bạn đang trống");
             } else {
-                Integer maBill = new BillDAO().createBill(maPayBy, maCustomer);
+                Integer maBill = new BillDAO().createBill(maCustomer, maPayBy);
                 for (int i = 0; i < table.getModel().getRowCount(); i++) {
                     new BillProductDAO().createBillProduct(maBill,
                             Integer.parseInt(table.getModel().getValueAt(i, 0).toString()),
@@ -151,12 +163,16 @@ public class ChucNang extends JPanel implements ActionListener {
 
                 // Reset buttons
                 tienMatButton.setEnabled(true);
-                chuỵenKhoanButton.setEnabled(true);
+                chuyenKhoanButton.setEnabled(true);
 
                 // Reset payment and customer IDs
+                customerField.setText("Không có");
                 maPayBy = null;
                 maCustomer = null;
             }
+        }
+        if (e.getSource() == userButton) {
+            new UserChooser(parent, this);
         }
         if (e.getSource() == huyButton) {
             int selectedRow = table.getTable().getSelectedRow();
@@ -174,5 +190,37 @@ public class ChucNang extends JPanel implements ActionListener {
 
     public void setMaPayBy(Integer maPayBy) {
         this.maPayBy = maPayBy;
+    }
+
+    public Integer getMaCustomer() {
+        return maCustomer;
+    }
+
+    public void setMaCustomer(Integer maCustomer) {
+        this.maCustomer = maCustomer;
+    }
+
+    public JButton getTienMatButton() {
+        return tienMatButton;
+    }
+
+    public void setTienMatButton(JButton tienMatButton) {
+        this.tienMatButton = tienMatButton;
+    }
+
+    public JButton getChuyenKhoanButton() {
+        return chuyenKhoanButton;
+    }
+
+    public void setChuyenKhoanButton(JButton chuyenKhoanButton) {
+        this.chuyenKhoanButton = chuyenKhoanButton;
+    }
+
+    public JTextField getCustomerField() {
+        return customerField;
+    }
+
+    public void setCustomerField(JTextField customerField) {
+        this.customerField = customerField;
     }
 }
