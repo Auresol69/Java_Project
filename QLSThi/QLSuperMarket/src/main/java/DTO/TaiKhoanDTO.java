@@ -20,12 +20,20 @@ public class TaiKhoanDTO {
         this.powerGroupId = powerGroupId;
         this.trangthai = trangthai;
     }
-    public TaiKhoanDTO(int manv, String tendangnhap, String pass, int manhom, int tt) {
-        maStaff = manv;
-        username = tendangnhap;
-        password = pass;
-        powerGroupId = manhom;
-        trangthai = (tt != 0);
+    public TaiKhoanDTO(int maAccount, int maStaff, String username, String password, int powerGroupId, int tt) {
+        this.maAccount = maAccount;
+        this.maStaff = maStaff;
+        this.username = username;
+        this.password = password;
+        this.powerGroupId = powerGroupId;
+        this.trangthai = (tt != 0);
+    }
+    public TaiKhoanDTO( int maStaff, String username, String password, int powerGroupId, int tt) {
+        this.maStaff = maStaff;
+        this.username = username;
+        this.password = password;
+        this.powerGroupId = powerGroupId;
+        this.trangthai = (tt != 0);
     }
 
     public int getMaAccount() {

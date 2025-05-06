@@ -19,7 +19,7 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
         MySQLConnect db = new MySQLConnect();
 
         try {
-            Connection con = db.getConnection();
+            Connection con = MySQLConnect.getConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, nv.getHoten());
             pst.setString(2, nv.getSdt());
@@ -66,11 +66,11 @@ public class NhanVienDAO implements DAOinterface<NhanVienDTO> {
     @Override
     public int delete(int id) {
         int result = 0;
-        String sql = "UPDATE staff SET status = -1 WHERE mastaff = ?";
+        String sql = "UPDATE staff SET status = 0 WHERE mastaff = ?";
         MySQLConnect db = new MySQLConnect();
 
         try {
-            Connection con = db.getConnection();
+            Connection con = MySQLConnect.getConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, id);
 

@@ -164,7 +164,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
     public void loadTable(ArrayList<TaiKhoanDTO> list) {
         tblModel.setRowCount(0);
         for (TaiKhoanDTO taiKhoanDTO : list) {
-            String trangthaiString = taiKhoanDTO.getTrangThai() ? "Hoạt động" : "Ngưng hoạt động";
+            String trangthaiString = taiKhoanDTO.getTrangThai() == true ? "Hoạt động" : "Ngưng hoạt động";
             tblModel.addRow(new Object[]{
             taiKhoanDTO.getMaStaff(),
             taiKhoanDTO.getUsername(),
@@ -207,7 +207,9 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                         "Bạn có chắc chắn muốn xóa tài khoản :)!", "Xóa xóa tài khoản",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
-                    TaiKhoanDAO.getInstance().deleteTaiKhoan(listTk.get(index).getMaStaff());
+                    TaiKhoanDAO.getInstance().deleteTaiKhoan(listTk.get(index).getMaAccount());
+                    taiKhoanBus = new TaiKhoanBUS();
+                    taiKhoanBus.getDsTaiKhoan();
                     loadTable(taiKhoanBus.getDsTaiKhoan());
                 }
             }

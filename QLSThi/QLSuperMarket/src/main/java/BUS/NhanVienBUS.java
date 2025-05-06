@@ -177,7 +177,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
 
     public void deleteNv(NhanVienDTO nv) {
         NhanVienDAO.getInstance().delete(nv.getMaNV());
-        TaiKhoanDAO.getInstance().deleteTaiKhoan(nv.getMaNV());
+        TaiKhoanDAO.getInstance().deleteTaiKhoanTheoMaStaff(nv.getMaNV());
         listNv.removeIf(n -> (n.getMaNV() == nv.getMaNV()));
         loadTable();
     }

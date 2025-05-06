@@ -48,7 +48,7 @@ public class TaiKhoanDialog extends JDialog {
     int manv;
     private ArrayList<NhomQuyenDTO> listNq = NhomQuyenDAO.getInstance().selectAll();
     private ArrayList<TaiKhoanDTO> listTK = TaiKhoanDAO.getInstance().getAllTaiKhoan();
-
+    private TaiKhoanDTO tKhoanDTO ;
     public TaiKhoanDialog(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal, String type, int manv) {
         super(owner, title, modal);
         init(title, type);
@@ -63,6 +63,7 @@ public class TaiKhoanDialog extends JDialog {
         init(title, type);
         this.manv = tk.getMaStaff();
         this.taiKhoan = taiKhoan;
+        this.tKhoanDTO = tk;
         username.setText(tk.getUsername());
         password.setPass(tk.getPassword());
         maNhomQuyen.setSelectedItem(NhomQuyenDAO.getInstance().selectedByID(tk.getPowerGroupId()).getTenNhomQuyen());
@@ -128,7 +129,8 @@ public class TaiKhoanDialog extends JDialog {
                     String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
                     int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getMaNhomQuyen();
                     int tt = trangthai.getSelectedIndex();
-                    TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
+                    int maAccount = tKhoanDTO.getMaAccount();
+                    TaiKhoanDTO tk = new TaiKhoanDTO(maAccount,manv, tendangnhap, pass, manhom, tt);
                     TaiKhoanDAO.getInstance().updateTaiKhoan(tk);
                     taiKhoan.taiKhoanBus.updateTaiKhoan(tk);
                     taiKhoan.loadTable(taiKhoan.taiKhoanBus.getDsTaiKhoan());

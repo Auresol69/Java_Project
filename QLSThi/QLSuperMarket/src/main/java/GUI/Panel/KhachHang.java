@@ -71,6 +71,8 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         tableKhachHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tableKhachHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        tableKhachHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+
         tableKhachHang.getTableHeader().setReorderingAllowed(false);  
         tableKhachHang.setAutoCreateRowSorter(true);
         TableSorter.configureTableColumnSorter(tableKhachHang, 0, TableSorter.INTEGER_COMPARATOR);
@@ -116,7 +118,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại","Ngày Đăng Ký"});
         search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
@@ -130,6 +132,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
 
         search.btnReset.addActionListener((ActionEvent e) -> {
             search.txtSearchForm.setText("");
+            khachhangBUS = new KhachHangBUS();
             listkh = khachhangBUS.getAll();
             loadDataTable(listkh);
         });

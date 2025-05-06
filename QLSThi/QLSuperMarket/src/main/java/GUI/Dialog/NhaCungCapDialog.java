@@ -143,6 +143,7 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
        if (e.getSource() == btnThem && Validation()) {
            int mancc = NhaCungCapDAO.getInstance().getAutoIncrement();  
            jpNcc.nccBUS.add(new NhaCungCapDTO(mancc, tenNcc.getText(), diachi.getText(), sodienthoai.getText(), sofax.getText()));
+           jpNcc.listncc = jpNcc.nccBUS.getAll();
            jpNcc.loadDataTable(jpNcc.listncc);
            dispose();
 

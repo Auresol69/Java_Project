@@ -42,7 +42,7 @@ public class NccDAO implements DAOinterface<NccDTO> {
         MySQLConnect db = new MySQLConnect();
 
         try {
-            Connection con = db.getConnection();
+            Connection con = MySQLConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, t);
 

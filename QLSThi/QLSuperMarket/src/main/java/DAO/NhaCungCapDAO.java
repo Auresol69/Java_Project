@@ -36,7 +36,7 @@ public class NhaCungCapDAO implements DAOinterface<NhaCungCapDTO>{
         int result = 0;
         try {
             Connection con = MySQLConnect.getConnection();
-            String sql = "UPDATE supplier SET trangthai = 0 WHERE mancc = ?";
+            String sql = "UPDATE supplier SET status = 0 WHERE mancc = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setInt(1,t);
             result = pst.executeUpdate();
