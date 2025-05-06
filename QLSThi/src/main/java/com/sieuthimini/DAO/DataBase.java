@@ -7,7 +7,7 @@ import java.util.List;
 import com.sieuthimini.ExtendClasses.MessageBox;
 
 public class DataBase {
-    private final String URL = "jdbc:mysql://localhost:3306/sieuthimini";
+    private final String URL = "jdbc:mysql://localhost:3306/sieuthimini_test";
     private final String USER = "root";
     private final String PASSWORD = "123";
 

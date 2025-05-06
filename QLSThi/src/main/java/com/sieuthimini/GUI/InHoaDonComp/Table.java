@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -12,13 +13,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import com.sieuthimini.DAO.ProductDAO;
+import com.sieuthimini.DTO.CustomerDTO;
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.ExtendClasses.MessageBox;
+import com.sieuthimini.DAO.DataBase;
 
 public class Table extends JPanel {
     JLabel tongLabel;
     JButton huyDonButton;
     JTable table;
+    public JComboBox<CustomerDTO> comboBox;
 
     private String[] columnNames = {
             "ID",
@@ -32,7 +36,12 @@ public class Table extends JPanel {
 
     public Table() {
         this.setLayout(new BorderLayout());
-        this.add(new JLabel("Hóa đơn"), BorderLayout.NORTH);
+        JPanel panelTop = new JPanel(new FlowLayout());
+        panelTop.add(new JLabel("Hóa đơn"));
+        panelTop.add(comboBox = new JComboBox<>());
+        this.add(panelTop, BorderLayout.NORTH);
+
+        loadCustomers();
 
         table = new JTable();
         model = new DefaultTableModel(columnNames, 0);
@@ -54,6 +63,28 @@ public class Table extends JPanel {
         bottom.add(tongLabel = new JLabel("Tổng cộng: 0"));
         bottom.add(huyDonButton = new JButton("Hủy đơn"));
         this.add(bottom, BorderLayout.SOUTH);
+    }
+
+    private void loadCustomers() {
+        comboBox.removeAllItems();
+        comboBox.addItem(null);
+
+        try {
+            String sql = "SELECT * FROM customer";
+            DataBase db = new DataBase();
+            java.util.List<Object[]> results = db.selectQuery(sql);
+
+            for (Object[] row : results) {
+                Integer id = (Integer) row[0];
+                String name = (String) row[1];
+                String phone = (String) row[2];
+                String address = (String) row[3];
+                CustomerDTO customer = new CustomerDTO(id, name, phone, address);
+                comboBox.addItem(customer);
+            }
+        } catch (Exception e) {
+            MessageBox.showError("Lỗi khi tải danh sách khách hàng: " + e.getMessage());
+        }
     }
 
     public void addSanPham(ProductDTO productDTO, Integer soLuong) {
@@ -147,4 +178,13 @@ public class Table extends JPanel {
             MessageBox.showError("Vượt quá số lượng trong kho");
         }
     }
+
+    public JComboBox<CustomerDTO> getComboBox() {
+        return comboBox;
+    }
+
+    public void setComboBox(JComboBox<CustomerDTO> comboBox) {
+        this.comboBox = comboBox;
+    }
+
 }

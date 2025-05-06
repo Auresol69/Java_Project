@@ -18,6 +18,7 @@ import java.awt.FlowLayout;
 
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
+import com.sieuthimini.ExtendClasses.MessageBox;
 import com.sieuthimini.GUI.InHoaDonComp.Table;
 
 public class Detail extends JDialog implements ActionListener {
@@ -60,9 +61,10 @@ public class Detail extends JDialog implements ActionListener {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(new JLabel(productDTO.getTensp()));
-        panel.add(new JLabel(productDTO.getTenLoaiSanPham()));
-        panel.add(new JLabel(productDTO.getDongiasanpham().toString() + "VND"));
+        panel.add(new JLabel("Tên: " + productDTO.getTensp()));
+        panel.add(new JLabel("Loại: " + productDTO.getTenLoaiSanPham()));
+        panel.add(new JLabel("Tồn kho: " + productDTO.getSoluong().toString()));
+        panel.add(new JLabel("Đơn giá: " + productDTO.getDongiasanpham().toString() + "VND"));
         this.add(panel, BorderLayout.EAST);
 
         JPanel panel2 = new JPanel(new FlowLayout());
@@ -89,9 +91,12 @@ public class Detail extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == luuButton) {
-            if (Integer.parseInt(field.getText()) >= 0) {
+            if (Integer.parseInt(field.getText()) >= 0 && !field.getText().isEmpty()) {
                 this.dispose();
                 table.updateSoLuong(Integer.parseInt(field.getText()), table.getTable().getSelectedRow());
+            } else {
+                MessageBox.showError("Số lượng không hợp lệ");
+                field.setText("1");
             }
         }
     }

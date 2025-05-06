@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
+import com.sieuthimini.ExtendClasses.MessageBox;
 import com.sieuthimini.GUI.InHoaDonComp.Table;
 
 public class Order extends JPanel implements ActionListener {
@@ -98,9 +99,13 @@ public class Order extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == orderButton) {
-            Integer soluong = Integer.parseInt(soluongField.getText());
-            table.addSanPham(productDTO, soluong);
-            soluongField.setText("1");
+            if (!soluongField.getText().isEmpty()) {
+                Integer soluong = Integer.parseInt(soluongField.getText());
+                table.addSanPham(productDTO, soluong);
+                soluongField.setText("1");
+            } else {
+                MessageBox.showError("Số lượng không hợp lệ");
+            }
         }
     }
 }
