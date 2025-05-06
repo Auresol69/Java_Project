@@ -2,11 +2,14 @@ package GUI.BaoBao.GUI;
 
 import javax.swing.*;
 
-import GUI.BaoBao.GUI.InHoaDonComp.*;
+import GUI.BaoBao.GUI.InHoaDonComp.ChucNang;
+import GUI.BaoBao.GUI.InHoaDonComp.SanPham;
+import GUI.BaoBao.GUI.InHoaDonComp.Table;
 
 import java.awt.*;
 
 public class InHoaDon extends JPanel {
+
     JFrame parent;
     Table table = new Table();
     SanPham sanPham = new SanPham(table);
@@ -17,7 +20,7 @@ public class InHoaDon extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        sanPham.setBackground(Color.RED);
+        sanPham.setBackground(new Color(240, 247, 250));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -27,7 +30,7 @@ public class InHoaDon extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         this.add(sanPham, gbc);
 
-        chucNang.setBackground(Color.GREEN);
+        chucNang.setBackground(new Color(240, 247, 250));
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -37,7 +40,7 @@ public class InHoaDon extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         this.add(chucNang, gbc);
 
-        table.setBackground(Color.BLUE);
+        table.setBackground(new Color(240, 247, 250));
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -53,7 +56,7 @@ public class InHoaDon extends JPanel {
         this.parent = parent;
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.setLayout(new GridBagLayout());
-        this.setBackground(Color.gray);
+        this.setBackground(new Color(240, 247, 250));
         addComponent();
 
     }

@@ -37,9 +37,9 @@ public class ThongKeTongQuan extends JPanel {
     private DefaultTableModel tblModel;
     ArrayList<ThongKeTungNgayTrongThangDTO> dataset;
     String[][] getSt = {
-        {"Sản phẩm hiện có trong kho", "productt.svg", Integer.toString(SanPhamDAO.getInstance().selectAll().size())},
-        {"Khách từ trước đến nay", "stafff.svg", Integer.toString(KhachHangDAO.getInstance().selectAll().size())},
-        {"Nhân viên đang hoạt động", "customerr.svg", Integer.toString(NhanVienDAO.getInstance().selectAll().size())}};
+        {"Sản phẩm hiện có trong kho", "icons8-box.svg", Integer.toString(SanPhamDAO.getInstance().selectAll().size())},
+        {"Khách từ trước đến nay", "staff_32px.svg", Integer.toString(KhachHangDAO.getInstance().selectAll().size())},
+        {"Nhân viên đang hoạt động", "customer.svg", Integer.toString(NhanVienDAO.getInstance().selectAll().size())}};
 
     public ThongKeTongQuan(ThongKeBUS thongkebus) {
         this.thongkebus = thongkebus;

@@ -2,8 +2,11 @@ package GUI.BaoBao.GUI.InHoaDonComp;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -11,12 +14,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import GUI.BaoBao.DAO.ProductDAO;
+import GUI.BaoBao.DTO.CustomerDTO;
 import GUI.BaoBao.DTO.ProductDTO;
+import GUI.BaoBao.ExtendClasses.MessageBox;
+import GUI.BaoBao.DAO.DataBase;
 
-public class Table extends JPanel {
+public class Table extends JPanel implements ActionListener {
     JLabel tongLabel;
     JButton huyDonButton;
     JTable table;
+    public JComboBox<CustomerDTO> comboBox;
 
     private String[] columnNames = {
             "ID",
@@ -30,7 +38,12 @@ public class Table extends JPanel {
 
     public Table() {
         this.setLayout(new BorderLayout());
-        this.add(new JLabel("Hóa đơn"), BorderLayout.NORTH);
+        JPanel panelTop = new JPanel(new FlowLayout());
+        panelTop.add(new JLabel("Hóa đơn"));
+        panelTop.add(comboBox = new JComboBox<>());
+        this.add(panelTop, BorderLayout.NORTH);
+
+        loadCustomers();
 
         table = new JTable();
         model = new DefaultTableModel(columnNames, 0);
@@ -51,7 +64,39 @@ public class Table extends JPanel {
         JPanel bottom = new JPanel(new FlowLayout());
         bottom.add(tongLabel = new JLabel("Tổng cộng: 0"));
         bottom.add(huyDonButton = new JButton("Hủy đơn"));
+        huyDonButton.addActionListener(this);
         this.add(bottom, BorderLayout.SOUTH);
+    }
+
+    public void deleteSelectedRow() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            MessageBox.showError("Vui lòng chọn một dòng để xóa.");
+            return;
+        }
+        model.removeRow(table.convertRowIndexToModel(selectedRow));
+    }
+
+    private void loadCustomers() {
+        comboBox.removeAllItems();
+        comboBox.addItem(null);
+
+        try {
+            String sql = "SELECT * FROM customer";
+            DataBase db = new DataBase();
+            java.util.List<Object[]> results = db.selectQuery(sql);
+
+            for (Object[] row : results) {
+                Integer id = (Integer) row[0];
+                String name = (String) row[1];
+                String phone = (String) row[2];
+                String address = (String) row[3];
+                CustomerDTO customer = new CustomerDTO(id, name, phone, address);
+                comboBox.addItem(customer);
+            }
+        } catch (Exception e) {
+            MessageBox.showError("Lỗi khi tải danh sách khách hàng: " + e.getMessage());
+        }
     }
 
     public void addSanPham(ProductDTO productDTO, Integer soLuong) {
@@ -65,17 +110,104 @@ public class Table extends JPanel {
 
                 Integer existingSoLuong = (Integer) model.getValueAt(i, 2);
                 Integer newSoLuong = existingSoLuong + soLuong;
-                model.setValueAt(newSoLuong, i, 2);
+                if (newSoLuong <= productDTO.getSoluong()) {
+                    model.setValueAt(newSoLuong, i, 2);
 
-                Integer newTongCong = donGia * newSoLuong;
-                model.setValueAt(newTongCong, i, 4);
+                    Integer newTongCong = donGia * newSoLuong;
+                    model.setValueAt(newTongCong, i, 4);
+                } else {
+                    MessageBox.showError("Vượt quá số lượng trong kho");
+                }
+
                 return;
             }
         }
 
         // If product ID not found, add new row
-        model.addRow(new Object[] { productDTO.getMasp(), productDTO.getTensp(), soLuong, productDTO.getDongiasanpham(),
-                tongCong });
+        if (soLuong <= productDTO.getSoluong()) {
+            model.addRow(
+                    new Object[] { productDTO.getMasp(), productDTO.getTensp(), soLuong, productDTO.getDongiasanpham(),
+                            tongCong });
+        } else {
+            MessageBox.showError("Vượt quá số lượng trong kho");
+        }
+    }
+
+    public JLabel getTongLabel() {
+        return tongLabel;
+    }
+
+    public void setTongLabel(JLabel tongLabel) {
+        this.tongLabel = tongLabel;
+    }
+
+    public JButton getHuyDonButton() {
+        return huyDonButton;
+    }
+
+    public void setHuyDonButton(JButton huyDonButton) {
+        this.huyDonButton = huyDonButton;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public String[] getColumnNames() {
+        return columnNames;
+    }
+
+    public void setColumnNames(String[] columnNames) {
+        this.columnNames = columnNames;
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public void setScrollPane(JScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+    public void setModel(DefaultTableModel model) {
+        this.model = model;
+    }
+
+    public void updateSoLuong(int soluong, int rowSelected) {
+        ProductDTO productDTO = new ProductDAO()
+                .getProductById(Integer.parseInt(model.getValueAt(rowSelected, 0).toString()));
+        if (soluong <= productDTO.getSoluong()) {
+            model.setValueAt(soluong, rowSelected, 2);
+        } else {
+            MessageBox.showError("Vượt quá số lượng trong kho");
+        }
+    }
+
+    public JComboBox<CustomerDTO> getComboBox() {
+        return comboBox;
+    }
+
+    public void setComboBox(JComboBox<CustomerDTO> comboBox) {
+        this.comboBox = comboBox;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == huyDonButton) {
+            if (table.getModel().getRowCount() >= 1)
+                model.setRowCount(0);
+            else {
+                MessageBox.showError("Không có sản phẩm để xóa");
+            }
+        }
     }
 
 }

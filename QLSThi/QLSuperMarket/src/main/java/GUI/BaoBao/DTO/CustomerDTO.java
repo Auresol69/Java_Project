@@ -45,5 +45,8 @@ public class CustomerDTO {
 
     public CustomerDTO() {
     }
-
+    @Override
+    public String toString() {
+        return macustomer + "-" + name;
+    }
 }
