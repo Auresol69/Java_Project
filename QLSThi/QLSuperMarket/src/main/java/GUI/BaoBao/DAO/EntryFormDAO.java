@@ -14,7 +14,7 @@ public class EntryFormDAO {
     DataBase db = new DataBase();
 
     public int createEntryForm(SupplierDTO supplierDTO, AccountDTO accountDTO, int loinhuan) {
-        EntryFormDTO entryFormDTO = new EntryFormDTO(supplierDTO.getMancc(), accountDTO.getMastaff(), loinhuan);
+        EntryFormDTO entryFormDTO = new EntryFormDTO(supplierDTO.getMancc(), accountDTO.getMaaccount(), loinhuan);
         return db.insertQuery("INSERT INTO entry_form(mancc,maaccount, loinhuan) VALUES (?,?,?)",
                 entryFormDTO.getMancc(),
                 entryFormDTO.getMaaccount(),

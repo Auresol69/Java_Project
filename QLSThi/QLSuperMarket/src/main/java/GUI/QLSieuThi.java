@@ -67,8 +67,9 @@ public class QLSieuThi extends JFrame{
         new ChucNang(4, "Nhà cung cấp", "../IMG/icons8-supplier-50.png"),
         new ChucNang(5, "Tài khoản", "../IMG/icons8-account-50.png"),
         new ChucNang(6, "Sản phẩm", "../IMG/icons8-product-50.png"),
-        new ChucNang(7, "Thống kê", "../IMG/icons8-slice-50.png"),
-        new ChucNang(9, "Sản phẩm hủy", "../IMG/icons8-trash-bin-50.png")
+        new ChucNang(10, "Phiếu Nhập", "../IMG/icons8-customer-48.png"),
+        new ChucNang(7, "Thống kê", "../IMG/icons8-slice-50.png")
+        // new ChucNang(9, "Sản phẩm hủy", "../IMG/icons8-trash-bin-50.png")
     );
     public QLSieuThi(){
         init();
@@ -146,8 +147,6 @@ public class QLSieuThi extends JFrame{
         this.nhomQuyenDTO = NhomQuyenDAO.getInstance().selectedByID((user.getPowerGroupId()));
         this.nhanVienDTO = NhanVienDAO.getInstance().selectedByID((user.getMaStaff()));
         listQuyen = ChiTietQuyenDAO.getInstance().selectAll((user.getPowerGroupId()));  
-        ChucNang BanHang = new ChucNang(0, "Bán Hàng", "../IMG/icons8-customer-48.png");
-        danhSachQuanLy.add(BanHang);
         for (ChucNang cn : DANH_SACH) {
             if (checkRole(cn.getMaChucNang())) {
                 danhSachQuanLy.add(cn);
@@ -246,7 +245,7 @@ public class QLSieuThi extends JFrame{
     private void switchPanel(String TenChucNang){
         getContentPane().remove(panelCenter);
         switch(TenChucNang){
-            case "Bán Hàng" :
+            case "Phiếu Nhập" :
                 panelCenter = new Main(this);
                 break;
             case "Khách hàng" : 
