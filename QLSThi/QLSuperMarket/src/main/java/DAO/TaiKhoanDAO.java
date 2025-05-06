@@ -1,10 +1,14 @@
 package DAO;
 
-import DTO.TaiKhoanDTO;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import DTO.TaiKhoanDTO;
 
 public class TaiKhoanDAO {
     MySQLConnect db = new MySQLConnect();
@@ -81,6 +85,7 @@ public class TaiKhoanDAO {
     }
 
     // Xóa tài khoản theo mã
+
     public boolean deleteTaiKhoan(int staff) {
         String sql = "UPDATE account SET status = 0 WHERE maaccount = ?";
         try (Connection con = MySQLConnect.getConnection();

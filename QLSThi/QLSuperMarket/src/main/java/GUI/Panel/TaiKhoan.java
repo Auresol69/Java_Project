@@ -1,25 +1,11 @@
 package GUI.Panel;
 
 // import BUS.NhaCungCapBUS;
-import BUS.NhanVienBUS;
-import BUS.NhomQuyenBUS;
-import BUS.TaiKhoanBUS;
-import DAO.TaiKhoanDAO;
-import DTO.NhanVienDTO;
-import DTO.NhomQuyenDTO;
-import DTO.TaiKhoanDTO;
-import GUI.QLSieuThi;
-import GUI.Component.IntegratedSearch;
-import GUI.Component.MainFunction;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import GUI.Component.PanelBorderRadius;
-import GUI.Dialog.ListNhanVien;
-import GUI.Dialog.TaiKhoanDialog;
-import helper.Validation;
-import helper.BCrypt;
-import helper.JTableExporter;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -34,13 +20,40 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Workbook;
+
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import BUS.NhanVienBUS;
+import BUS.NhomQuyenBUS;
+import BUS.TaiKhoanBUS;
+import DAO.TaiKhoanDAO;
+import DTO.NhanVienDTO;
+import DTO.NhomQuyenDTO;
+import DTO.TaiKhoanDTO;
+import GUI.Component.IntegratedSearch;
+import GUI.Component.MainFunction;
+import GUI.Component.PanelBorderRadius;
+import GUI.Dialog.ListNhanVien;
+import GUI.Dialog.TaiKhoanDialog;
+import GUI.QLSieuThi;
+import helper.BCrypt;
+import helper.JTableExporter;
+import helper.Validation;
 
 public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
 
@@ -69,7 +82,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         tableTaiKhoan.setDefaultEditor(Object.class, null);
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MaNV", "Tên đăng nhập","Password","Nhóm quyền", "Trạng thái"};
+        String[] header = new String[]{"MaNV", "Tên đăng nhập","Nhóm quyền", "Trạng thái"};
         tblModel.setColumnIdentifiers(header);
         tableTaiKhoan.setModel(tblModel);
         tableTaiKhoan.setFocusable(false);
@@ -154,7 +167,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             String trangthaiString = taiKhoanDTO.getTrangThai() == true ? "Hoạt động" : "Ngưng hoạt động";
             tblModel.addRow(new Object[]{
             taiKhoanDTO.getMaStaff(),
-            taiKhoanDTO.getUsername(),taiKhoanDTO.getPassword(),
+            taiKhoanDTO.getUsername(),
             taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getPowerGroupId()).getTenNhomQuyen(),
             trangthaiString
         });
