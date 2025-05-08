@@ -13,6 +13,7 @@ import com.sieuthimini.DAO.DataBase;
 import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.DTO.ProductTypeDTO;
 import com.sieuthimini.ExtendClasses.DeleteInput;
+import com.sieuthimini.ExtendClasses.ExcelImporter;
 import com.sieuthimini.ExtendClasses.MessageBox;
 
 import java.awt.*;
@@ -140,6 +141,7 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
         addSanPham = new JButton("Thêm sản phẩm");
         addSanPham.addActionListener(this);
         nhapExcel = new JButton("Nhập từ Excel");
+        nhapExcel.addActionListener(this);
         chucNang.add(addSanPham);
         chucNang.add(nhapExcel);
         return chucNang;
@@ -222,6 +224,10 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                     }
                 }
             }
+        }
+        if (e.getSource() == nhapExcel) {
+            tableSanPham.getModel().setRowCount(0);
+            ExcelImporter.importExcelToJTable(tableSanPham.getTable());
         }
     }
 

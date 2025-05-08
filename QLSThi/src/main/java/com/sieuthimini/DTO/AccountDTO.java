@@ -84,6 +84,6 @@ public class AccountDTO {
 
     @Override
     public String toString() {
-        return (getMastaff() + "-" + getTenNhanVien(this.mastaff));
+        return (getMaaccount() + "-" + getTenNhanVien(this.mastaff));
     }
 }

@@ -116,15 +116,20 @@ public class TienMat extends JDialog implements ActionListener {
         if (e.getSource() == button) {
             this.dispose();
             try {
-                String details = tongField.getText() + "&" + nhanField.getText() + "&" + hoanField.getText();
-                Integer mapayBy = new PayByBUS().createPayBy("Tiền mặt", details);
-                if (mapayBy != null && mapayBy != -1) {
-                    chucNang.setMaPayBy(mapayBy);
-                    MessageBox.showInfo("Thanh toán tiền mặt thành công");
-                    chucNang.getTienMatButton().setEnabled(false);
-                    chucNang.getChuyenKhoanButton().setEnabled(false);
+                if (!tongField.getText().isEmpty() && !nhanField.getText().isEmpty()
+                        && !hoanField.getText().isEmpty()) {
+                    String details = tongField.getText() + "&" + nhanField.getText() + "&" + hoanField.getText();
+                    Integer mapayBy = new PayByBUS().createPayBy("Tiền mặt", details);
+                    if (mapayBy != null && mapayBy != -1) {
+                        chucNang.setMaPayBy(mapayBy);
+                        MessageBox.showInfo("Thanh toán tiền mặt thành công");
+                        chucNang.getTienMatButton().setEnabled(false);
+                        chucNang.getChuyenKhoanButton().setEnabled(false);
+                    } else {
+                        MessageBox.showError("Thanh toán thất bại");
+                    }
                 } else {
-                    MessageBox.showError("Thanh toán thất bại");
+                    MessageBox.showError("Hãy nhập đủ thông tin");
                 }
             } catch (NumberFormatException ex) {
                 MessageBox.showError("Lỗi định dạng số: " + ex.getMessage());

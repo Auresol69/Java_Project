@@ -150,25 +150,30 @@ public class ChucNang extends JPanel implements ActionListener {
             } else if (table.getModel().getRowCount() < 1) {
                 MessageBox.showError("Giỏ hàng bạn đang trống");
             } else {
-                Integer maBill = new BillDAO().createBill(maCustomer, maPayBy);
-                for (int i = 0; i < table.getModel().getRowCount(); i++) {
-                    new BillProductDAO().createBillProduct(maBill,
-                            Integer.parseInt(table.getModel().getValueAt(i, 0).toString()),
-                            Integer.parseInt(table.getModel().getValueAt(i, 2).toString()));
+                if (MessageBox.showConfirmDialog("Bạn có muốn in hóa đơn ngay không?",
+                        "Đồng ý thanh toán") == JOptionPane.OK_OPTION) {
+                    Integer maBill = new BillDAO().createBill(maCustomer, maPayBy);
+                    for (int i = 0; i < table.getModel().getRowCount(); i++) {
+                        new BillProductDAO().createBillProduct(maBill,
+                                Integer.parseInt(table.getModel().getValueAt(i, 0).toString()),
+                                Integer.parseInt(table.getModel().getValueAt(i, 2).toString()));
+                    }
+                    MessageBox.showInfo("In hóa đơn thành công");
+
+                    // Clear rows
+                    table.getModel().setRowCount(0);
+
+                    // Reset buttons
+                    tienMatButton.setEnabled(true);
+                    chuyenKhoanButton.setEnabled(true);
+
+                    // Reset payment and customer IDs
+                    customerField.setText("Không có");
+                    maPayBy = null;
+                    maCustomer = null;
+                } else {
+                    MessageBox.showInfo("Hủy in hóa đơn");
                 }
-                MessageBox.showInfo("In hóa đơn thành công");
-
-                // Clear rows
-                table.getModel().setRowCount(0);
-
-                // Reset buttons
-                tienMatButton.setEnabled(true);
-                chuyenKhoanButton.setEnabled(true);
-
-                // Reset payment and customer IDs
-                customerField.setText("Không có");
-                maPayBy = null;
-                maCustomer = null;
             }
         }
         if (e.getSource() == userButton) {
@@ -222,5 +227,13 @@ public class ChucNang extends JPanel implements ActionListener {
 
     public void setCustomerField(JTextField customerField) {
         this.customerField = customerField;
+    }
+
+    public JButton getUserButton() {
+        return userButton;
+    }
+
+    public void setUserButton(JButton userButton) {
+        this.userButton = userButton;
     }
 }

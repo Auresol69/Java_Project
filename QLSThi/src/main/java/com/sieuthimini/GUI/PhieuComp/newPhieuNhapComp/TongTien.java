@@ -173,8 +173,8 @@ public class TongTien extends JPanel implements ActionListener {
         this.loinhuanField = loinhuanField;
     }
 
-    // bug
     public void getNhanVienComboBox() {
+        manhanviennhapComboBox.removeAllItems();
         List<AccountDTO> data = new AccountBUS().getNhanVien();
         for (AccountDTO accountDTO : data) {
             manhanviennhapComboBox.addItem(accountDTO);
@@ -199,8 +199,13 @@ public class TongTien extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nhapHang) {
-            if (getLoinhuanField().getText().isEmpty() || Integer.parseInt(getLoinhuanField().getText()) < 0
-                    || Integer.parseInt(getLoinhuanField().getText()) > 100) {
+            float loinhuanValue;
+            try {
+                loinhuanValue = Float.parseFloat(getLoinhuanField().getText());
+            } catch (NumberFormatException numberFormate) {
+                loinhuanValue = -1f;
+            }
+            if (getLoinhuanField().getText().isEmpty() || loinhuanValue < 0 || loinhuanValue > 100) {
                 MessageBox.showError("Hãy nhập % lợi nhuận hợp lệ!!!");
             } else {
                 if (tableSanPham.getTable().getRowCount() == 0) {
