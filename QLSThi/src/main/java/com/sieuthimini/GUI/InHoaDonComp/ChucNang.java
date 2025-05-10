@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,6 +20,7 @@ import com.sieuthimini.BUS.PayByBUS;
 import com.sieuthimini.DAO.BillDAO;
 import com.sieuthimini.DAO.BillProductDAO;
 import com.sieuthimini.DAO.ProductDAO;
+import com.sieuthimini.DTO.ProductDTO;
 import com.sieuthimini.ExtendClasses.GetImagePNG;
 import com.sieuthimini.ExtendClasses.MessageBox;
 import com.sieuthimini.ExtendClasses.QRScanner;
@@ -101,8 +103,39 @@ public class ChucNang extends JPanel implements ActionListener {
                 try {
                     int id = Integer.parseInt(index);
 
-                    table.addSanPham(new ProductDAO().getProductById(id),
-                            1);
+                    JDialog dialog = new JDialog(parent, "Nhập số lượng", true);
+                    dialog.setLayout(new BorderLayout());
+                    JPanel soLuongPanel = new JPanel(new FlowLayout());
+                    soLuongPanel.add(new JLabel("Số lượng: "));
+                    JTextField soLuongField = new JTextField(5);
+                    soLuongPanel.add(soLuongField);
+                    dialog.add(soLuongPanel, BorderLayout.CENTER);
+
+                    JButton submiButton = new JButton("OK");
+                    submiButton.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (!soLuongField.getText().isEmpty() && soLuongField.getText().matches("\\d+")) {
+                                ProductDTO product = new ProductDAO().getProductById(id);
+                                if (product != null) {
+                                    table.addSanPham(product, Integer.parseInt(soLuongField.getText()));
+                                    dialog.dispose();
+                                } else {
+                                    MessageBox.showError("Sản phẩm không tồn tại!");
+                                }
+                            } else {
+                                MessageBox.showError("Số lượng phải là số nguyên dương!");
+                            }
+                        }
+                    });
+                    dialog.add(submiButton, BorderLayout.SOUTH);
+
+                    dialog.pack();
+                    dialog.setLocationRelativeTo(parent);
+                    dialog.setVisible(true);
+
+                    soLuongField.requestFocusInWindow();
                 } catch (NumberFormatException e1) {
                     JOptionPane.showMessageDialog(null, "Mã QR không hợp lệ: không phải số nguyên!");
                 }
