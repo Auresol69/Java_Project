@@ -7,10 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -26,14 +24,6 @@ public class InputSanPham extends JPanel implements ActionListener {
     JTextField soluongSanPhamField;
     JButton suaButton, xoaButton;
     TableSanPham tableSanPham;
-
-    public JPanel getPanel(JLabel label, JComponent component) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(label);
-        panel.add(component);
-        return panel;
-    }
 
     public InputSanPham() {
 
@@ -55,33 +45,55 @@ public class InputSanPham extends JPanel implements ActionListener {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST; // Căn trái toàn bộ
+        gbc.anchor = GridBagConstraints.EAST; // Align labels to right
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.3;
-        this.add(getPanel(maSanPhamLabel, maSanPhamField), gbc);
+        this.add(maSanPhamLabel, gbc);
 
         gbc.gridx = 1;
         gbc.weightx = 0.7;
-        this.add(getPanel(tenSanPhamLabel, tenSanPhamField), gbc);
+        gbc.anchor = GridBagConstraints.WEST; // Align fields to left
+        this.add(maSanPhamField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.weightx = 1.0;
-        this.add(getPanel(loaiSanPhamLabel, loaiSanPhamComboBox), gbc);
-        gbc.gridwidth = 1; // Reset
+        gbc.weightx = 0.3;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add(tenSanPhamLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.7;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add(tenSanPhamField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.weightx = 0.5;
-        this.add(getPanel(soluongSanPhamLabel, soluongSanPhamField), gbc);
+        gbc.weightx = 0.3;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add(loaiSanPhamLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.7;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add(loaiSanPhamComboBox, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 1;
-        gbc.weightx = 1;
+        gbc.weightx = 0.3;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add(soluongSanPhamLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.7;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add(soluongSanPhamField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.weightx = 0.5;
+        gbc.anchor = GridBagConstraints.CENTER;
         suaButton = new JButton("Sửa");
         suaButton.setEnabled(false);
         suaButton.addActionListener(this);

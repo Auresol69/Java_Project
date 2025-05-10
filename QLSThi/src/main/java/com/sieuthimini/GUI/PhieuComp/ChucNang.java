@@ -50,9 +50,9 @@ public class ChucNang extends JPanel implements ActionListener {
 
     public ChucNang(JFrame parent) {
         this.parent = parent;
-        this.setLayout(new FlowLayout());
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 15));
         this.setBackground(Color.white);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         setUpButton(themButton = new JButton(), "Thêm", "square-plus-solid.png");
         setUpButton(chiTietButton = new JButton(), "Thông tin", "circle-info-solid.png");

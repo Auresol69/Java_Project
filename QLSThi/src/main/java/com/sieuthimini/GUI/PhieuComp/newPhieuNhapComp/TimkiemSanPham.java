@@ -144,6 +144,7 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
         nhapExcel.addActionListener(this);
         chucNang.add(addSanPham);
         chucNang.add(nhapExcel);
+        chucNang.setPreferredSize(new java.awt.Dimension(300, 50));
         return chucNang;
     }
 
