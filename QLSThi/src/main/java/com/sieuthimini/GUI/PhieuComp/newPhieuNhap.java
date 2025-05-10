@@ -47,18 +47,22 @@ public class newPhieuNhap extends JPanel {
         this.add(timKiem, gbc);
 
         gbc.gridx = 1;
-        gbc.weightx = 0.35;
+        gbc.weightx = 0.6;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
         this.add(input, gbc);
 
         gbc.gridx = 2;
+        gbc.gridy = 1;
         gbc.weightx = 0.25;
-        gbc.gridheight = 2;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
         gbc.weighty = 1;
         this.add(tongTien, gbc);
 
         gbc.gridy = 1;
         gbc.gridx = 0;
-        gbc.weightx = 1;
+        gbc.weightx = 0.75;
         gbc.weighty = 0.5;
         gbc.gridwidth = 2;
         gbc.gridheight = 1;

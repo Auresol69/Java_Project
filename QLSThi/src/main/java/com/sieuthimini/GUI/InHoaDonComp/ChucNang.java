@@ -45,7 +45,7 @@ public class ChucNang extends JPanel implements ActionListener {
         if (icon != null) {
             button.setIcon(icon);
         }
-        button.setPreferredSize(new Dimension(80, 60));
+        button.setPreferredSize(new Dimension(100, 80));
         button.setFocusable(false);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
@@ -105,13 +105,16 @@ public class ChucNang extends JPanel implements ActionListener {
 
                     JDialog dialog = new JDialog(parent, "Nhập số lượng", true);
                     dialog.setLayout(new BorderLayout());
-                    JPanel soLuongPanel = new JPanel(new FlowLayout());
+                    JPanel soLuongPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+                    soLuongPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
                     soLuongPanel.add(new JLabel("Số lượng: "));
                     JTextField soLuongField = new JTextField(5);
+                    soLuongField.setPreferredSize(new Dimension(80, 25));
                     soLuongPanel.add(soLuongField);
                     dialog.add(soLuongPanel, BorderLayout.CENTER);
 
                     JButton submiButton = new JButton("OK");
+                    submiButton.setPreferredSize(new Dimension(80, 30));
                     submiButton.addActionListener(new ActionListener() {
 
                         @Override
@@ -141,7 +144,9 @@ public class ChucNang extends JPanel implements ActionListener {
                 }
             }
         }
-        if (e.getSource() == hienThiSanPhamButton) {
+        if (e.getSource() == hienThiSanPhamButton)
+
+        {
             if (table.getTable().getSelectedRow() != -1) {
                 int id = Integer.parseInt(table.getModel().getValueAt(table.getTable().getSelectedRow(), 0).toString());
                 new Detail(parent, new ProductDAO().getProductById(id), table);

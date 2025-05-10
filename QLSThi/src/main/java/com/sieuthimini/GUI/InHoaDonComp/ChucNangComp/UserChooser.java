@@ -1,5 +1,6 @@
 package com.sieuthimini.GUI.InHoaDonComp.ChucNangComp;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -50,16 +51,20 @@ public class UserChooser extends JDialog implements ActionListener {
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JPanel panel1 = new JPanel(new FlowLayout());
+        JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        panel1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panel1.add(new JLabel("Số điện thoại: "));
         phoneField = new JTextField(13);
+        phoneField.setPreferredSize(new Dimension(150, 25));
         panel1.add(phoneField);
         panel.add(panel1);
 
         this.add(panel, BorderLayout.CENTER);
 
-        panel2 = new JPanel(new FlowLayout());
+        panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        panel2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setUpButton(kiemtraButton = new JButton(), "Kiểm tra");
+        kiemtraButton.setPreferredSize(new Dimension(120, 30));
         panel2.add(kiemtraButton);
         this.add(panel2, BorderLayout.SOUTH);
 
@@ -91,14 +96,20 @@ public class UserChooser extends JDialog implements ActionListener {
                 } else {
                     if (MessageBox.showConfirmDialog("Bạn có muốn thêm khách hàng không?",
                             "Không tìm thấy khách hàng") == JOptionPane.YES_OPTION) {
-                        JPanel panel3 = new JPanel(new FlowLayout());
+                        JPanel panel3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+                        panel3.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                         panel3.add(new JLabel("Tên: "));
-                        panel3.add(nameField = new JTextField(16));
+                        nameField = new JTextField(16);
+                        nameField.setPreferredSize(new Dimension(150, 25));
+                        panel3.add(nameField);
                         panel.add(panel3);
 
-                        JPanel panel4 = new JPanel(new FlowLayout());
+                        JPanel panel4 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+                        panel4.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                         panel4.add(new JLabel("Địa chỉ: "));
-                        panel4.add(addressField = new JTextField(15));
+                        addressField = new JTextField(15);
+                        addressField.setPreferredSize(new Dimension(150, 25));
+                        panel4.add(addressField);
                         panel.add(panel4);
 
                         panel.revalidate();
@@ -108,6 +119,7 @@ public class UserChooser extends JDialog implements ActionListener {
                         panel2.remove(kiemtraButton);
                         themButton = new JButton();
                         setUpButton(themButton, "Thêm khách hàng");
+                        themButton.setPreferredSize(new Dimension(120, 30));
                         panel2.add(themButton);
                     } else {
                         MessageBox.showInfo("Không thêm khách hàng");

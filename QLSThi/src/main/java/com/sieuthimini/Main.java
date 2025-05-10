@@ -16,7 +16,7 @@ public class Main extends JFrame {
         this.setTitle("SanPham");
         this.setLocationRelativeTo(null);
 
-        this.add(inHoaDon);
+        this.add(phieuNhap);
 
         this.pack();
         this.setVisible(true);

@@ -28,6 +28,7 @@ public class InHoaDon extends JPanel {
         gbc.weightx = 2;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 5, 5);
         this.add(sanPham, gbc);
 
         chucNang.setBackground(Color.GREEN);
@@ -38,6 +39,7 @@ public class InHoaDon extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 5, 5);
         this.add(chucNang, gbc);
 
         table.setBackground(Color.BLUE);
@@ -48,6 +50,7 @@ public class InHoaDon extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 2;
         gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 5, 5);
         this.add(table, gbc);
 
     }

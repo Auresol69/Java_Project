@@ -45,48 +45,49 @@ public class InputSanPham extends JPanel implements ActionListener {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.EAST; // Align labels to right
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.25;
+        gbc.anchor = GridBagConstraints.EAST;
         this.add(maSanPhamLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.weightx = 0.7;
-        gbc.anchor = GridBagConstraints.WEST; // Align fields to left
+        gbc.weightx = 0.75;
+        gbc.anchor = GridBagConstraints.WEST;
+        // Remove fixed preferred size to allow expansion
         this.add(maSanPhamField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.25;
         gbc.anchor = GridBagConstraints.EAST;
         this.add(tenSanPhamLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.weightx = 0.7;
+        gbc.weightx = 0.75;
         gbc.anchor = GridBagConstraints.WEST;
         this.add(tenSanPhamField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.25;
         gbc.anchor = GridBagConstraints.EAST;
         this.add(loaiSanPhamLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.weightx = 0.7;
+        gbc.weightx = 0.75;
         gbc.anchor = GridBagConstraints.WEST;
         this.add(loaiSanPhamComboBox, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.weightx = 0.3;
+        gbc.weightx = 0.25;
         gbc.anchor = GridBagConstraints.EAST;
         this.add(soluongSanPhamLabel, gbc);
 
         gbc.gridx = 1;
-        gbc.weightx = 0.7;
+        gbc.weightx = 0.75;
         gbc.anchor = GridBagConstraints.WEST;
         this.add(soluongSanPhamField, gbc);
 
