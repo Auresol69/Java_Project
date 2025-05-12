@@ -25,6 +25,7 @@ import com.sieuthimini.ExtendClasses.GetImagePNG;
 import com.sieuthimini.ExtendClasses.MessageBox;
 import com.sieuthimini.ExtendClasses.QRScanner;
 import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.Detail;
+import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.HoaDon;
 import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.TienMat;
 import com.sieuthimini.GUI.InHoaDonComp.ChucNangComp.UserChooser;
 
@@ -196,6 +197,8 @@ public class ChucNang extends JPanel implements ActionListener {
                                 Integer.parseInt(table.getModel().getValueAt(i, 0).toString()),
                                 Integer.parseInt(table.getModel().getValueAt(i, 2).toString()));
                     }
+                    new HoaDon(parent, table.getTable(), table.getTongLabel(), maBill);
+
                     MessageBox.showInfo("In hóa đơn thành công");
 
                     // Clear rows
