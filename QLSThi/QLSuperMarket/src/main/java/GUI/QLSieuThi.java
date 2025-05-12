@@ -275,7 +275,7 @@ public class QLSieuThi extends JFrame{
                 panelCenter = new PhanQuyen(this); 
                 break ;
             case "Thống kê" :
-                panelCenter = new ThongKe();
+                panelCenter = new ThongKe(this);
                 break;
         }; 
         getContentPane().add(panelCenter, BorderLayout.CENTER);

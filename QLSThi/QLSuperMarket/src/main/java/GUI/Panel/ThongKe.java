@@ -1,43 +1,41 @@
 package GUI.Panel;
 
-import BUS.ThongKeBUS;
-import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import java.awt.*;
 
+import javax.swing.*;
 
-public final class ThongKe extends JPanel {
+import GUI.QLSieuThi;
+import GUI.Component.ThongKeButton;
 
-    JTabbedPane tabbedPane;
-    JPanel tongquan, nhacungcap, khachhang, doanhthu;
-    ThongKeTonKho nhapxuat;
-    Color BackgroundColor = new Color(240, 247, 250);
-    ThongKeBUS thongkeBUS = new ThongKeBUS();
+public class ThongKe extends JPanel { 
+        public  JPanel jpanel1, jpanel2,jpanel3,jpanel4,jpanel5;
+        String text = "Báo Cáo Doanh Thu";
+        Color backgroundcolor = new Color(240, 247, 250);
+        public QLSieuThi st;
+        public ThongKe (QLSieuThi st){
+            this.st = st;
+            init();
+        }
+        public void init(){
+            this.setBackground(backgroundcolor);
+            this.setLayout(new BorderLayout()); 
+            jpanel1 = new ThongKeButton(this,st);
+            this.add(jpanel1 , BorderLayout.NORTH);
+            jpanel2 = new JPanel();
+            jpanel2.setPreferredSize(new Dimension(0,10));
+            jpanel2.setBackground(backgroundcolor);
+            this.add(jpanel2 , BorderLayout.SOUTH);
+            jpanel3 = new JPanel();
 
-    public ThongKe() {
-        initComponent();
-    }
+            jpanel3.setPreferredSize(new Dimension(10,0));
+            jpanel3.setBackground(backgroundcolor);
+            this.add(jpanel3, BorderLayout.WEST);
+            jpanel4 = new JPanel();
 
-    public void initComponent() {
-        this.setLayout(new GridLayout(1, 1));
-        this.setBackground(BackgroundColor);
-
-        tongquan = new ThongKeTongQuan(thongkeBUS);
-        nhapxuat = new ThongKeTonKho(thongkeBUS);
-        khachhang = new ThongKeKhachHang(thongkeBUS);
-        nhacungcap = new ThongKeNhaCungCap(thongkeBUS);
-        doanhthu = new ThongKeDoanhThu(thongkeBUS);
-
-        tabbedPane = new JTabbedPane();
-        tabbedPane.setOpaque(false);
-        tabbedPane.addTab("Tổng quan", tongquan);
-        tabbedPane.addTab("Tồn kho", nhapxuat);
-        tabbedPane.addTab("Doanh thu", doanhthu);
-        tabbedPane.addTab("Nhà cung cấp", nhacungcap);
-        tabbedPane.addTab("Khách hàng", khachhang);
-
-        this.add(tabbedPane);
-    }
+            jpanel4.setPreferredSize(new Dimension(10,0));
+            jpanel4.setBackground(backgroundcolor);
+            this.add(jpanel4, BorderLayout.EAST);
+            jpanel5 = new ThongKeThoiGian(st);
+            this.add(jpanel5 , BorderLayout.CENTER);
+        }
 }
-
