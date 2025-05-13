@@ -3,6 +3,7 @@ package GUI.Component;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.BoxLayout;
@@ -22,36 +23,43 @@ public class IntegratedSearch extends JPanel {
     public JButton btnReset;
     public JTextField txtSearchForm;
 
-    private void initComponent(String str[]) {
+    private void initComponent(String[] str) {
+    this.setBackground(Color.WHITE);
+    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.setBackground(Color.WHITE);
-        BoxLayout bx = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(bx);
+    
+    JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+    topPanel.setBackground(Color.WHITE);
 
-        JPanel jpSearch = new JPanel(new BorderLayout(5,10));
-        jpSearch.setBorder(new EmptyBorder(18,15,18,15));
-        jpSearch.setBackground(Color.white);
-        cbxChoose = new JComboBox();
-        cbxChoose.setModel(new DefaultComboBoxModel<>(str));
-        cbxChoose.setPreferredSize(new Dimension(140, 0));
-        cbxChoose.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 13));
-        cbxChoose.setFocusable(false);
-        jpSearch.add(cbxChoose,BorderLayout.WEST);
+    cbxChoose = new JComboBox<>(str);
+    cbxChoose.setPreferredSize(new Dimension(140, 30));
+    cbxChoose.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+    cbxChoose.setFocusable(false);
+    topPanel.add(cbxChoose);
 
-        txtSearchForm = new JTextField();
-        txtSearchForm.setFont(new Font(FlatRobotoFont.FAMILY, 0, 13));
-        txtSearchForm.putClientProperty("JTextField.placeholderText", "Nhập nội dung tìm kiếm...");
-        txtSearchForm.putClientProperty("JTextField.showClearButton", true);
-        jpSearch.add(txtSearchForm);
+    btnReset = new JButton();
+    btnReset.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 14));
+    btnReset.setIcon(new FlatSVGIcon("./IMG/reset.svg"));
+    btnReset.setPreferredSize(new Dimension(50, 30));
+    btnReset.addActionListener(this::btnResetActionPerformed);
+    topPanel.add(btnReset);
 
-        btnReset = new JButton("Làm mới");
-        btnReset.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, 14));
-        btnReset.setIcon(new FlatSVGIcon("./IMG/reset.svg"));
-        btnReset.setPreferredSize(new Dimension(125, 0));
-        btnReset.addActionListener(this::btnResetActionPerformed);
-        jpSearch.add(btnReset,BorderLayout.EAST);
-        this.add(jpSearch);
-    }
+    
+    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    bottomPanel.setBackground(Color.WHITE);
+
+    txtSearchForm = new JTextField();
+    txtSearchForm.setPreferredSize(new Dimension(300, 30));
+    txtSearchForm.setFont(new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+    txtSearchForm.putClientProperty("JTextField.placeholderText", "Nhập nội dung tìm kiếm...");
+    txtSearchForm.putClientProperty("JTextField.showClearButton", true);
+    bottomPanel.add(txtSearchForm);
+
+    
+    this.add(topPanel);
+    this.add(bottomPanel);
+}
+
 
     public IntegratedSearch(String str[]) {
         initComponent(str);

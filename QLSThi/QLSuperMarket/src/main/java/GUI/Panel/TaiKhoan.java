@@ -91,7 +91,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setLayout(new BorderLayout(0, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
         functionBar.setBackground(BackgroundColor);
 
@@ -101,10 +101,10 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             mainFunction.btn.get(ac).addActionListener(this);
         }
 
-        functionBar.add(mainFunction);
+        functionBar.add(mainFunction, BorderLayout.WEST);
         search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhân viên", "Username"});
         search.cbxChoose.addItemListener(this);
-        functionBar.add(search);
+        functionBar.add(search, BorderLayout.EAST);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

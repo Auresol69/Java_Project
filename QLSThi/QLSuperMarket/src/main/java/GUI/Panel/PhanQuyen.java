@@ -65,7 +65,7 @@ public class PhanQuyen extends JPanel implements ActionListener {
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setLayout(new BorderLayout(0, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
         functionBar.setBackground(BackgroundColor);
 
@@ -74,7 +74,7 @@ public class PhanQuyen extends JPanel implements ActionListener {
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
-        functionBar.add(mainFunction);
+        functionBar.add(mainFunction, BorderLayout.WEST);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
@@ -84,7 +84,7 @@ public class PhanQuyen extends JPanel implements ActionListener {
                 loadDataTalbe(rs);
             }
         });
-        functionBar.add(search);
+        functionBar.add(search, BorderLayout.EAST);
 
         content.add(functionBar, BorderLayout.NORTH);
 

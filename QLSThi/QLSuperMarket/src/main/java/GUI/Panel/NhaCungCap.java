@@ -3,7 +3,6 @@ package GUI.Panel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -89,7 +88,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setLayout(new BorderLayout(0,0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
         functionBar.setBackground(BackgroundColor);
 
@@ -98,7 +97,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
-        functionBar.add(mainFunction);
+        functionBar.add(mainFunction, BorderLayout.WEST);
 
         search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại", "Số Fax"});
         search.cbxChoose.addItemListener(this);
@@ -113,7 +112,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         });
 
         search.btnReset.addActionListener(this);
-        functionBar.add(search);
+        functionBar.add(search, BorderLayout.EAST);
         content.add(functionBar, BorderLayout.NORTH);
         // main là phần ở dưới để thống kê bảng biểu
         main = new JPanel();

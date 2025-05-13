@@ -1,7 +1,8 @@
 package GUI.BaoBao.DTO;
 
 public class BillDTO {
-    private String mapayby, macustomer, ngaymua;
+    private int mapayby, macustomer;
+    private String ngaymua;
     private Integer tongtien;
     private int mabill;
 
@@ -13,19 +14,19 @@ public class BillDTO {
         this.mabill = mabill;
     }
 
-    public String getMapayby() {
+    public int getMapayby() {
         return mapayby;
     }
 
-    public void setMapayby(String mapayby) {
+    public void setMapayby(int mapayby) {
         this.mapayby = mapayby;
     }
 
-    public String getMacustomer() {
+    public int getMacustomer() {
         return macustomer;
     }
 
-    public void setMacustomer(String macustomer) {
+    public void setMacustomer(int macustomer) {
         this.macustomer = macustomer;
     }
 
@@ -45,7 +46,7 @@ public class BillDTO {
         this.tongtien = tongtien;
     }
 
-    public BillDTO(int mabill, String mapayby, String macustomer, String ngaymua, Integer tongtien) {
+    public BillDTO(int mabill, int mapayby, int macustomer, String ngaymua, Integer tongtien) {
         this.mabill = mabill;
         this.mapayby = mapayby;
         this.macustomer = macustomer;

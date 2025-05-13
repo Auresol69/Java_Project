@@ -54,7 +54,7 @@ public final class NhanVien extends JPanel {
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
         functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setLayout(new BorderLayout(0, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
         functionBar.setBackground(BackgroundColor);
         content.add(functionBar, BorderLayout.NORTH);
@@ -64,9 +64,9 @@ public final class NhanVien extends JPanel {
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(nvBus);
         }
-        functionBar.add(mainFunction);
+        functionBar.add(mainFunction, BorderLayout.WEST);
         search = new IntegratedSearch(new String[]{"Tất cả", "Họ tên" , "Mã Nhân Viên"});
-        functionBar.add(search);
+        functionBar.add(search, BorderLayout.EAST);
         search.btnReset.addActionListener(nvBus);
         search.cbxChoose.addActionListener(nvBus);
         search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm, this));
