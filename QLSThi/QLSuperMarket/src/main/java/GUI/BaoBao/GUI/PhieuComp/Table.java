@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,6 +29,7 @@ public class Table extends JPanel {
 
     public Table() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         table = new JTable();
 
         model = new DefaultTableModel(columnNames, 0);

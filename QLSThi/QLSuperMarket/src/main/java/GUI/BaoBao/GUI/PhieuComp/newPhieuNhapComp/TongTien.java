@@ -1,13 +1,11 @@
 package GUI.BaoBao.GUI.PhieuComp.newPhieuNhapComp;
 
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import GUI.BaoBao.BUS.AccountBUS;
 import GUI.BaoBao.BUS.DetailEntryFormBUS;
@@ -17,18 +15,18 @@ import GUI.BaoBao.DTO.SupplierDTO;
 import GUI.BaoBao.ExtendClasses.MessageBox;
 import GUI.BaoBao.GUI.PhieuNhap;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 
 public class TongTien extends JPanel implements ActionListener {
     JLabel gianhapLabel, manhanviennhapLabel, nhacungcapLabel, loinhuanLabel;
@@ -40,57 +38,80 @@ public class TongTien extends JPanel implements ActionListener {
     TableSanPham tableSanPham;
     JFrame parent;
 
-    private void setUpLabel(JLabel label) {
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
-        label.setPreferredSize(new Dimension(120, 50));
-        // label.setFont(new Font(null));
-        this.add(label);
-    }
-
-    private void setUpField(JTextField field) {
-        field.setColumns(20);
-        field.setFocusable(true);
-        field.setMaximumSize(new Dimension(400, 25));
-        this.add(field);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
-    }
-
-    private void setUpComponent(JComponent comp) {
-        comp.setFocusable(false);
-        comp.setMaximumSize(new Dimension(400, 25));
-
-        this.add(comp);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
-    }
-
     public TongTien(JFrame parent) {
         this.parent = parent;
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        this.setLayout(new GridBagLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
-        setUpLabel(manhanviennhapLabel = new JLabel("Mã nhân viên nhập:"));
-        setUpComponent(manhanviennhapComboBox = new JComboBox<>());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        manhanviennhapLabel = new JLabel("Mã nhân viên nhập:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add(manhanviennhapLabel, gbc);
+
+        manhanviennhapComboBox = new JComboBox<>();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add(manhanviennhapComboBox, gbc);
         getNhanVienComboBox();
-        setUpLabel(gianhapLabel = new JLabel("Giá nhập:"));
-        setUpField(gianhapField = new JTextField());
-        setUpLabel(loinhuanLabel = new JLabel("Lợi nhuận (%):"));
-        setUpField(loinhuanField = new JTextField());
-        setUpLabel(nhacungcapLabel = new JLabel("Nhà cung cấp:"));
-        setUpComponent(nhacungcapComboBox = new JComboBox<>());
+
+        gianhapLabel = new JLabel("Giá nhập:");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add(gianhapLabel, gbc);
+
+        gianhapField = new JTextField(20);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add(gianhapField, gbc);
+
+        loinhuanLabel = new JLabel("Lợi nhuận (%):");
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add(loinhuanLabel, gbc);
+
+        loinhuanField = new JTextField(20);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add(loinhuanField, gbc);
+
+        nhacungcapLabel = new JLabel("Nhà cung cấp:");
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add(nhacungcapLabel, gbc);
+
+        nhacungcapComboBox = new JComboBox<>();
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add(nhacungcapComboBox, gbc);
         getNhaCungCapComboBox();
-        this.add(Box.createVerticalGlue());
-        setUpLabel(totalAmount = new JLabel("Tổng tiền: 0"));
+
+        totalAmount = new JLabel("Tổng tiền: 0");
         totalAmount.setFont(new Font("Segoe UI", Font.BOLD, 15));
         totalAmount.setForeground(Color.RED);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        this.add(totalAmount, gbc);
 
         nhapHang = new JButton("Nhập hàng");
         nhapHang.setFocusable(false);
         nhapHang.addActionListener(this);
-        this.add(totalAmount);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
-        this.add(nhapHang);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        gbc.gridy = 5;
+        this.add(nhapHang, gbc);
     }
 
     public JLabel getGianhapLabel() {
@@ -173,8 +194,8 @@ public class TongTien extends JPanel implements ActionListener {
         this.loinhuanField = loinhuanField;
     }
 
-    // bug
     public void getNhanVienComboBox() {
+        manhanviennhapComboBox.removeAllItems();
         List<AccountDTO> data = new AccountBUS().getNhanVien();
         for (AccountDTO accountDTO : data) {
             manhanviennhapComboBox.addItem(accountDTO);
@@ -199,8 +220,13 @@ public class TongTien extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nhapHang) {
-            if (getLoinhuanField().getText().isEmpty() || Integer.parseInt(getLoinhuanField().getText()) < 0
-                    || Integer.parseInt(getLoinhuanField().getText()) > 100) {
+            float loinhuanValue;
+            try {
+                loinhuanValue = Float.parseFloat(getLoinhuanField().getText());
+            } catch (NumberFormatException numberFormate) {
+                loinhuanValue = -1f;
+            }
+            if (getLoinhuanField().getText().isEmpty() || loinhuanValue < 0 || loinhuanValue > 100) {
                 MessageBox.showError("Hãy nhập % lợi nhuận hợp lệ!!!");
             } else {
                 if (tableSanPham.getTable().getRowCount() == 0) {

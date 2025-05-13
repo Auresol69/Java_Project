@@ -18,9 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import GUI.BaoBao.BUS.*;
-import GUI.BaoBao.DTO.*;
-
+import GUI.BaoBao.BUS.AccountBUS;
+import GUI.BaoBao.BUS.EntryFormBUS;
+import GUI.BaoBao.BUS.SupplierBUS;
+import GUI.BaoBao.DTO.AccountDTO;
+import GUI.BaoBao.DTO.EntryFormDTO;
+import GUI.BaoBao.DTO.SupplierDTO;
 import com.toedter.calendar.JDateChooser;
 
 public abstract class NhapLieu extends JPanel {
@@ -44,13 +47,13 @@ public abstract class NhapLieu extends JPanel {
     private void setUpField(JTextField field) {
         field.setColumns(20);
         this.add(field);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(Box.createRigidArea(new Dimension(0, 15)));
     }
 
     private void setUpComponent(JComponent comp) {
         comp.setFocusable(false);
         this.add(comp);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(Box.createRigidArea(new Dimension(0, 15)));
     }
 
     private void setUpComboBox() {
@@ -67,7 +70,7 @@ public abstract class NhapLieu extends JPanel {
     public NhapLieu(String text) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.white);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        this.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
 
         setUpLabel(supplierLabel = new JLabel(text));
         setUpComponent(supplierComboBox = new JComboBox<>());

@@ -13,6 +13,7 @@ import GUI.BaoBao.DAO.DataBase;
 import GUI.BaoBao.DTO.ProductDTO;
 import GUI.BaoBao.DTO.ProductTypeDTO;
 import GUI.BaoBao.ExtendClasses.DeleteInput;
+import GUI.BaoBao.ExtendClasses.ExcelImporter;
 import GUI.BaoBao.ExtendClasses.MessageBox;
 
 import java.awt.*;
@@ -140,8 +141,10 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
         addSanPham = new JButton("Thêm sản phẩm");
         addSanPham.addActionListener(this);
         nhapExcel = new JButton("Nhập từ Excel");
+        nhapExcel.addActionListener(this);
         chucNang.add(addSanPham);
         chucNang.add(nhapExcel);
+        chucNang.setPreferredSize(new java.awt.Dimension(300, 50));
         return chucNang;
     }
 
@@ -222,6 +225,10 @@ public class TimkiemSanPham extends JPanel implements ListSelectionListener, Act
                     }
                 }
             }
+        }
+        if (e.getSource() == nhapExcel) {
+            tableSanPham.getModel().setRowCount(0);
+            ExcelImporter.importExcelToJTable(tableSanPham.getTable());
         }
     }
 

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -61,15 +62,21 @@ public class Detail extends JDialog implements ActionListener {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.add(new JLabel("Tên: " + productDTO.getTensp()));
+        panel.add(Box.createVerticalStrut(8));
         panel.add(new JLabel("Loại: " + productDTO.getTenLoaiSanPham()));
+        panel.add(Box.createVerticalStrut(8));
         panel.add(new JLabel("Tồn kho: " + productDTO.getSoluong().toString()));
+        panel.add(Box.createVerticalStrut(8));
         panel.add(new JLabel("Đơn giá: " + productDTO.getDongiasanpham().toString() + "VND"));
         this.add(panel, BorderLayout.EAST);
 
-        JPanel panel2 = new JPanel(new FlowLayout());
+        JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        panel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel2.add(new JLabel("Số lượng: "));
         field = new JTextField("1", 5);
+        field.setPreferredSize(new Dimension(80, 25));
         field.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 char c = evt.getKeyChar();
@@ -80,6 +87,7 @@ public class Detail extends JDialog implements ActionListener {
         });
         panel2.add(field);
         setUpButton(luuButton = new JButton(), "Lưu", "");
+        luuButton.setPreferredSize(new Dimension(80, 30));
         panel2.add(luuButton);
         this.add(panel2, BorderLayout.SOUTH);
 
@@ -100,4 +108,4 @@ public class Detail extends JDialog implements ActionListener {
             }
         }
     }
-} 
+}

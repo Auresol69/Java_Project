@@ -212,8 +212,14 @@ public class TableSanPham extends JPanel implements ListSelectionListener {
     }
 
     public int createEntryForm() {
+        float loinhuanValue;
+        try {
+            loinhuanValue = Float.parseFloat(tongTien.getLoinhuanField().getText());
+        } catch (NumberFormatException e) {
+            loinhuanValue = 0f;
+        }
         return new EntryFormBUS().createEntryForm((SupplierDTO) tongTien.getNhacungcapComboBox().getSelectedItem(),
                 (AccountDTO) tongTien.getManhanviennhapComboBox().getSelectedItem(),
-                Integer.parseInt(tongTien.getLoinhuanField().getText()));
+                (int) loinhuanValue);
     }
 }
