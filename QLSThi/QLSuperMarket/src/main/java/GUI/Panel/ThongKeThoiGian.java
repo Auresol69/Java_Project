@@ -416,7 +416,6 @@ public class ThongKeThoiGian extends JPanel {
             SimpleDateFormat customFormat;
                 if (loai.equals("Báo cáo theo ngày")) {
                     customFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    thongkeTheoNgay = thongkeBUS.getThongKeTheoTuNgayDenNgay(startStr, endStr);
                     Date startDate = customFormat.parse(startStr);
                     Date endDate = customFormat.parse(endStr); 
                     long diffMillis = endDate.getTime() - startDate.getTime();
@@ -426,8 +425,10 @@ public class ThongKeThoiGian extends JPanel {
                         tempCal.setTime(endDate);
                         tempCal.add(Calendar.DATE,(int)(6 - diffDays));
                         endDate = tempCal.getTime();
+                        endStr = customFormat.format(endDate);
                     }
                     cal.setTime(startDate);
+                    thongkeTheoNgay = thongkeBUS.getThongKeTheoTuNgayDenNgay(startStr, endStr);
                     while (!cal.getTime().after(endDate)) {
                         String dateLabel = customFormat.format(cal.getTime());
                         Date currentDate = cal.getTime();

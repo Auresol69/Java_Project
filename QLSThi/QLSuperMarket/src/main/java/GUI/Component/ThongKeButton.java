@@ -11,7 +11,7 @@ import GUI.Panel.ThongKe;
 import GUI.Panel.ThongKeKhachHang;
 import GUI.Panel.ThongKeThoiGian;
 public class ThongKeButton  extends JPanel{
-    String []header = {"Thời Gian", "Khách Hàng","Sản Phẩm"};
+    String []header = {"Thời Gian", "Khách Hàng"};
     private static ArrayList<JButton> buttons = new ArrayList<>();
     private static JButton selectedButton;
     public static JPanel jp1, jp2,center,jp3,jp4;
