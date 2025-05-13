@@ -85,10 +85,25 @@ public class TaiKhoanDAO {
     }
 
     // Xóa tài khoản theo mã
-    public boolean deleteTaiKhoan(int maAccount) {
-        String sql = "UPDATE status = 0 FROM account WHERE maaccount = " + maAccount;
-        try {
-            db.executeUpdate(sql);
+
+    public boolean deleteTaiKhoan(int staff) {
+        String sql = "UPDATE account SET status = 0 WHERE maaccount = ?";
+        try (Connection con = MySQLConnect.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setInt(1, staff);
+            pst.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean deleteTaiKhoanTheoMaStaff(int staff) {
+        String sql = "UPDATE account SET status = 0 WHERE mastaff = ?";
+        try (Connection con = MySQLConnect.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setInt(1, staff);
+            pst.executeUpdate();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

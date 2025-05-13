@@ -3,6 +3,7 @@ package BUS;
 import DAO.KhachHangDAO;
 import DTO.KhachHangDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class KhachHangBUS {
@@ -66,15 +67,14 @@ public class KhachHangBUS {
                         result.add(i);
                 }
             }
-
-            case "Mã Khách Hàng" -> {
+            case "Mã khách hàng" -> {
                 for (KhachHangDTO i : this.listKhachHang){
                     if (Integer.toString(i.getMaKH()).toLowerCase().contains(text))
                         result.add(i);
                 }
             }
 
-            case "Tên Khách Hàng" -> {
+            case "Tên khách hàng" -> {
                 for (KhachHangDTO i : this.listKhachHang){
                     if (i.getHoten().toLowerCase().contains(text))
                         result.add(i);
@@ -92,6 +92,15 @@ public class KhachHangBUS {
                 for (KhachHangDTO i : this.listKhachHang){
                     if (i.getSdt().toLowerCase().contains(text))
                         result.add(i);
+                }
+            }
+            case "Ngày Đăng Ký" -> {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                for (KhachHangDTO i : this.listKhachHang){
+                    String dateStr = sdf.format(i.getDate());
+                    if (dateStr.toLowerCase().contains(text.toLowerCase())) {
+                        result.add(i);
+                    }
                 }
             }
         }

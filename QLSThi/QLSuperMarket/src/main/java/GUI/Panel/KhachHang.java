@@ -101,7 +101,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại"});
+        search = new IntegratedSearch(new String[]{"Tất cả", "Mã khách hàng", "Tên khách hàng", "Địa chỉ", "Số điện thoại","Ngày Đăng Ký"});
         search.cbxChoose.addItemListener(this);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
@@ -115,6 +115,7 @@ public class KhachHang extends JPanel implements ActionListener, ItemListener {
 
         search.btnReset.addActionListener((ActionEvent e) -> {
             search.txtSearchForm.setText("");
+            khachhangBUS = new KhachHangBUS();
             listkh = khachhangBUS.getAll();
             loadDataTable(listkh);
         });
