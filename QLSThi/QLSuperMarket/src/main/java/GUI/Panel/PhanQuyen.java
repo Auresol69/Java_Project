@@ -1,17 +1,9 @@
 package GUI.Panel;
 
-import BUS.NhomQuyenBUS;
-import DTO.NhomQuyenDTO;
-// import DTO.SanPhamDTO;
-import GUI.Dialog.PhanQuyenDialog;
-import GUI.Component.IntegratedSearch;
-import GUI.Component.MainFunction;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import GUI.Component.PanelBorderRadius;
-import GUI.QLSieuThi;
-import helper.JTableExporter;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -19,15 +11,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import BUS.NhomQuyenBUS;
+import DTO.NhomQuyenDTO;
+import GUI.Component.IntegratedSearch;
+import GUI.Component.MainFunction;
+import GUI.Dialog.PhanQuyenDialog;
+import GUI.QLSieuThi;
+import helper.JTableExporter;
+
 public class PhanQuyen extends JPanel implements ActionListener {
 
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
-    PanelBorderRadius main, functionBar;
-    JPanel contentCenter;
+    JPanel main, functionBar;
+    JPanel left, content;
     JTable tblNhomQuyen;
     JScrollPane scrollTable;
     MainFunction mainFunction;
@@ -37,32 +47,34 @@ public class PhanQuyen extends JPanel implements ActionListener {
     public NhomQuyenBUS nhomquyenBUS = new NhomQuyenBUS();
     public ArrayList<NhomQuyenDTO> listnhomquyen = nhomquyenBUS.getAll();
 
-    Color BackgroundColor = new Color(240, 247, 250);
+    Color BackgroundColor = new Color(255, 255, 255);
 
     private void initComponent() {
-        this.setBackground(BackgroundColor);
-        this.setLayout(new GridLayout(1,1));
-        this.setBorder(new EmptyBorder(10,10,10,10));
+        this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        contentCenter = new JPanel();
-        contentCenter.setPreferredSize(new Dimension(1100, 600));
-        contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(10, 20));
-        this.add(contentCenter);
+        left = new JPanel();
+        left.setPreferredSize(new Dimension(5, 0));
+        this.add(left, BorderLayout.WEST);
+
+        content = new JPanel();
+        content.setPreferredSize(new Dimension(1100, 600));
+        content.setLayout(new BorderLayout(0, 0));
+        this.add(content,BorderLayout.CENTER);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
-        functionBar = new PanelBorderRadius();
+        functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setLayout(new BorderLayout(0, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
+        functionBar.setBackground(BackgroundColor);
 
         String[] action = {"create", "update", "delete", "detail", "export"};
         mainFunction = new MainFunction(m.user.getPowerGroupId(), 3, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
-        functionBar.add(mainFunction);
+        functionBar.add(mainFunction, BorderLayout.WEST);
 
         search = new IntegratedSearch(new String[]{"Tất cả"});
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
@@ -72,15 +84,15 @@ public class PhanQuyen extends JPanel implements ActionListener {
                 loadDataTalbe(rs);
             }
         });
-        functionBar.add(search);
+        functionBar.add(search, BorderLayout.EAST);
 
-        contentCenter.add(functionBar, BorderLayout.NORTH);
+        content.add(functionBar, BorderLayout.NORTH);
 
         // main là phần ở dưới để thống kê bảng biểu
-        main = new PanelBorderRadius();
+        main = new JPanel();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        contentCenter.add(main, BorderLayout.CENTER);
+        content.add(main, BorderLayout.CENTER);
 
         tblNhomQuyen = new JTable();
         tblNhomQuyen.setDefaultEditor(Object.class, null);
@@ -98,6 +110,7 @@ public class PhanQuyen extends JPanel implements ActionListener {
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         columnModel.getColumn(1).setPreferredWidth(300);
         tblNhomQuyen.setFocusable(false);
+        tblNhomQuyen.getTableHeader().setReorderingAllowed(false); 
         main.add(scrollTable);
     }
 

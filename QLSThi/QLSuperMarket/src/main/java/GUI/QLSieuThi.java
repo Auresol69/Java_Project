@@ -10,7 +10,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import GUI.Panel.*;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -40,7 +38,6 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 
-
 import DAO.ChiTietQuyenDAO;
 import DAO.NhanVienDAO;
 import DAO.NhomQuyenDAO;
@@ -48,12 +45,20 @@ import DTO.ChiTietQuyenDTO;
 import DTO.NhanVienDTO;
 import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
+import GUI.BaoBao.GUI.InHoaDon;
+import GUI.BaoBao.Main;
 import GUI.Model.ChucNang;
 import GUI.Model.Header;
-import GUI.BaoBao.*;
-import GUI.BaoBao.GUI.InHoaDon;
+import GUI.Panel.KhachHang;
+import GUI.Panel.NhaCungCap;
+import GUI.Panel.NhanVien;
+import GUI.Panel.PhanQuyen;
+import GUI.Panel.SanPham;
+import GUI.Panel.TaiKhoan;
+import GUI.Panel.ThongKe;
 
 public class QLSieuThi extends JFrame{
+
     private ArrayList<ChiTietQuyenDTO> listQuyen;
     NhomQuyenDTO nhomQuyenDTO;
     public NhanVienDTO nhanVienDTO;
@@ -84,7 +89,7 @@ public class QLSieuThi extends JFrame{
         FlatLaf.setPreferredSemiboldFontFamily(FlatRobotoFont.FAMILY_SEMIBOLD);
         FlatIntelliJLaf.registerCustomDefaultsSource("style");
         FlatIntelliJLaf.setup();
-        UIManager.put("Table.showVerticalLines", false);
+        UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
         UIManager.put("TextComponent.arc", 5);
         UIManager.put("ScrollBar.thumbArc", 999);
@@ -235,7 +240,7 @@ public class QLSieuThi extends JFrame{
             header = new Header(this, DEFAULT_WIDTH);
         }
         panelNorth.add(header, BorderLayout.CENTER);
-        panelCenter = new InHoaDon(this);
+        panelCenter = new ThongKe(this);
         this.add(panelCenter , BorderLayout.CENTER);
         panelWest.setBackground(Color.white);
         this.add(panelNorth , BorderLayout.NORTH);
@@ -275,6 +280,7 @@ public class QLSieuThi extends JFrame{
                 panelCenter = new PhanQuyen(this); 
                 break ;
             case "Thống kê" :
+                // panelCenter = new ThongKe();
                 panelCenter = new ThongKe(this);
                 break;
         }; 

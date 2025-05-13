@@ -1,27 +1,34 @@
 package GUI.Dialog;
 
-import GUI.Component.HeaderTitle;
-import GUI.Component.InputForm;
-import GUI.Component.ButtonCustom;
-import DAO.KhachHangDAO;
-import DTO.KhachHangDTO;
-import GUI.Panel.KhachHang;
-import BUS.KhachHangBUS;
-import GUI.Component.NumericDocumentFilter;
-import helper.Validation;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.*;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.PlainDocument;
-import org.apache.commons.codec.language.bm.Rule;
+
+import BUS.KhachHangBUS;
+import DAO.KhachHangDAO;
+import DTO.KhachHangDTO;
+import GUI.Component.ButtonCustom;
+import GUI.Component.InputForm;
+import GUI.Panel.KhachHang;
+import helper.Validation;
 
 public class KhachHangDialog extends JDialog implements MouseListener {
 
     KhachHang jpKH;
-    private HeaderTitle titlePage;
-    private JPanel pnlMain, pnlButtom;
+    private JPanel pnlMain, pnlButton;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm tenKH, sdtKH, diachiKH;
     private JTextField maKH;
@@ -32,8 +39,15 @@ public class KhachHangDialog extends JDialog implements MouseListener {
         this.jpKH = jpKH;
         tenKH = new InputForm("Tên khách hàng");
         sdtKH = new InputForm("Số điện thoại");
-        PlainDocument phonex = (PlainDocument)sdtKH.getTxtForm().getDocument();
-        phonex.setDocumentFilter((new NumericDocumentFilter()));
+        sdtKH.getTxtForm().addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c)) {
+                e.consume(); // chặn ký tự không phải số
+            }
+        }
+    });
         diachiKH = new InputForm("Địa chỉ");
         initComponents(title, type);
     }
@@ -56,7 +70,6 @@ public class KhachHangDialog extends JDialog implements MouseListener {
     public void initComponents(String title, String type) {
         this.setSize(new Dimension(500, 500));
         this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle(title.toUpperCase());
         pnlMain = new JPanel(new GridLayout(3, 1, 20, 0));
         pnlMain.setBackground(Color.white);
 
@@ -64,9 +77,9 @@ public class KhachHangDialog extends JDialog implements MouseListener {
         pnlMain.add(sdtKH);
         pnlMain.add(diachiKH);
 
-        pnlButtom = new JPanel(new FlowLayout());
-        pnlButtom.setBorder(new EmptyBorder(10, 0, 10, 0));
-        pnlButtom.setBackground(Color.white);
+        pnlButton = new JPanel(new FlowLayout());
+        pnlButton.setBorder(new EmptyBorder(10, 0, 10, 0));
+        pnlButton.setBackground(Color.white);
         btnThem = new ButtonCustom("Thêm khách hàng", "success", 14);
         btnCapNhat = new ButtonCustom("Lưu thông tin", "success", 14);
         btnHuyBo = new ButtonCustom("Huỷ bỏ", "danger", 14);
@@ -78,9 +91,9 @@ public class KhachHangDialog extends JDialog implements MouseListener {
 
         switch (type) {
             case "create" ->
-                pnlButtom.add(btnThem);
+                pnlButton.add(btnThem);
             case "update" ->
-                pnlButtom.add(btnCapNhat);
+                pnlButton.add(btnCapNhat);
             case "view" -> {
                 tenKH.setDisable();
                 sdtKH.setDisable();
@@ -89,11 +102,10 @@ public class KhachHangDialog extends JDialog implements MouseListener {
             default ->
                 throw new AssertionError();
         }
-        pnlButtom.add(btnHuyBo);
+        pnlButton.add(btnHuyBo);
 
-        this.add(titlePage, BorderLayout.NORTH);
         this.add(pnlMain, BorderLayout.CENTER);
-        this.add(pnlButtom, BorderLayout.SOUTH);
+        this.add(pnlButton, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }

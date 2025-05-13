@@ -1,15 +1,26 @@
 package GUI.Component;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 public class ImageChooserForm extends JPanel implements ActionListener {
     private JLabel lblImage;
     private JButton btnChooseImage;
-    private String imagePath = "IMG/layers.png"; // Đường dẫn mặc định cho ảnh
+    private String imagePath = "IMG/layers.png";
 
     public ImageChooserForm() {
         this.setLayout(new FlowLayout());

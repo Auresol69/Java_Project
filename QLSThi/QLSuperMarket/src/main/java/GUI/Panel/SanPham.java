@@ -1,43 +1,44 @@
 package GUI.Panel;
 
-import DTO.KhachHangDTO;
-import DTO.SanPhamDTO;
-import BUS.SanPhamBUS;
-import DAO.KhachHangDAO;
-import DAO.SanPhamDAO;
-import GUI.Component.IntegratedSearch;
-import GUI.Component.MainFunction;
-import GUI.Component.PanelBorderRadius;
-import GUI.Dialog.SanPhamDialog;
-import GUI.QLSieuThi;
-import helper.JTableExporter;
-import helper.Validation;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.mysql.cj.result.Row;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import BUS.SanPhamBUS;
+import DTO.SanPhamDTO;
+import GUI.Component.IntegratedSearch;
+import GUI.Component.MainFunction;
+import GUI.Dialog.SanPhamDialog;
+import GUI.QLSieuThi;
+import helper.JTableExporter;
+
 public class SanPham extends JPanel implements ActionListener, ItemListener {
 
-    PanelBorderRadius main, functionBar;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
+    JPanel main, functionBar;
+    JPanel left, content;
     JTable tableSanPham;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
@@ -48,20 +49,20 @@ public class SanPham extends JPanel implements ActionListener, ItemListener {
     public ArrayList<SanPhamDTO> listsp = sanphamBUS.getAll();
     SanPhamDTO sp = new SanPhamDTO();
     QLSieuThi m;
-    Color BackgroundColor = new Color(240, 247, 250);
+    Color BackgroundColor = new Color(255, 255, 255);
 
     private void initComponent() {
-        this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn giá", "Loại sản phẩm", };
+        String[] header = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn giá", "Loại sản phẩm" };
         tblModel.setColumnIdentifiers(header);
         tableSanPham.setModel(tblModel);
         tableSanPham.setFocusable(false);
+        tableSanPham.getTableHeader().setReorderingAllowed(false); 
         scrollTableSanPham.setViewportView(tableSanPham);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -69,46 +70,28 @@ public class SanPham extends JPanel implements ActionListener, ItemListener {
             tableSanPham.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        tableSanPham.setAutoCreateRowSorter(true);
+        left = new JPanel();
+        left.setPreferredSize(new Dimension(5, 0));
+        this.add(left, BorderLayout.WEST);
 
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 10));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
+        content = new JPanel();
+        content.setPreferredSize(new Dimension(1100, 600));
+        content.setLayout(new BorderLayout(0, 0));
+        this.add(content, BorderLayout.CENTER);
 
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 10));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(10, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(10, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
-
-        contentCenter = new JPanel();
-        contentCenter.setPreferredSize(new Dimension(1100, 600));
-        contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(10, 10));
-        this.add(contentCenter, BorderLayout.CENTER);
-
-        functionBar = new PanelBorderRadius();
+        functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setLayout(new BorderLayout(0, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
+        functionBar.setBackground(BackgroundColor);
 
-        String[] action = {"create", "update", "delete", "detail", "import", "export"};
+        String[] action = {"create", "update", "delete", "detail", "export"};
 
         mainFunction = new MainFunction(m.user.getPowerGroupId(), 6, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
-        functionBar.add(mainFunction);
+        functionBar.add(mainFunction, BorderLayout.WEST);
 
         search = new IntegratedSearch(new String[]{"Tất cả", "Mã sản phẩm", "Tên sản phẩm", "Loại sản phẩm"});
         search.cbxChoose.addItemListener(this);
@@ -127,14 +110,14 @@ public class SanPham extends JPanel implements ActionListener, ItemListener {
             listsp = sanphamBUS.getAll();
             loadDataTable(listsp);
         });
-        functionBar.add(search);
+        functionBar.add(search, BorderLayout.EAST);
 
-        contentCenter.add(functionBar, BorderLayout.NORTH);
+        content.add(functionBar, BorderLayout.NORTH);
 
-        main = new PanelBorderRadius();
+        main = new JPanel();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-        contentCenter.add(main, BorderLayout.CENTER);
+        content.add(main, BorderLayout.CENTER);
 
         main.add(scrollTableSanPham);
     }
@@ -189,8 +172,6 @@ public class SanPham extends JPanel implements ActionListener, ItemListener {
             if (index != -1) {
                 SanPhamDialog spDialog = new SanPhamDialog(this, owner, "Xem sản phẩm", true, "view", listsp.get(index));
             }
-        } else if (e.getSource() == mainFunction.btn.get("import")) {
-            importExcel();
         } else if (e.getSource() == mainFunction.btn.get("export")) {
             try {
                 JTableExporter.exportJTableToExcel(tableSanPham);
@@ -198,55 +179,6 @@ public class SanPham extends JPanel implements ActionListener, ItemListener {
                 Logger.getLogger(SanPham.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
-    public void importExcel() {
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBIS = null;
-        XSSFWorkbook excelJTableImport = null;
-        ArrayList<SanPhamDTO> listExcel = new ArrayList<SanPhamDTO>();
-        JFileChooser jf = new JFileChooser();
-        int result = jf.showOpenDialog(null);
-        jf.setDialogTitle("Open file");
-        Workbook workbook = null;
-        int k = 0;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                excelFile = jf.getSelectedFile();
-                excelFIS = new FileInputStream(excelFile);
-                excelBIS = new BufferedInputStream(excelFIS);
-                excelJTableImport = new XSSFWorkbook(excelBIS);
-                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
-                    int check = 1;
-                    XSSFRow excelRow = excelSheet.getRow(row);
-                    int id = SanPhamDAO.getInstance().getAutoIncrement();
-                    String tensp = excelRow.getCell(0).getStringCellValue();
-                    int soluong = excelRow.getCell(1).getRowIndex();
-                    int dongia = excelRow.getCell(2).getRowIndex();
-                    int maloaisp = excelRow.getCell(3).getRowIndex();
-                    
-                    if (Validation.isEmpty(tensp) || Validation.isEmpty(String.valueOf(soluong))
-                            || Validation.isEmpty(String.valueOf(dongia)) || Validation.isEmpty(String.valueOf(maloaisp))) {
-                        check = 0;
-                    }
-                    if (check == 1) {
-                        sanphamBUS.add(new SanPhamDTO(id, tensp, soluong, dongia, maloaisp));
-                    } else {
-                        k += 1;
-                    }
-                }
-                JOptionPane.showMessageDialog(this, "Nhập thành công");
-            } catch (FileNotFoundException ex) {
-                System.out.println("Lỗi đọc file");
-            } catch (IOException ex) {
-                System.out.println("Lỗi đọc file");
-            }
-        }
-        if (k != 0) {
-            JOptionPane.showMessageDialog(this, "Những dữ liệu không hợp lệ không được thêm vào");
-        }
-        loadDataTable(listsp);
     }
 
     @Override

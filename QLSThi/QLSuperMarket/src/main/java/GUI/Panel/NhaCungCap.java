@@ -1,54 +1,50 @@
 package GUI.Panel;
 
-import BUS.NhaCungCapBUS;
-import DAO.NhaCungCapDAO;
-import DTO.NhaCungCapDTO;
-import GUI.Component.IntegratedSearch;
-import GUI.Component.MainFunction;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import GUI.Component.PanelBorderRadius;
-import GUI.Dialog.NhaCungCapDialog;
-import GUI.QLSieuThi;
-import helper.JTableExporter;
-import helper.Validation;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import BUS.NhaCungCapBUS;
+import DTO.NhaCungCapDTO;
+import GUI.Component.IntegratedSearch;
+import GUI.Component.MainFunction;
+import GUI.Dialog.NhaCungCapDialog;
+import GUI.QLSieuThi;
+import helper.JTableExporter;
 
 public final class NhaCungCap extends JPanel implements ActionListener, ItemListener {
 
-    PanelBorderRadius main, functionBar;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
+    JPanel main, functionBar;
+    JPanel left, content;
     JTable tableNhaCungCap;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
     JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
-    Color BackgroundColor = new Color(240, 247, 250);
+    Color BackgroundColor = new Color(255, 255, 255);
     DefaultTableModel tblModel;
     QLSieuThi m;
     public NhaCungCapBUS nccBUS = new NhaCungCapBUS();
@@ -63,6 +59,7 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         tblModel.setColumnIdentifiers(header);
         tableNhaCungCap.setModel(tblModel);
         tableNhaCungCap.setFocusable(false);
+        tableNhaCungCap.getTableHeader().setReorderingAllowed(false);  
         scrollTableSanPham.setViewportView(tableNhaCungCap);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -71,53 +68,36 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         columnModel.getColumn(1).setCellRenderer(centerRenderer);
         columnModel.getColumn(2).setCellRenderer(centerRenderer);
         columnModel.getColumn(3).setCellRenderer(centerRenderer);
-        columnModel.getColumn(0).setPreferredWidth(2);
-        columnModel.getColumn(2).setPreferredWidth(300);
+        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(1).setPreferredWidth(150);
+        columnModel.getColumn(2).setPreferredWidth(150);
         columnModel.getColumn(4).setCellRenderer(centerRenderer);
 
-        this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 10));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
+        left = new JPanel();
+        left.setPreferredSize(new Dimension(5, 0));
+        this.add(left, BorderLayout.WEST);
 
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 10));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(10, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(10, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
-
-        contentCenter = new JPanel();
-        contentCenter.setPreferredSize(new Dimension(1100, 600));
-        contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(10, 10));
-        this.add(contentCenter, BorderLayout.CENTER);
+        content = new JPanel();
+        content.setPreferredSize(new Dimension(1100, 600));
+        content.setLayout(new BorderLayout(0, 0));
+        this.add(content, BorderLayout.CENTER);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
-        functionBar = new PanelBorderRadius();
+        functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
-        functionBar.setLayout(new GridLayout(1, 2, 50, 0));
+        functionBar.setLayout(new BorderLayout(0,0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
+        functionBar.setBackground(BackgroundColor);
 
-        String[] action = {"create", "update", "delete", "detail", "import", "export"};
+        String[] action = {"create", "update", "delete", "detail", "export"};
         mainFunction = new MainFunction(m.user.getPowerGroupId(), 4, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
-        functionBar.add(mainFunction);
+        functionBar.add(mainFunction, BorderLayout.WEST);
 
         search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Số điện thoại", "Số Fax"});
         search.cbxChoose.addItemListener(this);
@@ -132,14 +112,14 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         });
 
         search.btnReset.addActionListener(this);
-        functionBar.add(search);
-        contentCenter.add(functionBar, BorderLayout.NORTH);
+        functionBar.add(search, BorderLayout.EAST);
+        content.add(functionBar, BorderLayout.NORTH);
         // main là phần ở dưới để thống kê bảng biểu
-        main = new PanelBorderRadius();
+        main = new JPanel();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
 //        main.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentCenter.add(main, BorderLayout.CENTER);
+        content.add(main, BorderLayout.CENTER);
         main.add(scrollTableSanPham);
     }
 
@@ -159,66 +139,6 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
         }
     }
 
-    public void openFile(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
-    public void importExcel() {
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBIS = null;
-        XSSFWorkbook excelJTableImport = null;
-        ArrayList<DTO.NhaCungCapDTO> listExcel = new ArrayList<DTO.NhaCungCapDTO>();
-        JFileChooser jf = new JFileChooser();
-        int result = jf.showOpenDialog(null);
-        jf.setDialogTitle("Open file");
-        Workbook workbook = null;
-        int k = 0;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                excelFile = jf.getSelectedFile();
-                excelFIS = new FileInputStream(excelFile);
-                excelBIS = new BufferedInputStream(excelFIS);
-                excelJTableImport = new XSSFWorkbook(excelBIS);
-                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
-                    int check = 1;
-                    XSSFRow excelRow = excelSheet.getRow(row);
-                    int id = NhaCungCapDAO.getInstance().getAutoIncrement();
-                    String tenNCC = excelRow.getCell(0).getStringCellValue();
-                    String diachi = excelRow.getCell(1).getStringCellValue();
-                    String email = excelRow.getCell(2).getStringCellValue();
-                    String sdt = excelRow.getCell(3).getStringCellValue();
-                    if (Validation.isEmpty(tenNCC) || Validation.isEmpty(email)
-                            || !Validation.isEmail(email) || Validation.isEmpty(sdt) || !isPhoneNumber(sdt)
-                            || sdt.length() != 10 || Validation.isEmpty(diachi)) {
-                        check = 0;
-                    }
-                    if (check == 0) {
-                        k += 1;
-                    } else {
-                        nccBUS.add(new NhaCungCapDTO(id, tenNCC, diachi, email, sdt));
-                    }
-                }
-                if (k != 0) {
-                    JOptionPane.showMessageDialog(this, "Những dữ liệu không chuẩn không được thêm vào");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công");
-                }
-            } catch (FileNotFoundException ex) {
-                System.out.println("Lỗi đọc file");
-            } catch (IOException ex) {
-                System.out.println("Lỗi đọc file");
-            }
-        }
-
-        loadDataTable(listncc);
-    }
 
     public int getRowSelected() {
         int index = tableNhaCungCap.getSelectedRow();
@@ -257,8 +177,6 @@ public final class NhaCungCap extends JPanel implements ActionListener, ItemList
             search.txtSearchForm.setText("");
             listncc = nccBUS.getAll();
             loadDataTable(listncc);
-        } else if (e.getSource() == mainFunction.btn.get("import")) {
-            importExcel();
         } else if (e.getSource() == mainFunction.btn.get("export")) {
             try {
                 JTableExporter.exportJTableToExcel(tableNhaCungCap);

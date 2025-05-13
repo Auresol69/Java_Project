@@ -6,16 +6,14 @@ package GUI.Component;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
+
 public class SelectForm extends JPanel{
     private JLabel lblTitle;
     public JComboBox cbb;

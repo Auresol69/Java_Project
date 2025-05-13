@@ -15,7 +15,7 @@ import GUI.Component.SelectForm;
 import GUI.Panel.TaiKhoan;
 import helper.BCrypt;
 
-// import helper.BCrypt;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,15 +30,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-/**
- *
- * @author robot
- */
+
 public class TaiKhoanDialog extends JDialog {
 
     private TaiKhoan taiKhoan;
     private TaiKhoan jbTaiKhoan;
-    private HeaderTitle titlePage;
     private JPanel pnmain, pnbottom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm username;
@@ -75,7 +71,6 @@ public class TaiKhoanDialog extends JDialog {
     public void init(String title, String type) {
         this.setSize(new Dimension(500, 620));
         this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle(title.toUpperCase());
         pnmain = new JPanel(new GridLayout(4, 1, 5, 0));
         pnmain.setBackground(Color.white);
         username = new InputForm("Tên đăng nhập");
@@ -148,8 +143,10 @@ public class TaiKhoanDialog extends JDialog {
         });
 
         switch (type) {
-            case "create" ->
+            case "create" -> {
+                trangthai.setSelectedIndex(1);
                 pnbottom.add(btnThem);
+            }
             case "update" -> {
                 pnmain.remove(password);
                 pnbottom.add(btnCapNhat);
@@ -158,7 +155,6 @@ public class TaiKhoanDialog extends JDialog {
             case "view" -> {
                 pnmain.remove(password);
                 username.setEditable(false);
-//                password.setEditable(false);
                 maNhomQuyen.setDisable();
                 trangthai.setDisable();
                 this.setSize(new Dimension(500, 550));
@@ -167,7 +163,6 @@ public class TaiKhoanDialog extends JDialog {
                 throw new AssertionError();
         }
         pnbottom.add(btnHuyBo);
-        this.add(titlePage, BorderLayout.NORTH);
         this.add(pnmain, BorderLayout.CENTER);
         this.add(pnbottom, BorderLayout.SOUTH);
     }

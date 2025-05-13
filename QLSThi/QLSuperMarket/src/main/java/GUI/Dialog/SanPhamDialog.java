@@ -1,27 +1,23 @@
 package GUI.Dialog;
 
-import GUI.Component.HeaderTitle;
 import GUI.Component.ImageChooserForm;
 import GUI.Component.InputForm;
 import GUI.Component.ButtonCustom;
 
 import DAO.SanPhamDAO;
 import GUI.Panel.SanPham; 
-import DTO.SanPhamDTO; // Ensure this import matches the actual package of SanPhamDTO
-import GUI.Component.NumericDocumentFilter;
+import DTO.SanPhamDTO;
 import helper.Validation;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.PlainDocument;
-import org.apache.commons.codec.language.bm.Rule;
+
 
 public class SanPhamDialog extends JDialog implements MouseListener {
 
     SanPham jpSP;
-    private HeaderTitle titlePage;
     private JPanel pnlMain, pnlButtom;
     private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
     private InputForm tenSp,  loaiSp;
@@ -54,17 +50,11 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         anh.setImagePath(sp.getImg()); // Hiển thị ảnh từ sản phẩm
         this.jpSP = jpSP;
         initComponents(title, type);
-    }
-
-    
-
-    
-    
+    } 
 
     public void initComponents(String title, String type) {
         this.setSize(new Dimension(500, 490));
         this.setLayout(new BorderLayout(0, 0));
-        titlePage = new HeaderTitle(title.toUpperCase());
         pnlMain = new JPanel();
         pnlMain.setLayout(new BoxLayout(pnlMain, BoxLayout.Y_AXIS));
         pnlMain.setBackground(Color.white);
@@ -107,7 +97,6 @@ public class SanPhamDialog extends JDialog implements MouseListener {
         }
         pnlButtom.add(btnHuyBo);
 
-        this.add(titlePage, BorderLayout.NORTH);
         this.add(pnlMain, BorderLayout.CENTER);
         this.add(pnlButtom, BorderLayout.SOUTH);
         this.setLocationRelativeTo(null);

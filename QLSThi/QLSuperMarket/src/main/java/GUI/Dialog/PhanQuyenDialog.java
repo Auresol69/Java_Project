@@ -1,19 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Dialog;
 
-import BUS.NhomQuyenBUS;
-import DAO.ChiTietQuyenDAO;
-import DAO.DanhMucChucNangDAO;
-import DAO.NhomQuyenDAO;
-import DTO.ChiTietQuyenDTO;
-import DTO.DanhMucChucNangDTO;
-import DTO.NhomQuyenDTO;
-import GUI.Panel.PhanQuyen;
-import GUI.Component.ButtonCustom;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,19 +9,30 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+
+import BUS.NhomQuyenBUS;
+import DAO.ChiTietQuyenDAO;
+import DAO.DanhMucChucNangDAO;
+import DAO.NhomQuyenDAO;
+import DTO.ChiTietQuyenDTO;
+import DTO.DanhMucChucNangDTO;
+import DTO.NhomQuyenDTO;
+import GUI.Component.ButtonCustom;
+import GUI.Panel.PhanQuyen;
+import helper.Validation;
+
 public final class PhanQuyenDialog extends JDialog implements ActionListener {
 
     private JLabel lblTennhomquyen;
@@ -75,7 +72,7 @@ public final class PhanQuyenDialog extends JDialog implements ActionListener {
         jpLeft.setBackground(Color.WHITE);
         jpLeft.setBorder(new EmptyBorder(0, 20, 0, 14));
         JLabel dmcnl = new JLabel("Danh mục chức năng ");
-        dmcnl.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 15));
+        dmcnl.setFont(new Font(FlatRobotoFont.FAMILY, Font.BOLD, 14));
         jpLeft.add(dmcnl);
         for (DanhMucChucNangDTO i : dmcn) {
             JLabel lblTenchucnang = new JLabel(i.getTenchucnang());
@@ -119,6 +116,12 @@ public final class PhanQuyenDialog extends JDialog implements ActionListener {
             }
             case "view" -> {
                 initUpdate();
+                txtTennhomquyen.setEnabled(false); // Khoá ô nhập tên
+                for (int i = 0; i < sizeDmCn; i++) {
+                    for (int j = 0; j < sizeHanhdong; j++) {
+                        listCheckBox[i][j].setEnabled(false); // Khoá toàn bộ checkbox
+                    }
+                }
             }
             default -> throw new AssertionError();
         }
@@ -157,10 +160,11 @@ public final class PhanQuyenDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAddNhomQuyen) {
+            if (ValidationInput()) {
             ctQuyen = this.getListChiTietQuyen(NhomQuyenDAO.getInstance().getAutoIncrement());
             nhomquyenBUS.add(txtTennhomquyen.getText(),ctQuyen);
             this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
-            dispose();
+            dispose(); }
         } else if(e.getSource() == btnUpdateNhomQuyen){
             ctQuyen = this.getListChiTietQuyen(this.nhomquyenDTO.getMaNhomQuyen());
             NhomQuyenDTO nhomquyen = new NhomQuyenDTO(this.nhomquyenDTO.getMaNhomQuyen(),txtTennhomquyen.getText());
@@ -183,6 +187,31 @@ public final class PhanQuyenDialog extends JDialog implements ActionListener {
         }
         return result;
     }
+
+    boolean ValidationInput() {
+        if (Validation.isEmpty(txtTennhomquyen.getText())) {
+        JOptionPane.showMessageDialog(this, "Tên nhóm quyền không được rỗng", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+        return false;
+        }
+
+        boolean isChecked = false;
+        for (int i = 0; i < sizeDmCn; i++) {
+            for (int j = 0; j < sizeHanhdong; j++) {
+                if (listCheckBox[i][j].isSelected()) {
+                    isChecked = true;
+                    break;
+                }
+            }
+            if (isChecked) break;
+        }
+
+        if (!isChecked) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một quyền", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        return true;
+}
 
     public void initUpdate() {
         this.txtTennhomquyen.setText(nhomquyenDTO.getTenNhomQuyen());

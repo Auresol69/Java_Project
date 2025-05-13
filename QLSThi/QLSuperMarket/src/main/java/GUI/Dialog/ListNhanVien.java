@@ -31,10 +31,7 @@ import DTO.NhanVienDTO;
 import GUI.Component.ButtonCustom;
 import GUI.Panel.TaiKhoan;
 
-/**
- *
- * @author robot
- */
+
 public class ListNhanVien extends JDialog implements MouseListener {
 
     private TaiKhoan guiTaiKhoan;
@@ -75,10 +72,10 @@ public class ListNhanVien extends JDialog implements MouseListener {
             public void actionPerformed(ActionEvent e) {
                 if(getRow()<0){
                     int input = JOptionPane.showConfirmDialog(null, 
-                "Vui lòng chọn nhân viên!:)", "Thông báo", JOptionPane.DEFAULT_OPTION);
+                "Vui lòng chọn nhân viên!", "Thông báo", JOptionPane.DEFAULT_OPTION);
                 } else{
                     dispose();
-                    TaiKhoanDialog tkd = new TaiKhoanDialog(guiTaiKhoan, guiTaiKhoan.owner, "Thêm nhân viên", true, "create", listnv.get(getRow()).getMaNV());
+                    TaiKhoanDialog tkd = new TaiKhoanDialog(guiTaiKhoan, guiTaiKhoan.owner, "Thêm tài khoản", true, "create", listnv.get(getRow()).getMaNV());
                 }
             }
             
@@ -88,7 +85,6 @@ public class ListNhanVien extends JDialog implements MouseListener {
         panelSearch.add(buttonAdd,BorderLayout.EAST);
         this.add(panelSearch,BorderLayout.NORTH);
         JPanel jPanelTable = new JPanel();
-        panelSearch.setBorder(new EmptyBorder(20, 20, 20, 20));
         jPanelTable.setLayout(new GridLayout(1,1));
         tableNhanVien = new JTable();
         tableNhanVien.setFocusable(false);
@@ -101,11 +97,17 @@ public class ListNhanVien extends JDialog implements MouseListener {
                 new String[]{}
         ));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV","Họ tên","SDT","Email"};
+        String[] header = new String[]{"MNV","Họ tên","Địa chỉ","SDT"};
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setDefaultRenderer(Object.class, centerRenderer);
         tableNhanVien.setFocusable(false);
+        tableNhanVien.getTableHeader().setReorderingAllowed(false); 
         tableNhanVien.setModel(tblModel);
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < tableNhanVien.getColumnCount(); i++) {
+            tableNhanVien.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         scrollTableSanPham.setViewportView(tableNhanVien);
         jPanelTable.add(scrollTableSanPham);
         this.add(jPanelTable,BorderLayout.CENTER);
@@ -122,7 +124,7 @@ public class ListNhanVien extends JDialog implements MouseListener {
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : listnv) {
             tblModel.addRow(new Object[]{
-                nhanVien.getMaNV(),nhanVien.getHoten(),nhanVien.getAddress(),nhanVien.getSdt(), nhanVien.getStatus() == 1 ? "Đang hoạt động" :"Ngưng hoạt động",
+                nhanVien.getMaNV(),nhanVien.getHoten(),nhanVien.getAddress(),nhanVien.getSdt()
             });
         }
     }
