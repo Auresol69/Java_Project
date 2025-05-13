@@ -12,9 +12,7 @@ import GUI.BaoBao.DTO.ProductDTO;
 import GUI.BaoBao.GUI.InHoaDonComp.SanPhamComp.Order;
 
 public class SanPham extends JPanel {
-
     private Table table;
-
     public SanPham(Table table) {
         this.table = table;
 

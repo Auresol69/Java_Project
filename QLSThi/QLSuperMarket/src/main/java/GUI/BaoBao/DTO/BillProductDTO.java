@@ -1,7 +1,6 @@
 package GUI.BaoBao.DTO;
-
 public class BillProductDTO {
-    private String mabill;
+    private int mabill;
     private Integer soluong;
     private int masp;
 
@@ -13,11 +12,11 @@ public class BillProductDTO {
         this.masp = masp;
     }
 
-    public String getMabill() {
+    public int getMabill() {
         return mabill;
     }
 
-    public void setMabill(String mabill) {
+    public void setMabill(int mabill) {
         this.mabill = mabill;
     }
 
@@ -29,7 +28,7 @@ public class BillProductDTO {
         this.soluong = soluong;
     }
 
-    public BillProductDTO(int masp, String mabill, Integer soluong) {
+    public BillProductDTO(int masp, int mabill, Integer soluong) {
         this.masp = masp;
         this.mabill = mabill;
         this.soluong = soluong;

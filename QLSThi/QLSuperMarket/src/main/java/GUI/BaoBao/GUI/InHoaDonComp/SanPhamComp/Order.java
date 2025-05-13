@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import GUI.BaoBao.DTO.ProductDTO;
 import GUI.BaoBao.ExtendClasses.GetImagePNG;
+import GUI.BaoBao.ExtendClasses.MessageBox;
 import GUI.BaoBao.GUI.InHoaDonComp.Table;
 
 public class Order extends JPanel implements ActionListener {
@@ -46,7 +47,7 @@ public class Order extends JPanel implements ActionListener {
         this.table = table;
 
         this.setLayout(new BorderLayout());
-        this.add(new JLabel(icon = new ImageIcon(new GetImagePNG().getImage(productDTO.getImg(), 60))),
+        this.add(new JLabel(icon = new ImageIcon(new GetImagePNG().getImage(productDTO.getImg(), 20))),
                 BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
@@ -63,6 +64,15 @@ public class Order extends JPanel implements ActionListener {
 
         soluongField = new JTextField("1", 5);
         panel2.add(soluongField);
+
+        soluongField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!Character.isDigit(c) && c != '\b') {
+                    evt.consume();
+                }
+            }
+        });
 
         tangButton = new JButton();
         setUpButton(tangButton, "+", "");
@@ -89,8 +99,13 @@ public class Order extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == orderButton) {
-            table.addSanPham(productDTO, Integer.parseInt(soluongField.getText()));
-            soluongField.setText("1");
+            if (!soluongField.getText().isEmpty()) {
+                Integer soluong = Integer.parseInt(soluongField.getText());
+                table.addSanPham(productDTO, soluong);
+                soluongField.setText("1");
+            } else {
+                MessageBox.showError("Số lượng không hợp lệ");
+            }
         }
     }
 }
