@@ -20,15 +20,14 @@ import javax.swing.table.DefaultTableModel;
 import BUS.NhanVienBUS;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
-import GUI.Component.PanelBorderRadius;
 import GUI.QLSieuThi;
 
 public final class NhanVien extends JPanel {
 
     public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
     NhanVienBUS nvBus = new NhanVienBUS(this);
-    PanelBorderRadius main, functionBar;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
+    JPanel main, functionBar;
+    JPanel left, content;
     JTable tableNhanVien;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
@@ -36,49 +35,31 @@ public final class NhanVien extends JPanel {
     QLSieuThi m;
     ArrayList<DTO.NhanVienDTO> listnv = nvBus.getAll();
 
-    Color BackgroundColor = new Color(240, 247, 250);
+    Color BackgroundColor = new Color(255, 255, 255);
     private DefaultTableModel tblModel;
 
     private void initComponent() {
-        this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 10));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
+        left = new JPanel();
+        left.setPreferredSize(new Dimension(5, 0));
+        this.add(left, BorderLayout.WEST);
 
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 10));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(10, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(10, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
-
-        contentCenter = new JPanel();
-        contentCenter.setPreferredSize(new Dimension(1100, 600));
-        contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(10, 10));
-        this.add(contentCenter, BorderLayout.CENTER);
+        content = new JPanel();
+        content.setPreferredSize(new Dimension(1100, 600));
+        content.setLayout(new BorderLayout(0, 0));
+        this.add(content, BorderLayout.CENTER);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
-        functionBar = new PanelBorderRadius();
+        functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
-        contentCenter.add(functionBar, BorderLayout.NORTH);
+        functionBar.setBackground(BackgroundColor);
+        content.add(functionBar, BorderLayout.NORTH);
 
-        String[] action = {"create", "update", "delete", "detail", "import", "export"};
+        String[] action = {"create", "update", "delete", "detail", "export"};
         mainFunction = new MainFunction((m.user.getPowerGroupId()), 2, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(nvBus);
@@ -91,11 +72,10 @@ public final class NhanVien extends JPanel {
         search.txtSearchForm.getDocument().addDocumentListener(new NhanVienBUS(search.txtSearchForm, this));
 
         // main là phần ở dưới để thống kê bảng biểu
-        main = new PanelBorderRadius();
+        main = new JPanel();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentCenter.add(main, BorderLayout.CENTER);
+        content.add(main, BorderLayout.CENTER);
 
         tableNhanVien = new JTable();
         scrollTableSanPham = new JScrollPane();

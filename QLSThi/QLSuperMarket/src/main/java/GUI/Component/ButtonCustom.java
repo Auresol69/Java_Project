@@ -47,9 +47,8 @@ public class ButtonCustom extends JButton {
                 color = "Actions.White";
                 this.setForeground(new java.awt.Color(255,255,255));
         }
-        // this.putClientProperty("JButton.buttonType", "roundRect");
         this.putClientProperty("JButton.buttonType", "borderless");
-        this.putClientProperty("JComponent.arc", 15); // hoặc 20 nếu thích tròn rõ hơn
+        this.putClientProperty("JComponent.arc", 15);
         this.setBackground(javax.swing.UIManager.getDefaults().getColor(color));
         this.setBorder(BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200),1,true)); // Border màu xám nhạt
         this.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 0, fontsize));

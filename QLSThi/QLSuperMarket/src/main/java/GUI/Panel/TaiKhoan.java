@@ -3,7 +3,6 @@ package GUI.Panel;
 // import BUS.NhaCungCapBUS;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,17 +11,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,37 +28,26 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import BUS.NhanVienBUS;
-import BUS.NhomQuyenBUS;
 import BUS.TaiKhoanBUS;
 import DAO.TaiKhoanDAO;
-import DTO.NhanVienDTO;
-import DTO.NhomQuyenDTO;
 import DTO.TaiKhoanDTO;
 import GUI.Component.IntegratedSearch;
 import GUI.Component.MainFunction;
-import GUI.Component.PanelBorderRadius;
 import GUI.Dialog.ListNhanVien;
 import GUI.Dialog.TaiKhoanDialog;
 import GUI.QLSieuThi;
-import helper.BCrypt;
 import helper.JTableExporter;
-import helper.Validation;
 
 public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
 
-    PanelBorderRadius main, functionBar;
-    JPanel pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4, contentCenter;
+    JPanel main, functionBar;
+    JPanel left, content;
     JTable tableTaiKhoan;
     JScrollPane scrollTableSanPham;
     MainFunction mainFunction;
     IntegratedSearch search;
     public JFrame owner = (JFrame) SwingUtilities.getWindowAncestor(this);
-    Color BackgroundColor = new Color(240, 247, 250);
+    Color BackgroundColor = new Color(255, 255, 255);
     DefaultTableModel tblModel;
     public TaiKhoanBUS taiKhoanBus = new TaiKhoanBUS();
     ArrayList<TaiKhoanDTO> listTk = taiKhoanBus.getDsTaiKhoan();
@@ -93,44 +76,26 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         tableTaiKhoan.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         tableTaiKhoan.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tableTaiKhoan.getTableHeader().setReorderingAllowed(false);
-        this.setBackground(BackgroundColor);
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
-        pnlBorder1 = new JPanel();
-        pnlBorder1.setPreferredSize(new Dimension(0, 10));
-        pnlBorder1.setBackground(BackgroundColor);
-        this.add(pnlBorder1, BorderLayout.NORTH);
+        left = new JPanel();
+        left.setPreferredSize(new Dimension(5, 0));
+        this.add(left, BorderLayout.WEST);
 
-        pnlBorder2 = new JPanel();
-        pnlBorder2.setPreferredSize(new Dimension(0, 10));
-        pnlBorder2.setBackground(BackgroundColor);
-        this.add(pnlBorder2, BorderLayout.SOUTH);
-
-        pnlBorder3 = new JPanel();
-        pnlBorder3.setPreferredSize(new Dimension(10, 0));
-        pnlBorder3.setBackground(BackgroundColor);
-        this.add(pnlBorder3, BorderLayout.EAST);
-
-        pnlBorder4 = new JPanel();
-        pnlBorder4.setPreferredSize(new Dimension(10, 0));
-        pnlBorder4.setBackground(BackgroundColor);
-        this.add(pnlBorder4, BorderLayout.WEST);
-
-        contentCenter = new JPanel();
-        contentCenter.setPreferredSize(new Dimension(1100, 600));
-        contentCenter.setBackground(BackgroundColor);
-        contentCenter.setLayout(new BorderLayout(10, 10));
-        this.add(contentCenter, BorderLayout.CENTER);
+        content = new JPanel();
+        content.setPreferredSize(new Dimension(1100, 600));
+        content.setLayout(new BorderLayout(0, 0));
+        this.add(content, BorderLayout.CENTER);
 
         // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
-        functionBar = new PanelBorderRadius();
+        functionBar = new JPanel();
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
+        functionBar.setBackground(BackgroundColor);
 
-        String[] action = {"create", "update", "delete", "detail", "import", "export"};
+        String[] action = {"create", "update", "delete", "detail", "export"};
         mainFunction = new MainFunction(m.user.getPowerGroupId(), 5, action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
@@ -149,14 +114,14 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                 loadTable(listTk);
             }
         });
-        contentCenter.add(functionBar, BorderLayout.NORTH);
+        content.add(functionBar, BorderLayout.NORTH);
 
         // main là phần ở dưới để thống kê bảng biểu
-        main = new PanelBorderRadius();
+        main = new JPanel();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
 //        main.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentCenter.add(main, BorderLayout.CENTER);
+        content.add(main, BorderLayout.CENTER);
 
         main.add(scrollTableSanPham);
     }
@@ -171,15 +136,6 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getPowerGroupId()).getTenNhomQuyen(),
             trangthaiString
         });
-        }
-    }
-
-    public void openFile(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (IOException e) {
-            System.out.println(e);
         }
     }
 
@@ -222,108 +178,9 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             } catch (IOException ex) {
                 Logger.getLogger(TaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (e.getSource() == mainFunction.btn.get("import")) {
-            importExcel();
-        }
+        } 
     }
 
-    public void importExcel() {
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBIS = null;
-        XSSFWorkbook excelJTableImport = null;
-        JFileChooser jf = new JFileChooser();
-        int result = jf.showOpenDialog(null);
-        jf.setDialogTitle("Open file");
-        int k = 0;
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                excelFile = jf.getSelectedFile();
-                excelFIS = new FileInputStream(excelFile);
-                excelBIS = new BufferedInputStream(excelFIS);
-                excelJTableImport = new XSSFWorkbook(excelBIS);
-                XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
-                for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
-                    XSSFRow excelRow = excelSheet.getRow(row);
-                    int manv = (int) excelRow.getCell(0).getNumericCellValue();
-                    String tendangnhap = excelRow.getCell(1).getStringCellValue();
-                    String matkhau = excelRow.getCell(2).getStringCellValue();
-                    String nhomquyen = excelRow.getCell(3).getStringCellValue();
-                    // Mặc định trạng thái là true (hoạt động), có thể sửa thành đọc từ cell nếu cần
-                    boolean trangthai = true;
-    
-                    int check1 = 0, check2 = 0, check3 = 0, check4 = 0;
-    
-                    // Kiểm tra dữ liệu rỗng
-                    if (Validation.isEmpty(String.valueOf(manv)) || Validation.isEmpty(tendangnhap)
-                            || Validation.isEmpty(matkhau) || Validation.isEmpty(nhomquyen)) {
-                        check1 = 1;
-                    }
-    
-                    // Kiểm tra nhân viên có tồn tại
-                    NhanVienBUS nvbus = new NhanVienBUS();
-                    ArrayList<NhanVienDTO> nvlist = nvbus.getAll();
-                    for (NhanVienDTO nv : nvlist) {
-                        if (nv.getMaNV() == manv) {
-                            check2 = 0;
-                            break;
-                        } else {
-                            check2 = 1;
-                        }
-                    }
-    
-                    // Kiểm tra tài khoản đã tồn tại
-                    ArrayList<TaiKhoanDTO> curlist = taiKhoanBus.getDsTaiKhoan();
-                    for (TaiKhoanDTO tk : curlist) {
-                        if (tk.getUsername().equals(tendangnhap)) {
-                            check3 = 1;
-                            break;
-                        } else {
-                            check3 = 0;
-                        }
-                    }
-    
-                    // Lấy mã nhóm quyền từ tên
-                    int manhomquyen = 0;
-                    NhomQuyenBUS nhomquyenbus = new NhomQuyenBUS();
-                    ArrayList<NhomQuyenDTO> quyenlist = nhomquyenbus.getAll();
-                    for (NhomQuyenDTO quyen : quyenlist) {
-                        if (quyen.getTenNhomQuyen().trim().equalsIgnoreCase(nhomquyen.trim())) {
-                            manhomquyen = quyen.getMaNhomQuyen();
-                            check4 = 0;
-                            break;
-                        } else {
-                            check4 = 1;
-                        }
-                    }
-
-                    // Nếu dữ liệu hợp lệ thì thêm
-                    if (check1 == 0 && check2 == 0 && check3 == 0 && check4 == 0) {
-                        int maAccount = taoMaTuDong(); // phải trả về int
-                        String pass = BCrypt.hashpw(matkhau, BCrypt.gensalt(12));
-                        TaiKhoanDTO newaccount = new TaiKhoanDTO(
-                            maAccount, manv, tendangnhap, pass, manhomquyen, trangthai
-                        );
-                    } else {
-                        k++;
-                    }
-                }
-            } catch (FileNotFoundException ex) {
-                System.out.println("Lỗi đọc file");
-            } catch (IOException ex) {
-                System.out.println("Lỗi đọc file");
-            }
-        }
-    
-        if (k != 0) {
-            JOptionPane.showMessageDialog(this, "Những dữ liệu không chuẩn không được thêm vào");
-        } else {
-            JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công");
-        }
-    
-        loadTable(listTk);
-    }
-    
 
     @Override
     public void itemStateChanged(ItemEvent e) {

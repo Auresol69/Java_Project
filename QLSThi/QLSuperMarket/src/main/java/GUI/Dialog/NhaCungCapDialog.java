@@ -1,14 +1,6 @@
 
 package GUI.Dialog;
 
-import DAO.NhaCungCapDAO;
-import DTO.NhaCungCapDTO;
-import GUI.Panel.NhaCungCap;
-import GUI.Component.ButtonCustom;
-import GUI.Component.HeaderTitle;
-import GUI.Component.InputForm;
-import GUI.Component.NumericDocumentFilter;
-import helper.Validation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,6 +8,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,14 +18,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.PlainDocument;
 
-/**
-*
-* @author Tran Nhat Sinh
-*/
+import DAO.NhaCungCapDAO;
+import DTO.NhaCungCapDTO;
+import GUI.Component.ButtonCustom;
+import GUI.Component.InputForm;
+import GUI.Component.NumericDocumentFilter;
+import GUI.Panel.NhaCungCap;
+import helper.Validation;
+
 public class NhaCungCapDialog extends JDialog implements ActionListener {
 
    private NhaCungCap jpNcc;
-   private HeaderTitle titlePage;
    private JPanel pnmain, pnbottom;
    private ButtonCustom btnThem, btnCapNhat, btnHuyBo;
    private InputForm tenNcc;
@@ -55,15 +53,30 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
    public void initComponents(String title, String type) {
        this.setSize(new Dimension(900, 360));
        this.setLayout(new BorderLayout(0, 0));
-       titlePage = new HeaderTitle(title.toUpperCase());
        pnmain = new JPanel(new GridLayout(2, 2, 20, 0));
        pnmain.setBackground(Color.white);
        tenNcc = new InputForm("Tên nhà cung cấp");
        diachi = new InputForm("Địa chỉ");
        sofax = new InputForm("Số fax");
+       sofax.getTxtForm().addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c)) {
+                e.consume(); // chặn ký tự không phải số
+            }
+        }
+    });
        sodienthoai = new InputForm("Số điện thoại");
-       PlainDocument phonex = (PlainDocument)sodienthoai.getTxtForm().getDocument();
-       phonex.setDocumentFilter((new NumericDocumentFilter()));
+       sodienthoai.getTxtForm().addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c)) {
+                e.consume(); // chặn ký tự không phải số
+            }
+        }
+    });
 
        pnmain.add(tenNcc);
        pnmain.add(diachi);
@@ -97,7 +110,6 @@ public class NhaCungCapDialog extends JDialog implements ActionListener {
                throw new AssertionError();
        }
        pnbottom.add(btnHuyBo);
-       this.add(titlePage, BorderLayout.NORTH);
        this.add(pnmain, BorderLayout.CENTER);
        this.add(pnbottom, BorderLayout.SOUTH);
        this.setLocationRelativeTo(null);

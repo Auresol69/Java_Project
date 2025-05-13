@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Component;
 
 import java.awt.Color;
@@ -19,7 +15,7 @@ public class ButtonToolBar extends JButton{
     public ButtonToolBar(String text, String icon, int permisson) {
         this.permission = permisson;
         this.setFont(new java.awt.Font(FlatRobotoFont.FAMILY, 1, 14));
-        this.setForeground(new Color(1, 88, 155));
+        this.setForeground(new Color(80, 80, 80));
         FlatSVGIcon svgIcon = new FlatSVGIcon("./IMG/" + icon);
         svgIcon.setColorFilter(null);
         this.setIcon(svgIcon);
