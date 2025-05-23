@@ -13,7 +13,7 @@ import java.util.List;
 import GUI.BaoBao.ExtendClasses.MessageBox;
 
 public class DataBase {
-    private final String URL = "jdbc:mysql://localhost:3307/sieuthi_mini";
+    private final String URL = "jdbc:mysql://localhost:3306/sieuthi_mini";
     private final String USER = "root";
     private final String PASSWORD = "";
 

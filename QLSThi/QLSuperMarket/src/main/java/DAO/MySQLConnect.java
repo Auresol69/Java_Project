@@ -17,7 +17,7 @@
     public class MySQLConnect {
     private String user = "root";
     private String password="";
-    private String url="jdbc:mysql://localhost:3307/sieuthi_mini?useUnicode=true&characterEncoding=UTF-8";
+    private String url="jdbc:mysql://localhost:3306/sieuthi_mini?useUnicode=true&characterEncoding=UTF-8";
     private Connection conn = null;
     private Statement st = null;
     

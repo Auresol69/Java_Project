@@ -3,13 +3,14 @@ package GUI.BaoBao.GUI.PhieuComp;
 import javax.swing.*;
 import GUI.BaoBao.GUI.PhieuComp.newPhieuNhapComp.*;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.BorderFactory;
 
 public class newPhieuNhap extends JPanel {
     JFrame parent;
+        Color backgroundcolor = new Color(240, 247, 250);
 
     public newPhieuNhap(JFrame parent) {
         this.parent = parent;
@@ -67,5 +68,6 @@ public class newPhieuNhap extends JPanel {
         gbc.gridwidth = 2;
         gbc.gridheight = 1;
         this.add(table, gbc);
+        this.setBackground(backgroundcolor);
     }
 }

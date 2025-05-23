@@ -77,6 +77,15 @@ public class UserChooser extends JDialog implements ActionListener {
             }
         });
 
+        phoneField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!Character.isDigit(c) && c != '\b') {
+                    evt.consume();
+                }
+            }
+        });
+
         this.pack();
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
